@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+
+
 public class RoomLayout {//TODO rette descriptions / names (vi fixer det senere, tænker jeg)
 
     private Room current;
@@ -166,9 +168,9 @@ public class RoomLayout {//TODO rette descriptions / names (vi fixer det senere,
 
         room8.setNeighbours(null, null, room9, room7);
         room10.setNeighbours(room1,null,null,null);
-    }
+    }*/
 
     public Room starterRoom(){
-        return room0;
+        return current;
     }
 }

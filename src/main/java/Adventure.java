@@ -6,6 +6,7 @@ public class Adventure {
 
     public Adventure() {
         roomLayout = new RoomLayout();
+        roomLayout.buildMap();
         playerLocation = roomLayout.starterRoom();
     }
 
