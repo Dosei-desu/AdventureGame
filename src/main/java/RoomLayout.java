@@ -8,28 +8,47 @@ public class RoomLayout {//TODO rette descriptions / names (vi fixer det senere,
 
     public void buildMap(){
 
+        //TODO skrive alt der mangles med noget det referencerer noget fra kendt film eller spil.
 
-        //TODO skrive alt der mangles med noget det refencerer noget fra kendt film eller spil.
         // Mid sektion
-        Room outerSpace = new Room("Outer Space", "You ejected yourself into the space and died");
-        Room room0 = new Room("Docking Port","Entrance into 'Discovery Vessel Hildebrand'"+
-                "\nConnected to the Discovery Vessel via a door to the west."+
-                "\nYou could leave out the docking port to the East, but it would kill you.");
-        Room room1 = new Room("Room 1", "A ordinary room");
-        Room room2 = new Room("Room 2", "showcase with spaceship marines who betrayed the captain, each shows how the marines are badly hurt");
-        Room room3 = new Room("Room 3","Broken toilets with a sign that says 'The toilets are destroyed by Dr. Fluke Hawkins'");
-        Room room4 = new Room("Room 4","A hallway");
-        Room room5 = new Room("Room 5","A showcase ");
-        Room room6 = new Room("Room 6","A hallway with dirty and stinky floor");
-        Room room7 = new Room("Room 7","");
-        Room room8 = new Room("Room 8","");
-        Room room9 = new Room("Room 9","");
-        Room room10 = new Room("Room 10","");
-        Room room11 = new Room("Room 11","");
-        Room room12 = new Room("Room 12","");
-        Room room13 = new Room("Room 13","");
-        Room room14 = new Room("Room 14","");
-        Room room15 = new Room("Room 15","");
+        Room outerSpace = new Room("Outer Space",
+                "You ejected yourself into the space and died");
+        Room room0 = new Room("Docking Port",
+                """
+                 Entrance into 'Discovery Vessel Hildebrand'
+                 Connected to the Discovery Vessel via a door to the west.
+                 You could leave out the docking port to the East, but it would kill you.
+                 """);
+        Room room1 = new Room("ordinary room",
+                "nothing special here, just doors.");
+        Room room2 = new Room("lightsaber gallery",
+                "There are many awesome lightsabers everywhere on the wall in the room"); //kan være loot her at man kan tage en af de lysesværdene.
+        Room room3 = new Room("locked toilets",
+                "The toilets are locked with a sign that says \n'The toilets were destroyed by a mad doctor, Dr. Fluke Hawkins.'");
+        Room room4 = new Room("Hallway",
+                "Just some workshop calendars featuring hideous aliens in bikinis with blonde wigs");
+        Room room5 = new Room("portrait gallery",
+                "Portraits of spaceship marines who betrayed Darth Vader. \nThey looks like they needed air.");
+        Room room6 = new Room("Stinky hallway",
+                "That's stinky in here and the floor is dirty, an alien maid is scrubbing the floor right now");
+        Room room7 = new Room("guard room",
+                "at the table in the corner, the stormtroppers are playing trading cards with a space theme");
+        Room room8 = new Room("Space bar",
+                "Spiky is smoking by the bar and is talking to Faye valentine about love \nbut faye is ignoring him and drinking like there is no tomorrow.");
+        Room room9 = new Room("Messy room with cables and machines",
+                "Edward Wong emerged from the pile of machines, 'AWESOME! So many MACHINES!'");
+        Room room10 = new Room("Pulsing alien eggs",
+                "The eggs looks like they would open anytime soon, better get going...");
+        Room room11 = new Room("control table",
+                "There is a predator who examines something at the control table.");
+        Room room12 = new Room("corner entrance",
+                "Some weird klowns from outer space is discussing something");
+        Room room13 = new Room("East Gate",
+                "Some martians are trying to get in the next room. \nThey has googly eyes and shows their brains in their glass helmets");
+        Room room14 = new Room("Gates",
+                "");
+        Room room15 = new Room("West Gate",
+                "There is nothing here aside from a little boy sitting in the corner, he looks expressionless like a AI robot");
 
         // Bottom sektion
         Room room16 = new Room("Room 16","");
