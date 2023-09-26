@@ -8,6 +8,8 @@ public class RoomLayout {//TODO rette descriptions / names (vi fixer det senere,
 
     public void buildMap(){
 
+
+        //TODO skrive alt der mangles med noget det refencerer noget fra kendt film eller spil.
         // Mid sektion
         Room outerSpace = new Room("Outer Space", "You ejected yourself into the space and died");
         Room room0 = new Room("Docking Port","Entrance into 'Discovery Vessel Hildebrand'"+
@@ -17,7 +19,7 @@ public class RoomLayout {//TODO rette descriptions / names (vi fixer det senere,
         Room room2 = new Room("Room 2", "showcase with spaceship marines who betrayed the captain, each shows how the marines are badly hurt");
         Room room3 = new Room("Room 3","Broken toilets with a sign that says 'The toilets are destroyed by Dr. Fluke Hawkins'");
         Room room4 = new Room("Room 4","A hallway");
-        Room room5 = new Room("Room 5","a showcase with ");
+        Room room5 = new Room("Room 5","A showcase ");
         Room room6 = new Room("Room 6","A hallway with dirty and stinky floor");
         Room room7 = new Room("Room 7","t");
         Room room8 = new Room("Room 8","");
