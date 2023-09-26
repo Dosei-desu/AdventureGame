@@ -15,7 +15,7 @@ public class RoomLayout {//TODO rette descriptions / names (vi fixer det senere,
                 "\nYou could leave out the docking port to the East, but it would kill you.");
         Room room1 = new Room("Room 1", "A ordinary room");
         Room room2 = new Room("Room 2", "showcase with spaceship marines who betrayed the captain, each shows how the marines are badly hurt");
-        Room room3 = new Room("Room 3","Broken toilets with a sign that says 'The toilets are destroyed by Dr. Fluke Hawkins");
+        Room room3 = new Room("Room 3","Broken toilets with a sign that says 'The toilets are destroyed by Dr. Fluke Hawkins'");
         Room room4 = new Room("Room 4","A hallway");
         Room room5 = new Room("Room 5","a showcase with ");
         Room room6 = new Room("Room 6","A hallway with dirty and stinky floor");
