@@ -20,35 +20,35 @@ public class RoomLayout {//TODO rette descriptions / names (vi fixer det senere,
                  You could leave out the docking port to the East, but it would kill you.
                  """);
         Room room1 = new Room("ordinary room",
-                "nothing special here, just doors.");
+                "\nnothing special here, just doors.");
         Room room2 = new Room("lightsaber gallery",
-                "There are many awesome lightsabers everywhere on the wall in the room"); //kan være loot her at man kan tage en af de lysesværdene.
+                "\nThere are many awesome lightsabers everywhere on the walls in the room"); //kan være loot her at man kan tage en af de lysesværdene.
         Room room3 = new Room("locked toilets",
-                "The toilets are locked with a sign that says \n'The toilets were destroyed by a mad doctor, Dr. Fluke Hawkins.'");
+                "\nThe toilets are locked with a sign that says \n'The toilets were destroyed by a mad doctor, Dr. Fluke Hawkins.'");
         Room room4 = new Room("Hallway",
-                "Just some workshop calendars featuring hideous aliens in bikinis with blonde wigs");
+                "\nJust some workshop calendars featuring hideous aliens in bikinis with blonde wigs");
         Room room5 = new Room("portrait gallery",
-                "Portraits of spaceship marines who betrayed Darth Vader. \nThey looks like they needed air.");
+                "\nPortraits of spaceship marines who betrayed Darth Vader. \nThey looks like they needed air.");
         Room room6 = new Room("Stinky hallway",
-                "That's stinky in here and the floor is dirty, an alien maid is scrubbing the floor right now");
+                "\nThat's stinky in here and the floor is dirty, an alien maid is scrubbing the floor right now");
         Room room7 = new Room("guard room",
-                "at the table in the corner, the stormtroppers are playing trading cards with a space theme");
+                "\nat the table in the corner, the stormtroppers are playing trading cards with a space theme");
         Room room8 = new Room("Space bar",
-                "Spiky is smoking by the bar and is talking to Faye valentine about love \nbut faye is ignoring him and drinking like there is no tomorrow.");
+                "\nSpike is smoking by the bar and is talking to Faye Valentine about love \nbut faye is ignoring him and drinking like there is no tomorrow.");
         Room room9 = new Room("Messy room with cables and machines",
-                "Edward Wong emerged from the pile of machines, 'AWESOME! So many MACHINES!'");
+                "\nEdward Wong emerged from the pile of machines, 'AWESOME! So many MACHINES!'");
         Room room10 = new Room("Pulsing alien eggs",
-                "The eggs looks like they would open anytime soon, better get going...");
+                "\nThe eggs looks like they would open anytime soon, better get going...");
         Room room11 = new Room("control table",
-                "There is a predator who examines something at the control table.");
+                "\nThere is a predator who examines something at the control table.");
         Room room12 = new Room("corner entrance",
-                "Some weird klowns from outer space is discussing something");
+                "\nSome weird klowns from outer space is discussing something");
         Room room13 = new Room("East Gate",
-                "Some martians are trying to get in the next room. \nThey has googly eyes and shows their brains in their glass helmets");
+                "\nSome martians are trying to get in the next room. \nThey has googly eyes and featuring their brains in their big glass helmets");
         Room room14 = new Room("Gates",
                 "");
         Room room15 = new Room("West Gate",
-                "There is nothing here aside from a little boy sitting in the corner, he looks expressionless like a AI robot");
+                "\nThere is nothing here aside from a little boy sitting in the corner, he looks expressionless like a AI robot");
 
         // Bottom sektion
         Room room16 = new Room("Room 16","");
@@ -75,7 +75,7 @@ public class RoomLayout {//TODO rette descriptions / names (vi fixer det senere,
 
 
 
-//Mid section
+        //Mid section
         room0.setNeighbours(null,null,room1,outerSpace);
         room1.setNeighbours(room4,room10,room2,room0);
         room2.setNeighbours(null,room11,null,room1);
@@ -94,7 +94,6 @@ public class RoomLayout {//TODO rette descriptions / names (vi fixer det senere,
         room15.setNeighbours(room12,null,null,room14);
 
         //Bottom section
-
         room16.setNeighbours(null,room19,room17,null);
         room17.setNeighbours(room14,null,room18,room16);
         room18.setNeighbours(null,room21,null,room17);
@@ -103,7 +102,6 @@ public class RoomLayout {//TODO rette descriptions / names (vi fixer det senere,
         room21.setNeighbours(room18,null,null,room20);
 
         //Top section
-
         room22.setNeighbours(room25,null,room23,null);
         room23.setNeighbours(room26,null,room24,room22);
         room24.setNeighbours(null,room9,null,room23);
@@ -116,8 +114,6 @@ public class RoomLayout {//TODO rette descriptions / names (vi fixer det senere,
         room31.setNeighbours(null,room28,room32,null);
         room32.setNeighbours(room34,null,null,room31);
         room33.setNeighbours(null,room30,null,null);
-
-
 
 
         // Start Room i Spaceship
