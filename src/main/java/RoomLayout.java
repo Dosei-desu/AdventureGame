@@ -21,7 +21,7 @@ public class RoomLayout {//TODO rette descriptions / names (vi fixer det senere,
         Room room4 = new Room("Room 4","A hallway");
         Room room5 = new Room("Room 5","A showcase ");
         Room room6 = new Room("Room 6","A hallway with dirty and stinky floor");
-        Room room7 = new Room("Room 7","t");
+        Room room7 = new Room("Room 7","");
         Room room8 = new Room("Room 8","");
         Room room9 = new Room("Room 9","");
         Room room10 = new Room("Room 10","");
@@ -97,7 +97,7 @@ public class RoomLayout {//TODO rette descriptions / names (vi fixer det senere,
         room31.setNeighbours(null,room28,room32,null);
         room32.setNeighbours(room34,null,null,room31);
         room33.setNeighbours(null,room30,null,null);
-        
+
 
 
 
