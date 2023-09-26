@@ -1,154 +1,193 @@
 import java.util.ArrayList;
 
 
-public class RoomLayout {
+
+public class RoomLayout {//TODO rette descriptions / names (vi fixer det senere, tænker jeg)
 
     private Room current;
 
-    public void buildMap() {
-        // Rooms
+    public void buildMap(){
 
-        // Middle section
-        Room outerSpace = new Room("Outer Space", "You ejected yourself into the space and died.");
-        Room room0 = new Room("East Airlock", """
-                                    Entrance into 'Discovery Vessel Hildebrand'.
-                                    Connected to the Discovery Vessel via a door to the West.
-                                    You could leave out the docking port to the East, but it would kill you.""");
-        Room room1 = new Room("East Vestibule", """
-                                    Spacesuits and oxygen tanks hang from the walls.
-                                    Connected to rooms via three doors to the North, West, and South.
-                                    Connected to an Airlock to the East.""");
-        Room room2 = new Room("Central Room", """ 
-                                    A large support column stands in the centre of the room, and along the walls are
-                                    memorials to a mutiny that happened long ago.
-                                    Connected to rooms via two doors to the East and South.""");
-        Room room3 = new Room("West Vestibule", """
-                                    For some reason there is a broken urinal next to rows of spacesuits and oxygen tanks.
-                                    A note above the urinal states: 'Goddamn Dr. Fluke Hawkins and his experiments!'
-                                    Connected to a room via a door to the North.
-                                    Connected to an Airlock to the West.""");
-        Room room4 = new Room("Hallway", """
-                                    Motivational posters line the walls of the hall-way. Your eye stops on a picture of
-                                    a cute kitten hanging from a cliff, which states, encouragingly, 'Hang in there!'
-                                    Connected to rooms via doors to the North and West.
-                                    The door to the North is locked.""");
-        Room room5 = new Room("Room 5", "A showcase ");
-        Room room6 = new Room("Room 6", "A hallway with dirty and stinky floor");
-        Room room7 = new Room("Room 7", "");
-        Room room8 = new Room("Room 8", "");
-        Room room9 = new Room("Room 9", "");
-        Room room10 = new Room("Room 10", "");
-        Room room11 = new Room("Room 11", "");
-        Room room12 = new Room("Room 12", "");
-        Room room13 = new Room("Room 13", "");
-        Room room14 = new Room("Room 14", "");
-        Room room15 = new Room("Room 15", "");
+        //TODO skrive alt der mangles med noget det referencerer noget fra kendt film eller spil.
 
-        // Bottom section
-        Room room16 = new Room("Room 16", "");
-        Room room17 = new Room("Room 17", "");
-        Room room18 = new Room("Room 18", "");
-        Room room19 = new Room("Room 19", "");
-        Room room20 = new Room("Room 20", "");
-        Room room21 = new Room("Room 21", "");
+        // Mid sektion
+        Room outerSpace = new Room("Outer Space",
+                "You ejected yourself into the space and died");
+        Room room0 = new Room("Docking Port",
+                """
+                 Entrance into 'Discovery Vessel Hildebrand'
+                 Connected to the Discovery Vessel via a door to the west.
+                 You could leave out the docking port to the East, but it would kill you.
+                 """);
+        Room room1 = new Room("ordinary room",
+                "\nnothing special here, just doors.");
+        Room room2 = new Room("lightsaber gallery",
+                "\nThere are many awesome lightsabers everywhere on the walls in the room"); //kan være loot her at man kan tage en af de lysesværdene.
+        Room room3 = new Room("locked toilets",
+                "\nThe toilets are locked with a sign that says \n'The toilets were destroyed by a mad doctor, Dr. Fluke Hawkins.'");
+        Room room4 = new Room("Hallway",
+                "\nJust some workshop calendars featuring hideous aliens in bikinis with blonde wigs");
+        Room room5 = new Room("portrait gallery",
+                "\nPortraits of spaceship marines who betrayed Darth Vader. \nThey looks like they needed air.");
+        Room room6 = new Room("Stinky hallway",
+                "\nThat's stinky in here and the floor is dirty, an alien maid is scrubbing the floor right now");
+        Room room7 = new Room("guard room",
+                "\nat the table in the corner, the stormtroppers are playing trading cards with a space theme");
+        Room room8 = new Room("Space bar",
+                "\nSpike is smoking by the bar and is talking to Faye Valentine about love \nbut faye is ignoring him and drinking like there is no tomorrow.");
+        Room room9 = new Room("Messy room with cables and machines",
+                "\nEdward Wong emerged from the pile of machines, 'AWESOME! So many MACHINES!'");
+        Room room10 = new Room("Pulsing alien eggs",
+                "\nThe eggs looks like they would open anytime soon, better get going...");
+        Room room11 = new Room("control table",
+                "\nThere is a predator who examines something at the control table.");
+        Room room12 = new Room("corner entrance",
+                "\nSome weird klowns from outer space is discussing something");
+        Room room13 = new Room("East Gate",
+                "\nSome martians are trying to get in the next room. \nThey has googly eyes and featuring their brains in their big glass helmets");
+        Room room14 = new Room("Gates",
+                "");
+        Room room15 = new Room("West Gate",
+                "\nThere is nothing here aside from a little boy sitting in the corner, he looks expressionless like a AI robot");
 
-        // Top section
-        Room room22 = new Room("Room 22", "");
-        Room room23 = new Room("Room 23", "");
-        Room room24 = new Room("Room 24", "");
-        Room room25 = new Room("Room 25", "");
-        Room room26 = new Room("Room 26", "");
-        Room room27 = new Room("Room 27", "");
-        Room room28 = new Room("Room 28", "");
-        Room room29 = new Room("Room 29", "portraits of retired captains");
-        Room room30 = new Room("Room 30", "Showcase with Darth Vader mask and his red lightsaber");
-        Room room31 = new Room("Room 31", "");
-        Room room32 = new Room("Room 32", "");
-        Room room33 = new Room("Room 33", "The captain's office");
-        Room room34 = new Room("Room 34", "The bridge");
+        // Bottom sektion
+        Room room16 = new Room("Room 16","");
+        Room room17 = new Room("Room 17","");
+        Room room18 = new Room("Room 18","");
+        Room room19 = new Room("Room 19","");
+        Room room20 = new Room("Room 20","");
+        Room room21 = new Room("Room 21","");
 
-        // Outer Rooms
-
-        Room room35 = new Room("West Airlock", """
-                                     Entrance into 'Discovery Vessel Hildebrand'.
-                                     Connected to the Discovery Vessel via a door to the East.
-                                     You could leave out the docking port to the West, but it would kill you.""");
-        Room room37 = new Room("Room 32", "");
-        Room room38 = new Room("Room 32", "");
-        Room room39 = new Room("Room 32", "");
-        Room room40 = new Room("Room 32", "");
-        Room room41 = new Room("Room 32", "");
-        Room room42 = new Room("Room 32", "");
-        Room room43 = new Room("Room 32", "");
-        Room room44 = new Room("Room 32", "");
-        Room room45 = new Room("Room 32", "");
-        Room room46 = new Room("Room 32", "");
-        Room room47 = new Room("Room 32", "");
-        Room room48 = new Room("Room 32", "");
-        Room room49 = new Room("Room 32", "");
-        Room room50 = new Room("Room 32", "");
-        Room room51 = new Room("Room 32", "");
-        Room room52 = new Room("Room 32", "");
-        Room room53 = new Room("Room 32", "");
-        Room room54 = new Room("Room 32", "");
-        Room room55 = new Room("Room 32", "");
-
-        //--------------------------------------------------------------
-        // Room Connections
+        // Top sektion
+        Room room22 = new Room("Room 22","");
+        Room room23 = new Room("Room 23","");
+        Room room24 = new Room("Room 24","");
+        Room room25 = new Room("Room 25","");
+        Room room26 = new Room("Room 26","");
+        Room room27 = new Room("Room 27","");
+        Room room28 = new Room("Room 28","");
+        Room room29 = new Room("Room 29","portraits of retired captains");
+        Room room30 = new Room("Room 30","Showcase with Darth Vader mask and his red lightsaber");
+        Room room31 = new Room("Room 31","");
+        Room room32 = new Room("Room 32","");
+        Room room33 = new Room("Room 33","\u001B[33mThe captain's office\u001B[0m");
+        Room room34 = new Room("Room 34","The bridge");
 
 
-        // Middle section
 
-        room0.setNeighbours(null, null, room1, outerSpace);
-        room1.setNeighbours(room4, room10, room2, room0);
-        room2.setNeighbours(null, room11, null, room1);
-        room3.setNeighbours(room6, null, null, null);
-        room4.setNeighbours(room7, room1, room5, null);
-        room5.setNeighbours(null, null, room6, room4);
-        room6.setNeighbours(null, room3, null, room5);
-        room7.setNeighbours(null, room4, room8, null);
-        room8.setNeighbours(null, null, room9, room7);
-        room9.setNeighbours(room24, null, null, room8);
-        room10.setNeighbours(room1, room13, null, null);
+        //Mid section
+        room0.setNeighbours(null,null,room1,outerSpace);
+        room1.setNeighbours(room4,room10,room2,room0);
+        room2.setNeighbours(null,room11,null,room1);
+        room3.setNeighbours(room6,null,null,null);
+        room4.setNeighbours(room7,room1,room5,null);
+        room5.setNeighbours(null,null,room6,room4);
+        room6.setNeighbours(null,room3,null,room5);
+        room7.setNeighbours(null,room4,room8,null);
+        room8.setNeighbours(null,null,room9,room7);
+        room9.setNeighbours(room24,null,null,room8);
+        room10.setNeighbours(room1,room13,null,null);
         room11.setNeighbours(room2, null, room12, null);
-        room12.setNeighbours(null, room15, null, room11);
-        room13.setNeighbours(room10, null, room14, null);
-        room14.setNeighbours(null, null, room15, room13);
-        room15.setNeighbours(room12, null, null, room14);
+        room12.setNeighbours(null,room15,null,room11);
+        room13.setNeighbours(room10,null,room14,null);
+        room14.setNeighbours(null,null,room15,room13);
+        room15.setNeighbours(room12,null,null,room14);
 
-        // Bottom section
+        //Bottom section
+        room16.setNeighbours(null,room19,room17,null);
+        room17.setNeighbours(room14,null,room18,room16);
+        room18.setNeighbours(null,room21,null,room17);
+        room19.setNeighbours(room16,null,room20,null);
+        room20.setNeighbours(null,null,room21,room19);
+        room21.setNeighbours(room18,null,null,room20);
 
-        room16.setNeighbours(null, room19, room17, null);
-        room17.setNeighbours(room14, null, room18, room16);
-        room18.setNeighbours(null, room21, null, room17);
-        room19.setNeighbours(room16, null, room20, null);
-        room20.setNeighbours(null, null, room21, room19);
-        room21.setNeighbours(room18, null, null, room20);
+        //Top section
+        room22.setNeighbours(room25,null,room23,null);
+        room23.setNeighbours(room26,null,room24,room22);
+        room24.setNeighbours(null,room9,null,room23);
+        room25.setNeighbours(null,room22,null,null);
+        room26.setNeighbours(null,room23,room27,null);
+        room27.setNeighbours(room30,null,null,room26);
+        room28.setNeighbours(room31,null,room29,null);
+        room29.setNeighbours(null,null,room30,room28);
+        room30.setNeighbours(room33,room27,null,room29);
+        room31.setNeighbours(null,room28,room32,null);
+        room32.setNeighbours(room34,null,null,room31);
+        room33.setNeighbours(null,room30,null,null);
 
-        // Top section
 
-        room22.setNeighbours(room25, null, room23, null);
-        room23.setNeighbours(room26, null, room24, room22);
-        room24.setNeighbours(null, room9, null, room23);
-        room25.setNeighbours(null, room22, null, null);
-        room26.setNeighbours(null, room23, room27, null);
-        room27.setNeighbours(room30, null, null, room26);
-        room28.setNeighbours(room31, null, room29, null);
-        room29.setNeighbours(null, null, room30, room28);
-        room30.setNeighbours(room33, room27, null, room29);
-        room31.setNeighbours(null, room28, room32, null);
-        room32.setNeighbours(room34, null, null, room31);
-        room33.setNeighbours(null, room30, null, null);
-
-        // Outer Rooms
-
-        room35.setNeighbours(null, null, outerSpace, room3);
-
-        // Start Room
+        // Start Room i Spaceship
         current = room0;
     }
 
-    public Room starterRoom() {
+
+   /* private Room outerSpace = new Room("Outer Space","This environment will literally kill you");
+
+    // Mid sektion
+    private Room room0 = new Room("Docking Port","Entrance into 'Discovery Vessel Hildebrand'"+
+                                    "\nConnected to the Discovery Vessel via a door to the west."+
+                                    "\nYou could leave out the docking port to the East, but it would kill you.");
+    private Room room1 = new Room("Room 1","A room");
+    private Room room2 = new Room("Room 2","A smelly room");
+    private Room room3 = new Room("Room 3","A cramped room");
+    private Room room4 = new Room("Room 4","A cramped room");
+    private Room room5 = new Room("Room 5","A cramped room");
+    private Room room6 = new Room("Room 6","A cramped room");
+    private Room room7 = new Room("Room 7","A cramped room");
+    private Room room8 = new Room("Room 8","A cramped room");
+    private Room room9 = new Room("Room 9","A cramped room");
+    private Room room10 = new Room("Room 10","A cramped room");
+    //  private Room room11 = new Room("Room 11","A cramped room");
+    //  private Room room12 = new Room("Room 12","A cramped room");
+    //  private Room room13 = new Room("Room 13","A cramped room");
+    //  private Room room14 = new Room("Room 14","A cramped room");
+    // private Room room15 = new Room("Room 15","A cramped room");
+
+    // Top sektion
+    private Room room4 = new Room("Room 4","A cramped room");
+    private Room room4 = new Room("Room 4","A cramped room");
+    private Room room4 = new Room("Room 4","A cramped room");
+    private Room room4 = new Room("Room 4","A cramped room");
+    private Room room4 = new Room("Room 4","A cramped room");
+    private Room room4 = new Room("Room 4","A cramped room");
+    private Room room4 = new Room("Room 4","A cramped room");
+    private Room room4 = new Room("Room 4","A cramped room");
+    private Room room4 = new Room("Room 4","A cramped room");
+    private Room room4 = new Room("Room 4","A cramped room");
+    private Room room4 = new Room("Room 4","A cramped room");
+    private Room room4 = new Room("Room 4","A cramped room");
+
+    // Bund sektion
+    private Room room10 = new Room("Room 10","A large room");
+    private Room room4 = new Room("Room 4","A cramped room");
+    private Room room4 = new Room("Room 4","A cramped room");
+    private Room room4 = new Room("Room 4","A cramped room");
+    private Room room4 = new Room("Room 4","A cramped room");
+    private Room room4 = new Room("Room 4","A cramped room");
+    private Room room4 = new Room("Room 4","A cramped room");
+    private Room room4 = new Room("Room 4","A cramped room");
+    private Room room4 = new Room("Room 4","A cramped room"); */
+
+     /*public RoomLayout(){
+        setConnections();
+    }
+
+    public void setConnections(){ //guess the error :D look at the connections (why cant i go west??)
+        // Set Mid sektion
+        // north - south - west - east
+        room0.setNeighbours(null,null,room1,outerSpace);
+        room1.setNeighbours(room4,room10,room2,room0);
+        room2.setNeighbours(null,null,null,room1);
+        room3.setNeighbours(room6,null,null,null);
+        room4.setNeighbours(room7,room1,room5,null);
+        room5.setNeighbours(room7,room1,room5,null);
+        room4.setNeighbours(null,room1,null,null);
+
+        room8.setNeighbours(null, null, room9, room7);
+        room10.setNeighbours(room1,null,null,null);
+    }*/
+
+    public Room starterRoom(){
         return current;
     }
 }
