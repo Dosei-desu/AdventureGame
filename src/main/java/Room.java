@@ -1,16 +1,52 @@
 public class Room {
     private String name;
     private String description;
+    private boolean locked;
+    private boolean litUp;
     private Room neighbourNorth;
     private Room neighbourSouth;
     private Room neighbourWest;
     private Room neighbourEast;
 
+    //standard constructor with just name and description (default values are set for Locked and LitUp)
     public Room(String name, String description) {
         this.name = name;
         this.description = description;
+        this.locked = false;
+        this.litUp = true;
     }
 
+    //constructor for rooms that are locked (LitUp is defaulted to False)
+    public Room(String name, String description, boolean locked) {
+        this.name = name;
+        this.description = description;
+        this.locked = locked;
+        this.litUp = true;
+    }
+
+    //constructor for rooms where you want to set Locked and LitUp manually
+    public Room(String name, String description, boolean locked, boolean litUp) {
+        this.name = name;
+        this.description = description;
+        this.locked = locked;
+        this.litUp = litUp;
+    }
+
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+    }
+
+    public boolean isLitUp() {
+        return litUp;
+    }
+
+    public void setLitUp(boolean litUp) {
+        this.litUp = litUp;
+    }
 
     public String getName() {
         return name;
