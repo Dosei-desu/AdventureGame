@@ -105,13 +105,39 @@ public class RoomLayout {
                                     password to open."""); //found in room9
 
         // Bottom section
-        Room room16 = new Room("Room 16", "");
-        Room room17 = new Room("Room 17", "");
-        Room room18 = new Room("Room 18", "");
-        Room room19 = new Room("Room 19", "");
-        Room room20 = new Room("Room 20", "");
+        Room room16 = new Room("Food storage", """
+                The room is filled with freezers, coolers and cupboards most are open and serverely damaged,
+                this food storage has been emptied by creatures foraging for sustenance, only food left is rotten, 
+                on the wall someone have graffitied 'THE CAKE IS A LIE', a kitchen knife is on the floor and a flashlight 
+                is at the bottom of a freezer. 
+                Connected via doors to the West and South.""");
+        Room room17 = new Room("Hallway",
+                """
+                        You see a lit up hallway, with artwork hanging on the wall, you attention get caught be a 
+                        painting of an oldschool warrior with the quote 'i used to be an adventurer like you'.
+                        Connected to rooms via doors to the North, East and West""");
+        Room room18 = new Room("Communication room", """
+                A room filled with computer screens giving 'coomunication unavailable' message, an old message is being 
+                replayed over and over again 'All your base are belong to us' maybe it explains what happened on this vessel.
+                A notepad is on the table, besides a package of dehydrated fruits.
+                Connected to rooms via East and South.""");
+        Room room19 = new Room("Power station", """
+                A dimly lit room with a red light blinking, seems to be running on backup energy, Huge generators are 
+                striking sparks, the floor is wet with thick liquid looking poisonous if you didn't have your spacesuit,
+                maybe theres a way to restart the generators?
+                Connected to rooms via North and West."""); // You must construct additional pillons will appear when trying to restart generators
+        Room room20 = new Room("Security room", """
+                A room full of folders and security screens, only few screens are still working, revaeling empty hallways,
+                most drawers in the room are empty, the ones with items in them contains a keycard and a bottle of soda 
+                named nuke cola.
+                Connected to rooms via West and East.""");
                                     //items: Keycard to room30
-        Room room21 = new Room("Room 21", "");
+        Room room21 = new Room("Weaponry", """
+                This is a room full of lockers torn open, and have a few rounds of ammunition scattered around the tables
+                and a small container of pills the brand names 'Pills Here'.
+                Only weapons left are nonfunctioning rifles, drained from plasma, it seems like a bigger fight have taken 
+                place in this room.
+                Connected to rooms via doors North and East.""");
 
         // Top section
         Room room22 = new Room("Pile of machines and computers", """
