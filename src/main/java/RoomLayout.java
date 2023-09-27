@@ -117,7 +117,7 @@ public class RoomLayout {
                         painting of an oldschool warrior with the quote 'i used to be an adventurer like you'.
                         Connected to rooms via doors to the North, East and West""");
         Room room18 = new Room("Communication room", """
-                A room filled with computer screens giving 'coomunication unavailable' message, an old message is being
+                A room filled with computer screens giving 'communication unavailable' message, an old message is being
                 replayed over and over again 'All your base are belong to us' maybe it explains what happened on this vessel.
                 A notepad is on the table, besides a package of dehydrated fruits.
                 Connected to rooms via East and South.""");
