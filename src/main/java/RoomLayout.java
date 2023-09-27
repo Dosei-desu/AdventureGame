@@ -114,19 +114,63 @@ public class RoomLayout {
         Room room21 = new Room("Room 21", "");
 
         // Top section
-        Room room22 = new Room("Room 22", "");
-        Room room23 = new Room("Room 23", "");
-        Room room24 = new Room("Room 24", "");
-        Room room25 = new Room("Room 25", "");
-        Room room26 = new Room("Room 26", "");
-        Room room27 = new Room("Room 27", "");
-        Room room28 = new Room("Room 28", "");
-        Room room29 = new Room("Room 29", "portraits of retired captains");
-        Room room30 = new Room("Room 30", "Showcase with Darth Vader mask and his red lightsaber",true);
-        Room room31 = new Room("Room 31", "");
-        Room room32 = new Room("Room 32", "");
-        Room room33 = new Room("Captain's Office", "");
-        Room room34 = new Room("The Bridge", "",true);
+        Room room22 = new Room("Pile of machines and computers", """
+                                    There are unused computers and cables everywhere in the room.
+                                    Some of them which is turned on, and some cables are shaking among the computers.
+                                    One of the computer screen shows a login screen.
+                                    A wild Edward Wong emerges from the pile of machines,
+                                    'AWESOME! So many Computer machines!!', 'I am going to hack the Space Ship for fun!!'
+                                    Connected to rooms via doors to the North and West.""");
+                                    /*additional information can be accessed by typing in the right password
+                                    When you open the computer with a password, Edward going wild and attack you because
+                                    she wants to use that. Weak enemy. */
+        Room room23 = new Room("Room 23", """
+                                    """);
+        Room room24 = new Room("Room 24", """
+                                    """);
+        Room room25 = new Room("The Space Bar", """
+                                    The room reeks of smoke from cigarettes and alcohols like vodka, gin and rum.
+                                    The barterner is cleaning the glasses for the bar.
+                                    He is looking at you as if you want to order something.
+                                    Spike Spiegel is sitting by the bar and smokes cigarette while talking to Faye Valentine
+                                    about love,
+                                    but Faye is ignoring him and drinking like there is no tomorrow.""");
+                                    //If take the alcohol the player would be unable to move for some time.
+        Room room26 = new Room("Hallway", """
+                                    The hallway is just a ordinary room but there are some people speaking high tone nearby.
+                                    Rei and Asuka are discussing and arguing with each other about something, Shinji is
+                                    trying to calm them down.
+                                    They're in their plugsuits getting ready for piloting the Evangelions.""");
+        Room room27 = new Room("Room 27", """
+                                    """);
+        Room room28 = new Room("Room 28", """
+                                    """);
+        Room room29 = new Room("Room 29", """
+                                    """);
+        Room room30 = new Room("Room 30", """
+                                    Showcase with Darth Vader mask and his red lightsaber
+                                    """,true);
+        Room room31 = new Room("Captain Space Nemo's Office", """
+                                    The room reeks of refined flowers on an office table with a picture of the Captain's grandmother.
+                                    The grandmother looks like some on 150 years, she could use some wrinkle cream.
+                                    There are portraits of family by the Captain. Those are some ugly kids!
+                                    A cupboard full of gine glasses and alcohol. The computer on the table is turned on and shows a login screen.""");
+                                    // Password til computeren er i computeren hos Edward i room22.
+        Room room32 = new Room("Room 32", """
+                                    """);
+        Room room33 = new Room("Stinky Locked Toilets", """
+                                    The room reeks awful with effluvia on the floor.
+                                    An alien maid is scrubbing the floor and complaining about how some mad doctor did that.
+                                    The toilets are locked with a sign that says
+                                    'The toilets were destroyed by a mad doctor, Dr. Fluke Hawkins.'""");
+        Room room34 = new Room("The Command Deck", """
+                                    There is a reeeeally big window to the outer space,
+                                    You can see some killer klowns are raging in war with the martians with googly eyes 
+                                    and featuring their brains in glass helmets on some asteroids.
+                                    The bridge is filled with weapons-control officer and their subordinates, and a 
+                                    communications technician.
+                                    Captain Space Nemo is focused on observing the bridge.
+                                    He pays no mind to you since you're a nobody who has no meaning in the whole space.""",true);
 
         // Outer Rooms
         Room room35 = new Room("West Airlock", """
@@ -147,9 +191,21 @@ public class RoomLayout {
                                      pot on top of it and the remains of a stew inside it. On the central table are cards
                                      and it looks as though whatever game was being played was abandoned in a hurry.
                                      The bets lie in a pile in the middle of the table, and you notice a shiny flashlight.
-                                     Connecting to rooms via doors to the East and North.""",true);
-        Room room38 = new Room("Room 32", "");
-        Room room39 = new Room("Room 32", "");
+                                     Connected to rooms via doors to the East and North.""",true);
+                                     //items: Flashlight
+        Room room38 = new Room("Crew Quarters A", """
+                                     The smell of burnt meat, as well as copious amount of smoke, fills the air and you
+                                     see that the source is a BBQ grill that someone has left unattended. Red solo cups
+                                     that smell of beer are scattered across the room, but there is no alcohol left for
+                                     you. It seems that a party might have been underway before the party-goers suddenly
+                                     left the Crew Quarters.
+                                     Connected to rooms via doors to the West and South.""");
+                                     //items: Red Solo Cup (empty)
+        Room room39 = new Room("Vandalised Crew Quarters A", """
+                                     The vandal from previous rooms has seemingly been in here as well, as the lights have
+                                     been torn out of their sockets. There is also a battle-droid lying in several pieces
+                                     all over the bunkbeds and floor. A clown-face has been graffitied onto its face-plate.
+                                     Connected to a room via the door to the North.""",false,false);
         Room room40 = new Room("Crew Quarters B", """
                                      A small stovetop that seems to never have been used and microwave with a sparking
                                      power supply stand on a table in the corner. Next to it is an open fridge. Beer
