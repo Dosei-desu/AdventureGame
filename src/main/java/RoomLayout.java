@@ -244,7 +244,7 @@ public class RoomLayout {
                                     He pays no mind to you since you're a nobody who has no meaning in the whole space.
                                     Feels bad for you.
                                     Connected to rooms via doors South.""",true);
-                                    // Guess quest completed here?
+                                    // Quest completed here?
         // Outer Rooms
         Room room35 = new Room("West Airlock", """
                                      Entrance into 'Discovery Vessel Hildebrand'.
