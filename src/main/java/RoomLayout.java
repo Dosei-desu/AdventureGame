@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+
 
 
 public class RoomLayout {
@@ -107,97 +107,144 @@ public class RoomLayout {
         // Bottom section
         Room room16 = new Room("Food storage", """
                 The room is filled with freezers, coolers and cupboards most are open and serverely damaged,
-                this food storage has been emptied by creatures foraging for sustenance, only food left is rotten, 
+                this food storage has been emptied by creatures foraging for sustenance, only food left is rotten,
                 on the wall someone have graffitied 'THE CAKE IS A LIE', a kitchen knife is on the floor and a flashlight 
                 is at the bottom of a freezer. 
                 Connected via doors to the West and South.""");
         Room room17 = new Room("Hallway",
                 """
-                        You see a lit up hallway, with artwork hanging on the wall, you attention get caught be a 
+                        You see a lit up hallway, with artwork hanging on the wall, you attention get caught be a
                         painting of an oldschool warrior with the quote 'i used to be an adventurer like you'.
                         Connected to rooms via doors to the North, East and West""");
         Room room18 = new Room("Communication room", """
-                A room filled with computer screens giving 'coomunication unavailable' message, an old message is being 
+                A room filled with computer screens giving 'coomunication unavailable' message, an old message is being
                 replayed over and over again 'All your base are belong to us' maybe it explains what happened on this vessel.
                 A notepad is on the table, besides a package of dehydrated fruits.
                 Connected to rooms via East and South.""");
         Room room19 = new Room("Power station", """
-                A dimly lit room with a red light blinking, seems to be running on backup energy, Huge generators are 
+                A dimly lit room with a red light blinking, seems to be running on backup energy, Huge generators are
                 striking sparks, the floor is wet with thick liquid looking poisonous if you didn't have your spacesuit,
                 maybe theres a way to restart the generators?
                 Connected to rooms via North and West."""); // You must construct additional pillons will appear when trying to restart generators
         Room room20 = new Room("Security room", """
                 A room full of folders and security screens, only few screens are still working, revaeling empty hallways,
-                most drawers in the room are empty, the ones with items in them contains a keycard and a bottle of soda 
+                most drawers in the room are empty, the ones with items in them contains a keycard and a bottle of soda
                 named nuke cola.
                 Connected to rooms via West and East.""");
                                     //items: Keycard to room30
         Room room21 = new Room("Weaponry", """
                 This is a room full of lockers torn open, and have a few rounds of ammunition scattered around the tables
                 and a small container of pills the brand names 'Pills Here'.
-                Only weapons left are nonfunctioning rifles, drained from plasma, it seems like a bigger fight have taken 
+                Only weapons left are nonfunctioning rifles, drained from plasma, it seems like a bigger fight have taken
                 place in this room.
                 Connected to rooms via doors North and East.""");
 
         // Top section
         Room room22 = new Room("Pile of machines and computers", """
+                                    Connected to rooms via doors to the North and West.
                                     There are unused computers and cables everywhere in the room.
-                                    Some of them which is turned on, and some cables are shaking among the computers.
-                                    One of the computer screen shows a login screen.
-                                    A wild Edward Wong emerges from the pile of machines,
-                                    'AWESOME! So many Computer machines!!', 'I am going to hack the Space Ship for fun!!'
-                                    Connected to rooms via doors to the North and West.""");
-                                    /*additional information can be accessed by typing in the right password
-                                    When you open the computer with a password, Edward going wild and attack you because
-                                    she wants to use that. Weak enemy. */
-        Room room23 = new Room("Room 23", """
-                                    """);
-        Room room24 = new Room("Room 24", """
-                                    """);
+                                    Some of them are already turned on, one of the computer screen shows a login screen.
+                                    The pile of cables are shaking among the computers.
+                                    \033[1;33mA wild Edward Wong emerges from the pile of machines\033[0m
+                                    \033[0;36m''So many computer machines!! AWESOME!''
+                                    ''I am going to hack the Space Ship for fun!!''\033[0m
+                                    \033[0;32mConnected to rooms via doors North and West.\033[0m""");
+                                    /*additional information on a password to the Captain's computer can be accessed by typing in the right password.
+                                    When you open the computer with a password, Edward goes wild and attacks you because she wants to use that. Weak enemy. */
+        Room room23 = new Room("Training center", """
+                                    There are workout stuffs in here and some are pumping their muscles and drink their proteins.
+                                    Buggy Bunny are playing basketball with Daffy Duck and the others, Michael Jordan is there as well.
+                                    Lola Bunny is drinking water, the water is running down her throat wetting her shirt, she had a nice workout with the basketball guys.
+                                    YoRHa No.2 Type B is training her legs with the leg curl, her ass is .... wow can you imagine that?
+                                    Samus Aran from Metroid is pumping her arms, she's sweating and hot.
+                                    Neo and Morpheus is training to dodge each other in a martial arts fight.
+                                    Connected to rooms via doors North, West and East.""");
+                                    //If the player choose to train here, gains str++
+        Room room24 = new Room("Refreshment Stand", """
+                                    That is a shop for selling drinking stuffs and snacks for the ones that goes in the training center.
+                                    There is a bench by the stand, an AI robot David and E-Wall is sitting there and have fun talking to each other.
+                                    Some Wookies are screaming out of joy because the drinks are delicious.
+                                    Trinity is standing by the stand and is buying something for the guys in the training center.
+                                    Connected to rooms via doors South and East.""");
+                                    // Drinks (Healing potions) can be purchased here.
         Room room25 = new Room("The Space Bar", """
                                     The room reeks of smoke from cigarettes and alcohols like vodka, gin and rum.
                                     The barterner is cleaning the glasses for the bar.
-                                    He is looking at you as if you want to order something.
-                                    Spike Spiegel is sitting by the bar and smokes cigarette while talking to Faye Valentine
-                                    about love,
-                                    but Faye is ignoring him and drinking like there is no tomorrow.""");
-                                    //If take the alcohol the player would be unable to move for some time.
+                                    He noticed you as if he knows you want to order something.
+                                    Spike Spiegel is sitting by the bar and smokes cigarette.
+                                    He is talking to Faye Valentine about love,
+                                    but Faye is ignoring him and drinking like there is no tomorrow.
+                                    Connected to rooms via doors South.""");
+                                    //If the player takes the alcohol the player would be unable to move for some time. (Just a idea, how to do that?)
         Room room26 = new Room("Hallway", """
-                                    The hallway is just a ordinary room but there are some people speaking high tone nearby.
+                                    The hallway is just a ordinary room but there are some people speaking in high tone nearby.
                                     Rei and Asuka are discussing and arguing with each other about something, Shinji is
                                     trying to calm them down.
-                                    They're in their plugsuits getting ready for piloting the Evangelions.""");
-        Room room27 = new Room("Room 27", """
-                                    """);
-        Room room28 = new Room("Room 28", """
-                                    """);
-        Room room29 = new Room("Room 29", """
-                                    """);
-        Room room30 = new Room("Room 30", """
-                                    Showcase with Darth Vader mask and his red lightsaber
-                                    """,true);
+                                    They're in their plugsuits getting ready for piloting the Evangelions.
+                                    Connected to rooms via doors West and South.""");
+                                    // knockout the player if trying to seduce the girls or Shinji (for girls to enjoy)
+        Room room27 = new Room("Dexter's laboratory in the space", """
+                                    That is a big laboratory here. There are experiment table and a lot of computer screens that show a observation.
+                                    The observation on the screen shows experiments on Predators, Aliens, Martians, Klowns, E.T..
+                                    Three of them show three different games, Pac-man, Bombman and Pokemon Red & Blue.
+                                    Dexter, Rick Sanchez, Professor Charles Xavier and Dr. Fluke Hawkins are discussing about a science project.
+                                    Dr. Zoidberg is screaming as he's being held hostage by some weird tentacles.
+                                    Connected to rooms via doors North and East.""");
+                                    // if the player helps Dr. Zoidberg, the player would get a weapon by the doctor.
+        Room room28 = new Room("Office entrance with guards", """
+                                    There are guards by the door to the Captain's office.
+                                    Nothing aside these guards are in the room.
+                                    Connected to rooms via doors North and West.""");
+                                    //Guards attacks you if they suspected you for having access into the computer.
+        Room room29 = new Room("Big Hallway", """
+                                    There are three way around you, there are guards everywhere and they're patrolling around.
+                                    Buzz Lightyear is ordering some Stormtroppers to do as he says.
+                                    \033[0;36m''DO WHAT I SAID!! STAND UP AND GIVE ME A 'YES'!'' the soldiers roars ''YES SIR!!''\033[0m
+                                    \033[0;32mAt a bench to the south the Jetsons family are sitting and eat their picnic basket.
+                                    Connected to rooms via doors North, West and East.""");
+                                    // If ask the Jetsons about they're having fun, they would offer you food.
+        Room room30 = new Room("Weapon gallery", """
+                                    Gallery with different lightsabers, and other Sci-Fi weapon.
+                                    Ratchet and Clank are discussing what to use for their next adventure.
+                                    Ellie and Eleven are looking at the weapons. Are they up to something??
+                                    Solid Snake and the mens in black are discussing about how to use weapon the most effective way.
+                                    Connected to rooms via doors North, South and East.""",true);
+                                    // If you're trying to take any weapon, Solid Snake and Mens in Black would attack you.
         Room room31 = new Room("Captain Space Nemo's Office", """
                                     The room reeks of refined flowers on an office table with a picture of the Captain's grandmother.
-                                    The grandmother looks like some on 150 years, she could use some wrinkle cream.
+                                    The grandmother looks like one on their 150s, she could use some wrinkle cream.
                                     There are portraits of family by the Captain. Those are some ugly kids!
-                                    A cupboard full of gine glasses and alcohol. The computer on the table is turned on and shows a login screen.""");
-                                    // Password til computeren er i computeren hos Edward i room22.
-        Room room32 = new Room("Room 32", """
-                                    """);
+                                    A cupboard full of gine glasses and alcohol. The computer on the table is turned on and shows a login screen.
+                                    Connected to rooms via doors South.""");
+                                    // Password for the captain computer is in the computer on room22.
+                                    // If player got access, then the player would get password for the gate between 32 and 34.
+        Room room32 = new Room("Bridge Guard Post", """
+                                    There are two Terminators guarding the gate for the bridge,
+                                    they're aiming at you to be sure you're not up to something.
+                                    There is a bench at each wall.
+                                    Philip J. Fry is french kissing with Turanga Leela on the west bench.
+                                    Bender are flirting with R2D2 on the other bench.
+                                    Connected to rooms via doors South.""");
+                                    //The player would get a password for the computer in Room22 from Bender if asked.
+                                    // instant death if trying to be under suspicion. If the player dies then the body is shattered everywhere.
         Room room33 = new Room("Stinky Locked Toilets", """
-                                    The room reeks awful with effluvia on the floor.
+                                    The room reeks awful with effluvia from the toilets on the floor.
                                     An alien maid is scrubbing the floor and complaining about how some mad doctor did that.
                                     The toilets are locked with a sign that says
-                                    'The toilets were destroyed by a mad doctor, Dr. Fluke Hawkins.'""");
+                                    \033[1;36m'The toilets were destroyed by a mad doctor, Dr. Fluke Hawkins.'
+                                    \033[0;32mConnected to rooms via doors South.""");
+                                    // lost 1 hp every sec while standing in the room. PANIC!
         Room room34 = new Room("The Command Deck", """
                                     There is a reeeeally big window to the outer space,
-                                    You can see some killer klowns are raging in war with the martians with googly eyes 
+                                    You can see some killer klowns are raging in war with the martians with googly eyes
                                     and featuring their brains in glass helmets on some asteroids.
-                                    The bridge is filled with weapons-control officer and their subordinates, and a 
-                                    communications technician.
+                                    The bridge is filled with weapons-control officer and their subordinates,
+                                    and a communications technician.
                                     Captain Space Nemo is focused on observing the bridge.
-                                    He pays no mind to you since you're a nobody who has no meaning in the whole space.""",true);
-
+                                    He pays no mind to you since you're a nobody who has no meaning in the whole space.
+                                    Feels bad for you.
+                                    Connected to rooms via doors South.""",true);
+                                    // Guess quest completed here?
         // Outer Rooms
         Room room35 = new Room("West Airlock", """
                                      Entrance into 'Discovery Vessel Hildebrand'.
@@ -274,7 +321,7 @@ public class RoomLayout {
                                      //items: Keycard to room34(goal)
 
         //--------------------------------------------------------------
-        // Room Connections
+        // Room Connections (North, South, West, East)
 
         // Middle section
         room0.setNeighbours(null, null, room1, outerSpace);
@@ -310,10 +357,10 @@ public class RoomLayout {
         room26.setNeighbours(null, room23, room27, null);
         room27.setNeighbours(room30, null, room52, room26);
         room28.setNeighbours(room31, null, room29, null);
-        room29.setNeighbours(null, null, room30, room28);
+        room29.setNeighbours(room32, null, room30, room28);
         room30.setNeighbours(room33, room27, null, room29);
-        room31.setNeighbours(null, room28, room32, null);
-        room32.setNeighbours(room34, null, null, room31);
+        room31.setNeighbours(null, room28, null, null);
+        room32.setNeighbours(room34, room29, null, null);
         room33.setNeighbours(null, room30, null, null);
 
         // Outer Rooms
