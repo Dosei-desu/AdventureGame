@@ -109,7 +109,7 @@ public class RoomLayout {
                 The room is filled with freezers, coolers and cupboards most are open and serverely damaged,
                 this food storage has been emptied by creatures foraging for sustenance, only food left is rotten,
                 on the wall someone have graffitied 'THE CAKE IS A LIE', a kitchen knife is on the floor and a flashlight
-                is at the bottom of a freezer. 
+                is at the bottom of a freezer.
                 Connected via doors to the West and South.""");
         Room room17 = new Room("Hallway",
                 """
