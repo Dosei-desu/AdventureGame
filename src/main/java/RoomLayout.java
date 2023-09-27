@@ -9,12 +9,13 @@ public class RoomLayout {
         // Rooms
 
         // Middle section
-        Room outerSpace = new Room("Outer Space", "You ejected yourself into the space and died.");
+        Room outerSpace = new Room("Outer Space",
+                          "You ejected yourself into the space and died.");
         Room room0 = new Room("East Airlock", """
                                     Entrance into 'Discovery Vessel Hildebrand'.
                                     Connected to the Discovery Vessel via a door to the West."""+
-                "\nYou could leave out the docking port to the East, but it would "+
-                Colours.RED+"kill"+Colours.RESET+" you.");
+                                    "\nYou could leave out the docking port to the East, but it would "+
+                                    Colours.RED+"kill"+Colours.GREEN_BOLD+" you.");
         Room room1 = new Room("East Vestibule", """
                                     Spacesuits and oxygen tanks hang from the walls.
                                     Connected to rooms via three doors to the North, West, and South.
@@ -30,15 +31,18 @@ public class RoomLayout {
                                     Under the broken urinal lies a filthy keycard with the words 'Engine Room' on it.
                                     Connected to a room via a door to the North.
                                     Connected to an Airlock to the West.""");
+                                    //items: Keycard to room14
         Room room4 = new Room("Motivational Hallway", """
                                     Motivational posters line the walls of the hallway. Your eye stops on a picture of
                                     a cute kitten hanging from a cliff, which states, encouragingly, 'Hang in there!'
                                     Connected to rooms via doors to the North and West.
                                     The door to the North is locked and requires a keycard to enter.""");
+                                    //items: Motivational Poster
         Room room5 = new Room("Suspiciously-narrow Hallway", """
                                     The hallway is so narrow that you would have to crawl to get through. On the floor is
                                     a well-crafted origami unicorn.
                                     Connected to rooms via doors to the East and West.""");
+                                    //items: Origami Unicorn
         Room room6 = new Room("Origami Room", """
                                     The floor is absolutely littered with origami animals of all shapes and sizes and
                                     colours. One of the pieces is so tall that it touches the ceiling and it depicts a
@@ -63,6 +67,7 @@ public class RoomLayout {
                                     all the bottles are empty. Scrawled above the fridge is the phrase 'Captain Delaine
                                     Suxx!' It is underscored with red lines for some reason.
                                     Connected to rooms via doors to the North, East, and West.""",false, false);
+                                    //contains the password to special door from room15 to room14
         Room room10 = new Room("Hallway of Mirrors", """
                                     Highly-reflective mirrors cover every inch of the hallway, making it very disorienting
                                     to walk through. At first you believe there are twelve doors, but it turns out there
@@ -97,7 +102,7 @@ public class RoomLayout {
                                     Connected to rooms via doors to the East, West, and North.
                                     The door to the West is locked and requires a keycard.
                                     The door to the East has a vocal pass-phrase scanner and seems to require a specific
-                                    password to open.""");
+                                    password to open."""); //found in room9
 
         // Bottom section
         Room room16 = new Room("Room 16", "");
@@ -105,6 +110,7 @@ public class RoomLayout {
         Room room18 = new Room("Room 18", "");
         Room room19 = new Room("Room 19", "");
         Room room20 = new Room("Room 20", "");
+                                    //items: Keycard to room30
         Room room21 = new Room("Room 21", "");
 
         // Top section
@@ -125,15 +131,16 @@ public class RoomLayout {
         // Outer Rooms
         Room room35 = new Room("West Airlock", """
                                      Entrance into 'Discovery Vessel Hildebrand'.
-                                     Someone has made a lewd piece of graffiti on the wall, which depicts the Captain
-                                     and a Xenomorph french-kissing passionately.
+                                     Someone has made a lewd piece of graffiti on the wall, which depicts the Captain and
+                                     a Xenomorph french-kissing passionately. Taped to the wall is a keycard that reads
+                                     'Navigator Quarters' on it.
                                      Connected to the Discovery Vessel via a door to the East."""+
-                "\nYou could leave out the docking port to the West, but it would "+
-                Colours.RED+"kill"+Colours.RESET+" you.");
+                                     "\nYou could leave out the docking port to the West, but it would "+
+                                     Colours.RED+"kill"+Colours.GREEN_BOLD+" you.");
+                                     //items: Keycard to room53
         Room room36 = new Room("Engine Crew Quarters A", """
                                      One enormous bed covers half the room, and on the bed are twelve separate pillows
-                                     and duvets. It seems as though the Engine Crew used to snuggle a lot when they slept
-                                     here.
+                                     and duvets. It seems as though the Engine Crew used to snuggle when they slept here.
                                      Connected to a room via a door to the South.""");
         Room room37 = new Room("Engine Crew Quarters A", """
                                      A large table takes up most of the room. Nearby is a bunsen-burner with a cooking
@@ -148,26 +155,41 @@ public class RoomLayout {
                                      power supply stand on a table in the corner. Next to it is an open fridge. Beer
                                      bottles lie discarded on the ground, as well as several meal-trays.
                                      Connected to rooms via doors to the West and South.""",false,false);
+                                     //items: Beer Bottle (empty)
         Room room41 = new Room("Crew Quarters B", """
                                      Six bunkbeds line the room, three along each of the two walls. Between the bunks is
                                      a mess of dirty clothes, empty bottles, and half-eaten meal-trays. Mould covers the
                                      backwall and there are a few mushrooms sprouting from a pair of socks. Next to the
                                      socks lies a keycard that reads 'Engine Crew Quarters A'.
-                                     Connected to a room via the door to the North.""",false,false);
-        Room room42 = new Room("Room 42", "");
-        Room room43 = new Room("Room 43", "");
+                                     Connected to a room via a door to the North.""",false,false);
+                                     //items: Keycard to room37 | Nasty Sock-Mushrooms (poisoned)
+        Room room42 = new Room("Engine Crew Quarters B", """
+                                     Several machines are playing synth music formed from many differently-pitched beeps
+                                     and a massive totem of machine parts stands along the backwall, and it seems to have
+                                     an offering bowl in front of it. Within the bowl are light-bulbs, cables, and a keycard
+                                     that reads 'Hallway to Crew Quarters'.
+                                     Connected to a room via a door to the South.""");
+                                     //items: Keycard to room7
+        Room room43 = new Room("Engine Crew Quarters B", """
+                                     Three cleaner bots shuffle around on the floor, each of them with a knife taped in front
+                                     of it and a balloon on its back. Credsticks a piled on a nearby table and it seemed
+                                     the engineers might have been betting on which of the cleaner bots would be the last
+                                     with balloons on it. You have no idea how long the bots have been at it, but no winner
+                                     has yet to emerge.
+                                     Connected to rooms via doors to the North and West.""");
         Room room44 = new Room("Room 44", "");
         Room room45 = new Room("Room 45", "");
         Room room46 = new Room("Room 46", "");
         Room room47 = new Room("Room 47", "");
         Room room48 = new Room("Room 48", "");
         Room room49 = new Room("Room 49", "");
-        Room room50 = new Room("Room 50", "");
-        Room room51 = new Room("Room 51", "");
-        Room room52 = new Room("Room 52", "");
-        Room room53 = new Room("Room 53", "",true);
-        Room room54 = new Room("Room 54", "");
-        Room room55 = new Room("Room 55", "");
+        Room room50 = new Room("Captain's Quarters", "");
+        Room room51 = new Room("Captain's Quarters", "");
+        Room room52 = new Room("Captain's Quarters", "");
+        Room room53 = new Room("Navigator Quarters", "",true);
+        Room room54 = new Room("Navigator Quarters", "");
+        Room room55 = new Room("Navigator Quarters", "");
+                                     //items: Keycard to room34(goal)
 
         //--------------------------------------------------------------
         // Room Connections
