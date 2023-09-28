@@ -48,10 +48,46 @@ public class UserInterface {
                 //enhanced switch case
                 switch (choice.toLowerCase()) {
                     //movement
-                    case "go north", "north", "go n", "n" -> player.moveNorth(player.getPlayerLocation());
-                    case "go south", "south", "go s", "s" -> player.moveSouth(player.getPlayerLocation());
-                    case "go east", "east", "go e", "e" -> player.moveEast(player.getPlayerLocation());
-                    case "go west", "west", "go w", "w" -> player.moveWest(player.getPlayerLocation());
+                    case "go north", "north", "go n", "n" -> {
+                        switch (player.moveNorth(player.getPlayerLocation())) {
+                            case 0 -> System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
+                            case 1 -> {
+                                player.setPlayerLocation(player.getPlayerLocation().getNeighbourNorth());
+                                newRoom = true;
+                            }
+                            case 2 -> System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
+                        }
+                    }
+                    case "go south", "south", "go s", "s" -> {
+                        switch (player.moveSouth(player.getPlayerLocation())) {
+                            case 0 -> System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
+                            case 1 -> {
+                                player.setPlayerLocation(player.getPlayerLocation().getNeighbourSouth());
+                                newRoom = true;
+                            }
+                            case 2 -> System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
+                        }
+                    }
+                    case "go east", "east", "go e", "e" -> {
+                        switch (player.moveEast(player.getPlayerLocation())) {
+                            case 0 -> System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
+                            case 1 -> {
+                                player.setPlayerLocation(player.getPlayerLocation().getNeighbourEast());
+                                newRoom = true;
+                            }
+                            case 2 -> System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
+                        }
+                    }
+                    case "go west", "west", "go w", "w" -> {
+                        switch (player.moveWest(player.getPlayerLocation())) {
+                            case 0 -> System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
+                            case 1 -> {
+                                player.setPlayerLocation(player.getPlayerLocation().getNeighbourWest());
+                                newRoom = true;
+                            }
+                            case 2 -> System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
+                        }
+                    }
                     //actions
                     case "look", "l" -> look();
                     case "help", "h" -> help();
@@ -111,6 +147,8 @@ public class UserInterface {
             }
         }
     }
+
+    //consider how you want to make this work, because i personally don't know
     private void teleportRoomXToRoomX(String input) {
         if (input.contains("Umbrella")) {
             if (player.getPlayerLocation().getName().equals("East Airlock")){

@@ -13,57 +13,51 @@ public class Player {
     public Room getPlayerLocation(){
         return playerLocation;
     }
-    //move methods should probably be returning something that can be used to decide which message is played, since
-    //having printline in anything but UserInterface class is bad manners
-    public void moveNorth(Room room) {
+    public void setPlayerLocation(Room room){
+        playerLocation = room;
+    }
+
+    public int moveNorth(Room room) {
         if (room.getNeighbourNorth() != null) {
             if (room.getNeighbourNorth().isLocked()) {
-                System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
+                return 0;
             }
-            newRoom = true;
-            playerLocation = room.getNeighbourNorth();
-        } else {
-            System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
+            return 1;
+        }else {
+            return 2;
         }
     }
 
-    public void moveSouth(Room room) {
+    public int moveSouth(Room room) {
         if (room.getNeighbourSouth() != null) {
             if (room.getNeighbourSouth().isLocked()) {
-                System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
+                return 0;
             }
-            newRoom = true;
-            playerLocation = room.getNeighbourSouth();
-        } else {
-            System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
+            return 1;
+        }else {
+            return 2;
         }
     }
 
-    public void moveWest(Room room) {
-        if (room.getNeighbourWest() != null) {
-            if (room.getNeighbourWest().isLocked()) {
-                System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
-            }
-            newRoom = true;
-            playerLocation = room.getNeighbourWest();
-        } else {
-            System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
-        }
-    }
-
-    public void moveEast(Room room) {
+    public int moveEast(Room room) {
         if (room.getNeighbourEast() != null) {
             if (room.getNeighbourEast().isLocked()) {
-                System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
+                return 0;
             }
-            newRoom = true;
-            playerLocation = room.getNeighbourEast();
-        } else {
-            System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
-
+            return 1;
+        }else {
+            return 2;
         }
     }
 
-
-
+    public int moveWest(Room room) {
+        if (room.getNeighbourWest() != null) {
+            if (room.getNeighbourWest().isLocked()) {
+                return 0;
+            }
+            return 1;
+        }else {
+            return 2;
+        }
+    }
 }
