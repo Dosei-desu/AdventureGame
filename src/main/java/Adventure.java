@@ -1,5 +1,6 @@
 import java.util.Scanner;
 
+//what is the point of this class now??
 public class Adventure {
     private Room playerLocation;
     private Room previousLocation; //not used currently, but might be useful later
