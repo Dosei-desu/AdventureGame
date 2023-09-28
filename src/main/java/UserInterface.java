@@ -1,22 +1,22 @@
 import java.util.Scanner;
 
-public class Adventure {
-    private Room playerLocation;
-    private Room previousLocation; //not used currently, but might be useful later
+public class UserInterface {
     private Map roomLayout;
     private boolean newRoom;
+    private Player player;
 
-    public Adventure() {
+    public UserInterface() {
         roomLayout = new Map();
         roomLayout.buildMap();
-        playerLocation = roomLayout.starterRoom();
-        previousLocation = playerLocation;
+        player = new Player();
     }
 
     public void run() {
         Scanner scanner = new Scanner(System.in);
         String choice;
         newRoom = true;
+
+
         System.out.print(Colours.BLUE_BOLD+"""
                 Welcome aboard the Discovery Vessel 'Hildebrand'.
                 """+Colours.RESET);
@@ -25,12 +25,12 @@ public class Adventure {
             if (newRoom) {
                 System.out.printf(Colours.BLUE_BOLD+"""
                         You are currently in %s
-                        """+Colours.RESET, playerLocation.getName());
+                        """+Colours.RESET, player.getPlayerLocation().getName());
             }
             newRoom = false; //this is only set to true if the player successfully moves to a new room
 
             //if player ejects themselves into outer space (hint: they die)
-            if (playerLocation.getName().equals("Outer Space")) {
+            if (player.getPlayerLocation().getName().equals("Outer Space")) {
                 System.out.println("You have ejected yourself into outer space. You blew up and died from the vacuum!" +
                         Colours.RED + "\nYou were not the imposter!" + Colours.RESET);
                 System.exit(6);
@@ -42,16 +42,16 @@ public class Adventure {
 
             //test to see if useItem works
             String[] stringArray = choice.split(" ");
-            if (stringArray[0].toLowerCase().equals("use")) {
+            if (stringArray[0].equalsIgnoreCase("use")) {
                 useItem(choice);
             } else {
                 //enhanced switch case
                 switch (choice.toLowerCase()) {
                     //movement
-                    case "go north", "north", "go n", "n" -> playerLocation = moveNorth(playerLocation);
-                    case "go south", "south", "go s", "s" -> playerLocation = moveSouth(playerLocation);
-                    case "go east", "east", "go e", "e" -> playerLocation = moveEast(playerLocation);
-                    case "go west", "west", "go w", "w" -> playerLocation = moveWest(playerLocation);
+                    case "go north", "north", "go n", "n" -> player.moveNorth(player.getPlayerLocation());
+                    case "go south", "south", "go s", "s" -> player.moveSouth(player.getPlayerLocation());
+                    case "go east", "east", "go e", "e" -> player.moveEast(player.getPlayerLocation());
+                    case "go west", "west", "go w", "w" -> player.moveWest(player.getPlayerLocation());
                     //actions
                     case "look", "l" -> look();
                     case "help", "h" -> help();
@@ -93,111 +93,67 @@ public class Adventure {
 
     //allows you to see the description of a room
     private void look() {
-        if (playerLocation.isLitUp()) {
+        if (player.getPlayerLocation().isLitUp()) {
             System.out.printf(Colours.GREEN_BOLD+"""
                     %s
-                    """+Colours.RESET, playerLocation.getDescription());
+                    """+Colours.RESET, player.getPlayerLocation().getDescription());
         } else { //unless it is a dark room (note that you can still navigate dark rooms, but it may be fatal later on)
             System.out.println(Colours.RED + "It is too dark to see anything." + Colours.RESET);
         }
     }
 
-    private Room moveNorth(Room room) {
-        if (room.getNeighbourNorth() != null) {
-            if (room.getNeighbourNorth().isLocked()) {
-                System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
-                return room;
-            }
-            newRoom = true;
-            previousLocation = room;
-            return room.getNeighbourNorth();
-        } else {
-            System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
-            return room;
-        }
-    }
-
-    private Room moveSouth(Room room) {
-        if (room.getNeighbourSouth() != null) {
-            if (room.getNeighbourSouth().isLocked()) {
-                System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
-                return room;
-            }
-            newRoom = true;
-            previousLocation = room;
-            return room.getNeighbourSouth();
-        } else {
-            System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
-            return room;
-        }
-    }
-
-    private Room moveWest(Room room) {
-        if (room.getNeighbourWest() != null) {
-            if (room.getNeighbourWest().isLocked()) {
-                System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
-                return room;
-            }
-            newRoom = true;
-            previousLocation = room;
-            return room.getNeighbourWest();
-        } else {
-            System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
-            return room;
-        }
-    }
-
-    private Room moveEast(Room room) {
-        if (room.getNeighbourEast() != null) {
-            if (room.getNeighbourEast().isLocked()) {
-                System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
-                return room;
-            }
-            newRoom = true;
-            previousLocation = room;
-            return room.getNeighbourEast();
-        } else {
-            System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
-            return room;
-        }
-    }
-
     private void passphraseToRoom14() {
-        if (playerLocation.getNeighbourEast() != null) {
-            if (playerLocation.getNeighbourEast().getName().equals("Engine Room Vestibule")) {
+        if (player.getPlayerLocation().getNeighbourEast() != null) {
+            if (player.getPlayerLocation().getNeighbourEast().getName().equals("Engine Room Vestibule")) {
                 System.out.println("A " + Colours.BLUE + "beep" + Colours.RESET + " sounds from the door. " +
                         "Then it says, in a robotic voice:\n" + Colours.BLUE + "\"Pass-phrase Correct!\"" + Colours.RESET);
-                playerLocation.getNeighbourEast().setLocked(false);
+                player.getPlayerLocation().getNeighbourEast().setLocked(false);
+            }
+        }
+    }
+    private void teleportRoomXToRoomX(String input) {
+        if (input.contains("Umbrella")) {
+            if (player.getPlayerLocation().getName().equals("East Airlock")){
+                System.out.println("The teleporter turns on and the room around you changes.");
+
             }
         }
     }
 
     private void unlockRoom(String input) {
         if (input.contains("unlock n")) {
-            if (playerLocation.getNeighbourNorth() != null && playerLocation.getNeighbourNorth().isLocked()) {
-                playerLocation.getNeighbourNorth().setLocked(false);
-                System.out.println(Colours.PURPLE_BOLD+playerLocation.getNeighbourNorth().getName()+" unlocked!"+Colours.RESET);
+            if (player.getPlayerLocation().getNeighbourNorth() != null &&
+                    player.getPlayerLocation().getNeighbourNorth().isLocked()) {
+                player.getPlayerLocation().getNeighbourNorth().setLocked(false);
+                System.out.println(Colours.PURPLE_BOLD+player.getPlayerLocation().getNeighbourNorth().getName()+
+                        " unlocked!"+Colours.RESET);
             } else {
                 invalidCommand();
             }
         } else if (input.contains("unlock s")) {
-            if (playerLocation.getNeighbourSouth() != null && playerLocation.getNeighbourSouth().isLocked()) {
-                playerLocation.getNeighbourSouth().setLocked(false);
-                System.out.println(Colours.PURPLE_BOLD+playerLocation.getNeighbourSouth().getName()+" unlocked!"+Colours.RESET);
+            if (player.getPlayerLocation().getNeighbourSouth() != null &&
+                    player.getPlayerLocation().getNeighbourSouth().isLocked()) {
+                player.getPlayerLocation().getNeighbourSouth().setLocked(false);
+                System.out.println(Colours.PURPLE_BOLD+player.getPlayerLocation().getNeighbourSouth().getName()+
+                        " unlocked!"+Colours.RESET);
             } else {
                 invalidCommand();
             }
         } else if (input.contains("unlock e")) {
-            if (playerLocation.getNeighbourEast() != null && playerLocation.getNeighbourEast().isLocked()) {
-                playerLocation.getNeighbourEast().setLocked(false);
-                System.out.println(Colours.PURPLE_BOLD+playerLocation.getNeighbourEast().getName()+" unlocked!"+Colours.RESET);
+            if (player.getPlayerLocation().getNeighbourEast() != null &&
+                    player.getPlayerLocation().getNeighbourEast().isLocked()) {
+                player.getPlayerLocation().getNeighbourEast().setLocked(false);
+                System.out.println(Colours.PURPLE_BOLD+player.getPlayerLocation().getNeighbourEast().getName()+
+                        " unlocked!"+Colours.RESET);
             } else {
                 invalidCommand();
             }
         } else if (input.contains("unlock w")) {
-            if (playerLocation.getNeighbourWest() != null && playerLocation.getNeighbourWest().isLocked()) {
-                playerLocation.getNeighbourWest().setLocked(false);
-                System.out.println(Colours.PURPLE_BOLD+playerLocation.getNeighbourWest().getName()+" unlocked!"+Colours.RESET);
+            if (player.getPlayerLocation().getNeighbourWest() != null &&
+                    player.getPlayerLocation().getNeighbourWest().isLocked()) {
+                player.getPlayerLocation().getNeighbourWest().setLocked(false);
+                System.out.println(Colours.PURPLE_BOLD+player.getPlayerLocation().getNeighbourWest().getName()+
+                        " unlocked!"+Colours.RESET);
             } else {
                 invalidCommand();
             }
@@ -222,23 +178,23 @@ public class Adventure {
 
     private void skeletonKey() {
         System.out.println(Colours.PURPLE_BOLD + "You used the Skeleton Key to open all nearby locked doors!" + Colours.RESET);
-        if (playerLocation.getNeighbourNorth() != null) {
-            playerLocation.getNeighbourNorth().setLocked(false);
+        if (player.getPlayerLocation().getNeighbourNorth() != null) {
+            player.getPlayerLocation().getNeighbourNorth().setLocked(false);
         }
-        if (playerLocation.getNeighbourSouth() != null) {
-            playerLocation.getNeighbourSouth().setLocked(false);
+        if (player.getPlayerLocation().getNeighbourSouth() != null) {
+            player.getPlayerLocation().getNeighbourSouth().setLocked(false);
         }
-        if (playerLocation.getNeighbourEast() != null) {
-            playerLocation.getNeighbourEast().setLocked(false);
+        if (player.getPlayerLocation().getNeighbourEast() != null) {
+            player.getPlayerLocation().getNeighbourEast().setLocked(false);
         }
-        if (playerLocation.getNeighbourWest() != null) {
-            playerLocation.getNeighbourWest().setLocked(false);
+        if (player.getPlayerLocation().getNeighbourWest() != null) {
+            player.getPlayerLocation().getNeighbourWest().setLocked(false);
         }
     }
 
     private void magicLanternCalledBob() {
         System.out.println(Colours.PURPLE_BOLD + "You cast a magic spell to summon a floating ethereal " +
                 "lantern inexplicably named Bob" + Colours.RESET);
-        playerLocation.setLitUp(true);
+        player.getPlayerLocation().setLitUp(true);
     }
 }

@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-
-
-public class RoomLayout {
+public class Map {
 
     private Room current;
 
