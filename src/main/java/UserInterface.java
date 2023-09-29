@@ -145,9 +145,7 @@ public class UserInterface {
 
     private void inventory(){
         String string = "------------\n";
-        for (Item item: adventure.getPlayer().getInventory()) {
-            string += item.getName() + " : " + item.getFunction()+"\n";
-        }
+        string += adventure.getPlayer().viewInventory();
         if(string.equals("------------\n") || string.equals("------------\n------------")){
             System.out.println(Colours.RED+"Inventory is empty!"+Colours.RESET);
         }else{
@@ -160,7 +158,7 @@ public class UserInterface {
         if (stringArray.length > 1) {
             String itemName = stringArray[1];
             for (Item item: adventure.getPlayer().getInventory()) {
-                if (item.getName().equalsIgnoreCase(itemName)) {
+                if (item.getName().toLowerCase().contains(itemName.toLowerCase())) {
                     itemDescription += item.getItemBrief()+"\n"+item.getDescription();
                 }
             }

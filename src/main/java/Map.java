@@ -29,17 +29,23 @@ public class Map {
                                     Connected to a room via a door to the North.
                                     Connected to an Airlock to the West.""");
                                     //items: Keycard to room14
+        room3.addItemToRoom(new Item("Engine Room Keycard","Keycard","Grants access to " +
+                                                 "the Engine Room to the South."));
         Room room4 = new Room("Motivational Hallway", """
                                     Motivational posters line the walls of the hallway. Your eye stops on a picture of
                                     a cute kitten hanging from a cliff, which states, encouragingly, 'Hang in there!'
                                     Connected to rooms via doors to the North and West.
                                     The door to the North is locked and requires a keycard to enter.""");
                                     //items: Motivational Poster
+        room4.addItemToRoom(new Item("Motivational Poster","Junk","A motivational poster with " +
+                                        "picture of a cute kitten hanging from a cliff, which states, encouragingly, 'Hang in there!'"));
         Room room5 = new Room("Suspiciously-narrow Hallway", """
                                     The hallway is so narrow that you would have to crawl to get through. On the floor is
                                     a well-crafted origami unicorn.
                                     Connected to rooms via doors to the East and West.""");
                                     //items: Origami Unicorn
+        room5.addItemToRoom(new Item("Origami Unicorn","Junk","A well-crafted origami sculpture " +
+                                          "depicting a unicorn. You are unsure how it is possible to fold something so meticulously."));
         Room room6 = new Room("Origami Room", """
                                     The floor is absolutely littered with origami animals of all shapes and sizes and
                                     colours. One of the pieces is so tall that it touches the ceiling and it depicts a
@@ -108,6 +114,9 @@ public class Map {
         Room room19 = new Room("Room 19", "");
         Room room20 = new Room("Room 20", "");
                                     //items: Keycard to room30
+        room20.addItemToRoom(new Item("Bridge Keycard","Keycard","Grants access to " +
+                                                  "the Bridge of Discovery Vessel 'Hildebrand' to the North."));
+
         Room room21 = new Room("Room 21", "");
 
         // Top section
@@ -179,6 +188,8 @@ public class Map {
                                      "\nYou could leave out the docking port to the West, but it would "+
                                      Colours.RED+"kill"+Colours.GREEN_BOLD+" you.");
                                      //items: Keycard to room53
+        room35.addItemToRoom(new Item("Navigator Quarters Keycard","Keycard","Grants access to " +
+                                                  "the Navigator Quarters to the North."));
         Room room36 = new Room("Engine Crew Quarters A", """
                                      One enormous bed covers half the room, and on the bed are twelve separate pillows
                                      and duvets. It seems as though the Engine Crew used to snuggle when they slept here.
@@ -190,6 +201,8 @@ public class Map {
                                      The bets lie in a pile in the middle of the table, and you notice a shiny flashlight.
                                      Connected to rooms via doors to the East and North.""",true);
                                      //items: Flashlight
+        room37.addItemToRoom(new Item("Flashlight","Tool","A shiny flashlight that looks " +
+                                            "very expensive. As you look closer, you realise it is made of polished silver."));
         Room room38 = new Room("Crew Quarters A", """
                                      The smell of burnt meat, as well as copious amount of smoke, fills the air and you
                                      see that the source is a BBQ grill that someone has left unattended. Red solo cups
@@ -198,6 +211,8 @@ public class Map {
                                      left the Crew Quarters.
                                      Connected to rooms via doors to the West and South.""");
                                      //items: Red Solo Cup (empty)
+        room38.addItemToRoom(new Item("Red Solo Cup (empty)","Container","This cup smells of beer, " +
+                                                  "but it is now empty. It could probably be filled with something else."));
         Room room39 = new Room("Vandalised Crew Quarters A", """
                                      The vandal from previous rooms has seemingly been in here as well, as the lights have
                                      been torn out of their sockets. There is also a battle-droid lying in several pieces
@@ -209,6 +224,8 @@ public class Map {
                                      bottles lie discarded on the ground, as well as several meal-trays.
                                      Connected to rooms via doors to the West and South.""",false,false);
                                      //items: Beer Bottle (empty)
+        room40.addItemToRoom(new Item("Beer Bottle (empty)","Container","This bottle smells of beer, " +
+                                                  "but it is now empty. It could probably be filled with something else."));
         Room room41 = new Room("Crew Quarters B", """
                                      Six bunkbeds line the room, three along each of the two walls. Between the bunks is
                                      a mess of dirty clothes, empty bottles, and half-eaten meal-trays. Mould covers the
@@ -216,6 +233,10 @@ public class Map {
                                      socks lies a keycard that reads 'Engine Crew Quarters A'.
                                      Connected to a room via a door to the North.""",false,false);
                                      //items: Keycard to room37 | Nasty Sock-Mushrooms (poisoned)
+        room41.addItemToRoom(new Item("Engine Crew Quarters Keycard","Keycard","Grants access to " +
+                                                  "the Engine Crew Quarters to the South."));
+        room41.addItemToRoom(new Item("Nasty Sock-Mushrooms","Food","Why would you pick this up?" +
+                                                  "It is clearly bad for you..."));
         Room room42 = new Room("Engine Crew Quarters B", """
                                      Several machines are playing synth music formed from many differently-pitched beeps
                                      and a massive totem of machine parts stands along the backwall, and it seems to have
@@ -223,6 +244,8 @@ public class Map {
                                      that reads 'Hallway to Crew Quarters'.
                                      Connected to a room via a door to the South.""");
                                      //items: Keycard to room7
+        room42.addItemToRoom(new Item("Hallway Keycard","Keycard","Grants access to " +
+                                                  "the locked hallway near the Crew Quarters to the North."));
         Room room43 = new Room("Engine Crew Quarters B", """
                                      Three cleaner bots shuffle around on the floor, each of them with a knife taped in front
                                      of it and a balloon on its back. Credsticks a piled on a nearby table and it seemed

@@ -72,7 +72,7 @@ public class Adventure {
     public int addItem(String name) {
         Item item = null;
         for (Item i : player.getPlayerLocation().getRoomItems()) {
-            if (i.getName().equalsIgnoreCase(name)) {
+            if (i.getName().toLowerCase().contains(name.toLowerCase())) {
                 item = i;
             }
         }
@@ -95,7 +95,7 @@ public class Adventure {
     public int dropItem(String name) {
         Item item = null;
         for (Item i : player.getInventory()) {
-            if (i.getName().equalsIgnoreCase(name)) {
+            if (i.getName().toLowerCase().contains(name.toLowerCase())) {
                 item = i;
             }
         }
