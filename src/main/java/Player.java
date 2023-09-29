@@ -1,14 +1,19 @@
-import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Player {
     private Room playerLocation;
-    private Map roomLayout;
-    private boolean newRoom;
+    private ArrayList<Item> inventory;
 
     public Player() {
-        roomLayout = new Map();
-        roomLayout.buildMap();
-        playerLocation = roomLayout.starterRoom();
+        inventory = new ArrayList<>();
+    }
+
+    public String viewInventory(){
+        String string = "";
+        for (Item item: inventory) {
+            string += item;
+        }
+        return string;
     }
     public Room getPlayerLocation(){
         return playerLocation;
@@ -16,48 +21,16 @@ public class Player {
     public void setPlayerLocation(Room room){
         playerLocation = room;
     }
-
-    public int moveNorth(Room room) {
-        if (room.getNeighbourNorth() != null) {
-            if (room.getNeighbourNorth().isLocked()) {
-                return 0;
-            }
-            return 1;
-        }else {
-            return 2;
-        }
+    public void moveNorth() {
+        setPlayerLocation(playerLocation.getNeighbourNorth());
     }
-
-    public int moveSouth(Room room) {
-        if (room.getNeighbourSouth() != null) {
-            if (room.getNeighbourSouth().isLocked()) {
-                return 0;
-            }
-            return 1;
-        }else {
-            return 2;
-        }
+    public void moveSouth() {
+        setPlayerLocation(playerLocation.getNeighbourSouth());
     }
-
-    public int moveEast(Room room) {
-        if (room.getNeighbourEast() != null) {
-            if (room.getNeighbourEast().isLocked()) {
-                return 0;
-            }
-            return 1;
-        }else {
-            return 2;
-        }
+    public void moveEast() {
+        setPlayerLocation(playerLocation.getNeighbourEast());
     }
-
-    public int moveWest(Room room) {
-        if (room.getNeighbourWest() != null) {
-            if (room.getNeighbourWest().isLocked()) {
-                return 0;
-            }
-            return 1;
-        }else {
-            return 2;
-        }
+    public void moveWest() {
+        setPlayerLocation(playerLocation.getNeighbourWest());
     }
 }
