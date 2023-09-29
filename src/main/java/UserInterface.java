@@ -134,10 +134,19 @@ public class UserInterface {
     //allows you to see the description of a room
     //TODO make dynamic to show items (and maybe locked rooms)
     private void look() {
+        String string = "";
         if (adventure.getPlayerLocation().isLitUp()) {
-            System.out.printf(Colours.GREEN_BOLD+"""
-                    %s
-                    """+Colours.RESET, adventure.getPlayerLocation().getDescription());
+            string += Colours.GREEN_BOLD+adventure.getPlayerLocation().getDescription();
+            if (!adventure.getPlayerLocation().getRoomItems().isEmpty()) {
+                string += "\nItems found in the room:" +
+                          "\n------------------------";
+                for (Item item : adventure.getPlayerLocation().getRoomItems()) {
+                    string += "\n" + item.getName() + ": " + item.getDescription();
+                }
+                string += "\n------------------------";
+            }
+            string += Colours.RESET;
+            System.out.println(string);
         } else { //unless it is a dark room (note that you can still navigate dark rooms, but it may be fatal later on)
             System.out.println(Colours.RED + "It is too dark to see anything." + Colours.RESET);
         }

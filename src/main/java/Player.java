@@ -76,6 +76,7 @@ public class Player {
                 """+Colours.RED+"""
                 You have to get to room 34.
                 Your starting position is room 00."""+Colours.RESET;
-        inventory.add(new Item("Map of Hildebrand","Map",map));
+        inventory.add(new Item("Map of Hildebrand","Map",map,
+                "A Map of the Discovery Vessel 'Hildebrand'."));
     }
 }
