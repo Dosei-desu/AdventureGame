@@ -310,6 +310,11 @@ public class Map {
         room54.setNeighbours(room53, room55, null, null);
         room55.setNeighbours(null, null, null, room54);
 
+        //--------------------------------------------------------------
+        // Room items
+
+        room0.addItemToRoom(new Item("Test","Tester","This is a test object"));
+
         // Start Room
         current = room0;
     }

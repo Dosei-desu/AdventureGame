@@ -40,8 +40,14 @@ public class UserInterface {
             //test to see if useItem works
             String[] stringArray = choice.split(" ");
             if (stringArray[0].equalsIgnoreCase("use")) {
-                useItem(choice);
-            } else {
+                useItem(stringArray);
+            }else if(stringArray[0].equalsIgnoreCase("take")){
+                takeItem(stringArray);
+            } else if(stringArray[0].equalsIgnoreCase("drop")) {
+                dropItem(stringArray);
+            } else if(stringArray[0].equalsIgnoreCase("inspect")) {
+                inspectItem(stringArray);
+            }else{
                 //enhanced switch case
                 switch (choice.toLowerCase()) {
                     //movement
@@ -85,6 +91,7 @@ public class UserInterface {
                     //actions
                     case "look", "l" -> look();
                     case "help", "h" -> help();
+                    case "inventory", "inv", "i" -> inventory();
                     case "exit" -> exit(); //aka diving head-first out the airlock
                     //special actions
                     case "unlock north", "unlock n" -> unlockRoom(choice);
@@ -109,9 +116,12 @@ public class UserInterface {
         System.out.print("""
                 - You can move in the cardinal direction (North, East, South, West) by typing "Go direction" or just "Direction".
                 - "Look" allows you to see more in-depth information about the room you are currently in.
-                - "Exit" makes you commit suicide by leaping from the airlock. Why would you do that?
+                - "Take ___" to take an item from a room
+                - "Drop ___" to discard an item from inventory
+                - "Inventory" to view all items in inventory
                 - Locked rooms require specific keys.
                 - Dark rooms require a flashlight.
+                - "Exit" makes you commit suicide by leaping from the airlock. Why would you do that?
                 """);
     }
 
@@ -122,6 +132,7 @@ public class UserInterface {
     }
 
     //allows you to see the description of a room
+    //TODO make dynamic to show items (and maybe locked rooms)
     private void look() {
         if (adventure.getPlayerLocation().isLitUp()) {
             System.out.printf(Colours.GREEN_BOLD+"""
@@ -132,22 +143,43 @@ public class UserInterface {
         }
     }
 
+    private void inventory(){
+        String string = "------------\n";
+        for (Item item: adventure.getPlayer().getInventory()) {
+            string += item.getName() + " : " + item.getFunction()+"\n";
+        }
+        if(string.equals("------------\n") || string.equals("------------\n------------")){
+            System.out.println(Colours.RED+"Inventory is empty!"+Colours.RESET);
+        }else{
+            System.out.println(string+"------------");
+        }
+    }
+
+    private void inspectItem(String[] stringArray){
+        String itemDescription = "";
+        if (stringArray.length > 1) {
+            String itemName = stringArray[1];
+            for (Item item: adventure.getPlayer().getInventory()) {
+                if (item.getName().equalsIgnoreCase(itemName)) {
+                    itemDescription += item.getItemBrief()+"\n"+item.getDescription();
+                }
+            }
+            if(itemDescription.equals("")){
+                System.out.println(Colours.RED+"Item not found!"+Colours.RESET);
+            }else {
+                System.out.println(itemDescription);
+            }
+        } else {
+            invalidCommand();
+        }
+    }
+
     private void passphraseToRoom14() {
         if (adventure.getPlayerLocation().getNeighbourEast() != null) {
             if (adventure.getPlayerLocation().getNeighbourEast().getName().equals("Engine Room Vestibule")) {
                 System.out.println("A " + Colours.BLUE + "beep" + Colours.RESET + " sounds from the door. " +
                         "Then it says, in a robotic voice:\n" + Colours.BLUE + "\"Pass-phrase Correct!\"" + Colours.RESET);
                 adventure.getPlayerLocation().getNeighbourEast().setLocked(false);
-            }
-        }
-    }
-
-    //consider how you want to make this work, because i personally don't know
-    private void teleportRoomXToRoomX(String input) {
-        if (input.contains("Umbrella")) {
-            if (adventure.getPlayerLocation().getName().equals("East Airlock")){
-                System.out.println("The teleporter turns on and the room around you changes.");
-
             }
         }
     }
@@ -194,11 +226,35 @@ public class UserInterface {
         }
     }
 
-    private void useItem(String input) { //dummy method for now
-        String[] stringArray = input.split(" ");
+    private void useItem(String[] stringArray) {
         if (stringArray.length > 1) {
             String itemName = stringArray[1];
             System.out.println(Colours.PURPLE_BOLD+"Using " + itemName+Colours.RESET);
+        } else {
+            invalidCommand();
+        }
+    }
+
+    private void takeItem(String[] stringArray) {
+        if (stringArray.length > 1) {
+            String itemName = stringArray[1];
+            switch (adventure.addItem(itemName)){
+                case 0 -> System.out.println(Colours.RED+"Item already acquired!"+Colours.RESET);
+                case 1 -> System.out.println(Colours.PURPLE_BOLD+"Item acquired!"+Colours.RESET);
+                case 2 -> System.out.println(Colours.RED+"Item doesn't exist!"+Colours.RESET);
+            }
+        } else {
+            invalidCommand();
+        }
+    }
+
+    private void dropItem(String[] stringArray) {
+        if (stringArray.length > 1) {
+            String itemName = stringArray[1];
+            switch (adventure.dropItem(itemName)){
+                case 0 -> System.out.println(Colours.RED+"Item not in inventory!"+Colours.RESET);
+                case 1 -> System.out.println(Colours.PURPLE_BOLD+"Item discard!"+Colours.RESET);
+            }
         } else {
             invalidCommand();
         }

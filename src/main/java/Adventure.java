@@ -2,19 +2,23 @@ public class Adventure {
     private Player player;
     private Map map;
 
-    public Adventure(){
+    public Adventure() {
         player = new Player();
         map = new Map();
         map.buildMap();
         player.setPlayerLocation(map.starterRoom());
     }
 
-    public Room getPlayerLocation(){
+    public Room getPlayerLocation() {
         return player.getPlayerLocation();
     }
 
-    public void setPlayerLocation(Room room){
+    public void setPlayerLocation(Room room) {
         player.setPlayerLocation(room);
+    }
+
+    public Player getPlayer(){
+        return player;
     }
 
     public int moveNorth() {
@@ -24,7 +28,7 @@ public class Adventure {
             }
             player.moveNorth();
             return 1;
-        }else {
+        } else {
             return 2;
         }
     }
@@ -36,7 +40,7 @@ public class Adventure {
             }
             player.moveSouth();
             return 1;
-        }else {
+        } else {
             return 2;
         }
     }
@@ -48,7 +52,7 @@ public class Adventure {
             }
             player.moveEast();
             return 1;
-        }else {
+        } else {
             return 2;
         }
     }
@@ -60,8 +64,49 @@ public class Adventure {
             }
             player.moveWest();
             return 1;
-        }else {
+        } else {
             return 2;
+        }
+    }
+
+    public int addItem(String name) {
+        Item item = null;
+        for (Item i : player.getPlayerLocation().getRoomItems()) {
+            if (i.getName().equalsIgnoreCase(name)) {
+                item = i;
+            }
+        }
+        if (player.getPlayerLocation().getRoomItems().contains(item)) {
+            if (player.getInventory().contains(item)) {
+                //doesnt add item if it already exists
+                return 0;
+            } else {
+                //successfully taken item
+                player.takeItem(item); //adds to player inventory
+                getPlayerLocation().removeItemFromRoom(item); //removes from room item list
+                return 1;
+            }
+        } else {
+            //item doesn't exist
+            return 2;
+        }
+    }
+
+    public int dropItem(String name) {
+        Item item = null;
+        for (Item i : player.getInventory()) {
+            if (i.getName().equalsIgnoreCase(name)) {
+                item = i;
+            }
+        }
+        if (player.getInventory().contains(item)) {
+            //successfully dropped item
+            player.dropItem(item); //removes to player inventory
+            getPlayerLocation().addItemToRoom(item); //adds from room item list
+            return 1;
+        } else {
+            //item doesn't exist
+            return 0;
         }
     }
 }

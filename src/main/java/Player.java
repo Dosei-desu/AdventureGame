@@ -8,10 +8,22 @@ public class Player {
         inventory = new ArrayList<>();
     }
 
+    public ArrayList<Item> getInventory(){
+        return inventory;
+    }
+
+    public void takeItem(Item item){
+        inventory.add(item);
+    }
+
+    public void dropItem(Item item){
+        inventory.remove(item);
+    }
+
     public String viewInventory(){
         String string = "";
         for (Item item: inventory) {
-            string += item;
+            string += item.getItemBrief()+"\n";
         }
         return string;
     }

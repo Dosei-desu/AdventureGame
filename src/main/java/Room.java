@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Room {
     private String name;
     private String description;
@@ -7,6 +9,7 @@ public class Room {
     private Room neighbourSouth;
     private Room neighbourWest;
     private Room neighbourEast;
+    private ArrayList<Item> roomItems;
 
     //standard constructor with just name and description (default values are set for Locked and LitUp)
     public Room(String name, String description) {
@@ -14,6 +17,7 @@ public class Room {
         this.description = description;
         this.locked = false;
         this.litUp = true;
+        roomItems = new ArrayList<>();
     }
 
     //constructor for rooms that are locked (LitUp is defaulted to False)
@@ -22,6 +26,7 @@ public class Room {
         this.description = description;
         this.locked = locked;
         this.litUp = true;
+        roomItems = new ArrayList<>();
     }
 
     //constructor for rooms where you want to set Locked and LitUp manually
@@ -30,6 +35,19 @@ public class Room {
         this.description = description;
         this.locked = locked;
         this.litUp = litUp;
+        roomItems = new ArrayList<>();
+    }
+
+    public void addItemToRoom(Item item){
+        roomItems.add(item);
+    }
+
+    public ArrayList<Item> getRoomItems(){
+        return roomItems;
+    }
+
+    public void removeItemFromRoom(Item item){
+        roomItems.remove(item);
     }
 
     public boolean isLocked() {
