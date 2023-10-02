@@ -249,7 +249,6 @@ public class UserInterface {
                 case 1 -> System.out.println(Colours.PURPLE_BOLD + "Nom nom nom." + Colours.RESET);
                 default -> System.out.println(returnNumber);
             }
-
         } else {
             invalidCommand();
         }
