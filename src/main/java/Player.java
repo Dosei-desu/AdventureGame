@@ -3,6 +3,7 @@ import java.util.ArrayList;
 public class Player {
     private Room playerLocation;
     private ArrayList<Item> inventory;
+    private Item hildebrandMap;
 
     public Player() {
         inventory = new ArrayList<>();
@@ -19,6 +20,27 @@ public class Player {
 
     public void dropItem(Item item){
         inventory.remove(item);
+    }
+
+    public Item useItem(String name){
+        Item item = null;
+        for (Item i : getInventory()) {
+            if (i.getName().toLowerCase().contains(name.toLowerCase())) {
+                item = i;
+            }
+        }
+        return item;
+    }
+
+    public int eatItem(Item item){
+        if(item instanceof Keycard || item == hildebrandMap){
+            return 0;
+        }else if(item instanceof Food){
+            inventory.remove(item);
+            return ((Food) item).getFoodHealthPoints();
+        }
+        inventory.remove(item);
+        return 1;
     }
 
     public String viewInventory(){
@@ -76,7 +98,8 @@ public class Player {
                 """+Colours.RED+"""
                 You have to get to room 34.
                 Your starting position is room 00."""+Colours.RESET;
-        inventory.add(new Item("Map of Hildebrand","Map",map,
-                "A Map of the Discovery Vessel 'Hildebrand'."));
+        hildebrandMap = new Item("Map of Hildebrand","Map",map,
+                "A Map of the Discovery Vessel 'Hildebrand'.");
+        inventory.add(hildebrandMap);
     }
 }

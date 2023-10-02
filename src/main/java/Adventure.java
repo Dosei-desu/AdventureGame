@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Adventure {
     private Player player;
     private Map map;
@@ -79,6 +81,7 @@ public class Adventure {
         if (player.getPlayerLocation().getRoomItems().contains(item)) {
             if (player.getInventory().contains(item)) {
                 //doesnt add item if it already exists
+                //doesn't work...
                 return 0;
             } else {
                 //successfully taken item
@@ -108,5 +111,39 @@ public class Adventure {
             //item doesn't exist
             return 0;
         }
+    }
+
+    public int eatItem(String name){
+        Item item = null;
+        for (Item i : player.getInventory()) {
+            if (i.getName().toLowerCase().contains(name.toLowerCase())) {
+                item = i;
+            }
+        }
+        return player.eatItem(item);
+    }
+
+    public Item useItem(String name){
+        return player.useItem(name);
+    }
+
+    public ArrayList<Item> getPlayerInventory(){
+        return player.getInventory();
+    }
+
+    public Room getRoomNorth(){
+        return getPlayerLocation().getNeighbourNorth();
+    }
+
+    public Room getRoomSouth(){
+        return getPlayerLocation().getNeighbourSouth();
+    }
+
+    public Room getRoomEast(){
+        return getPlayerLocation().getNeighbourEast();
+    }
+
+    public Room getRoomWest(){
+        return getPlayerLocation().getNeighbourWest();
     }
 }

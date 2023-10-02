@@ -1,6 +1,7 @@
 public class Map {
 
     private Room current;
+    private Room roomToTeleportTo;
 
     public void buildMap() {
         // Rooms
@@ -29,9 +30,9 @@ public class Map {
                                     Connected to a room via a door to the North.
                                     Connected to an Airlock to the West.""");
                                     //items: Keycard to room14
-        room3.addItemToRoom(new Item("Engine Room Keycard","Keycard","Grants access to " +
+        room3.addItemToRoom(new Keycard("Engine Room Keycard","Keycard","Grants access to " +
                                                  "the Engine Room to the South.","a filthy keycard with " +
-                                                 "the words 'Engine Room' on it."));
+                                                 "the words 'Engine Room' on it.","Engine Room Vestibule"));
         Room room4 = new Room("Motivational Hallway", """
                                     Motivational posters line the walls of the hallway. Your eye stops on a picture of
                                     a cute kitten hanging from a cliff, which states, encouragingly, 'Hang in there!'
@@ -117,9 +118,9 @@ public class Map {
         Room room19 = new Room("Room 19", "");
         Room room20 = new Room("Room 20", "");
                                     //items: Keycard to room30
-        room20.addItemToRoom(new Item("Bridge Keycard","Keycard","Grants access to " +
+        room20.addItemToRoom(new Keycard("Bridge Keycard","Keycard","Grants access to " +
                                                   "the Bridge of Discovery Vessel 'Hildebrand' to the North.",
-                "A keycard that reads 'Bridge' on it."));
+                "A keycard that reads 'Bridge' on it.","Room 30"));
 
         Room room21 = new Room("Room 21", "");
 
@@ -192,9 +193,9 @@ public class Map {
                                      "\nYou could leave out the docking port to the West, but it would "+
                                      Colours.RED+"kill"+Colours.GREEN_BOLD+" you.");
                                      //items: Keycard to room53
-        room35.addItemToRoom(new Item("Navigator Quarters Keycard","Keycard","Grants access to " +
+        room35.addItemToRoom(new Keycard("Navigator Quarters Keycard","Keycard","Grants access to " +
                                                   "the Navigator Quarters to the North.",
-                "A keycard that reads 'Navigator Quarters' on it."));
+                "A keycard that reads 'Navigator Quarters' on it.","Navigator Quarters"));
         Room room36 = new Room("Engine Crew Quarters A", """
                                      One enormous bed covers half the room, and on the bed are twelve separate pillows
                                      and duvets. It seems as though the Engine Crew used to snuggle when they slept here.
@@ -230,10 +231,12 @@ public class Map {
                                      power supply stand on a table in the corner. Next to it is an open fridge. Beer
                                      bottles lie discarded on the ground, as well as several meal-trays.
                                      Connected to rooms via doors to the West and South.""",false,false);
-                                     //items: Beer Bottle (empty)
+                                     //items: Beer Bottle (empty) | Meal-Tray Leftovers
         room40.addItemToRoom(new Item("Beer Bottle (empty)","Container","This bottle smells of beer, " +
                                                   "but it is now empty. It could probably be filled with something else.",
-                "An empty beer bottle."));
+                                 "An empty beer bottle."));
+        room40.addItemToRoom(new Food("Meal-Tray Leftovers","Consumable","Leftovers from a meal-tray.",
+                                "A Meal-Tray with some leftovers inside.",20));
         Room room41 = new Room("Crew Quarters B", """
                                      Six bunkbeds line the room, three along each of the two walls. Between the bunks is
                                      a mess of dirty clothes, empty bottles, and half-eaten meal-trays. Mould covers the
@@ -241,11 +244,12 @@ public class Map {
                                      socks lies a keycard that reads 'Engine Crew Quarters A'.
                                      Connected to a room via a door to the North.""",false,false);
                                      //items: Keycard to room37 | Nasty Sock-Mushrooms (poisoned)
-        room41.addItemToRoom(new Item("Engine Crew Quarters Keycard","Keycard","Grants access to " +
+        room41.addItemToRoom(new Keycard("Engine Crew Quarters Keycard","Keycard","Grants access to " +
                                                   "the Engine Crew Quarters to the South.",
-                "A keycard that reads 'Engine Crew Quarters A'."));
-        room41.addItemToRoom(new Item("Nasty Sock-Mushrooms","Food","Why would you pick this up? " +
-                                                  "It is clearly bad for you...", "Mushrooms sprouting from a sock."));
+                "A keycard that reads 'Engine Crew Quarters A'.","Engine Crew Quarters A"));
+        room41.addItemToRoom(new Food("Nasty Sock-Mushrooms","Consumable","Why would you pick this up? " +
+                                                  "It is clearly bad for you...", "Mushrooms sprouting from a sock.",
+                                                  -100));
         Room room42 = new Room("Engine Crew Quarters B", """
                                      Several machines are playing synth music formed from many differently-pitched beeps
                                      and a massive totem of machine parts stands along the backwall, and it seems to have
@@ -253,9 +257,9 @@ public class Map {
                                      that reads 'Hallway to Crew Quarters'.
                                      Connected to a room via a door to the South.""");
                                      //items: Keycard to room7
-        room42.addItemToRoom(new Item("Hallway Keycard","Keycard","Grants access to " +
+        room42.addItemToRoom(new Keycard("Hallway Keycard","Keycard","Grants access to " +
                                                   "the locked hallway near the Crew Quarters to the North.",
-                "A keycard that reads 'Hallway to Crew Quarters'."));
+                "A keycard that reads 'Hallway to Crew Quarters'.","Dirty Hallway"));
         Room room43 = new Room("Engine Crew Quarters B", """
                                      Three cleaner bots shuffle around on the floor, each of them with a knife taped in front
                                      of it and a balloon on its back. Credsticks a piled on a nearby table and it seemed
@@ -276,8 +280,8 @@ public class Map {
         Room room54 = new Room("Navigator Quarters", "");
         Room room55 = new Room("Navigator Quarters", "");
                                      //items: Keycard to room34(goal)
-        room55.addItemToRoom(new Item("Command Deck Keycard","Keycard","Grants access to " +
-                "the Command Deck to the North."));
+        room55.addItemToRoom(new Keycard("Command Deck Keycard","Keycard","Grants access to " +
+                "the Command Deck to the North.","","The Command Deck"));
 
         //--------------------------------------------------------------
         // Room Connections
@@ -351,11 +355,23 @@ public class Map {
         room0.addItemToRoom(new Item("Test","Tester","This is a test object",
                 "A pixellated JPG that says '404'."));
 
+        room0.addItemToRoom(new Keycard("Test Keycard 1","Dummy Keycard","This is a test object",
+                "A pixellated Keycard that says 'Room -1.","Room -1'"));
+
+        room0.addItemToRoom(new Keycard("Test Keycard 2","Dummy Keycard","This is a test object",
+                "A pixellated Keycard that says 'Room -1.","Room -1'"));
+
+
         // Start Room
         current = room0;
+        roomToTeleportTo = room20;
     }
 
     public Room starterRoom() {
         return current;
+    }
+
+    public Room teleportRoom(){
+        return roomToTeleportTo;
     }
 }

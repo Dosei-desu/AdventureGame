@@ -27,8 +27,7 @@ public class Item {
     }
 
     public String getItemBrief(){
-        String string = NAME + " : " + FUNCTION;
-        return string;
+        return NAME + " : " + FUNCTION;
     }
 
     public String getDescription() {

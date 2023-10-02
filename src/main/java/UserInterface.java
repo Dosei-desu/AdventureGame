@@ -14,15 +14,15 @@ public class UserInterface {
         newRoom = true;
 
 
-        System.out.print(Colours.BLUE_BOLD+"""
+        System.out.print(Colours.BLUE_BOLD + """
                 Welcome aboard the Discovery Vessel 'Hildebrand'.
-                """+Colours.RESET);
+                """ + Colours.RESET);
         do {
             //checks if it is a newroom, if it is the same room, it will not print the room name again
             if (newRoom) {
-                System.out.printf(Colours.BLUE_BOLD+"""
+                System.out.printf(Colours.BLUE_BOLD + """
                         You are currently in %s
-                        """+Colours.RESET, adventure.getPlayerLocation().getName());
+                        """ + Colours.RESET, adventure.getPlayerLocation().getName());
             }
             newRoom = false; //this is only set to true if the player successfully moves to a new room
 
@@ -39,15 +39,17 @@ public class UserInterface {
 
             //test to see if useItem works
             String[] stringArray = choice.split(" ");
-            if (stringArray[0].equalsIgnoreCase("use")) {
+            if (stringArray[0].equalsIgnoreCase("eat")) {
+                eatItem(stringArray);
+            } else if (stringArray[0].equalsIgnoreCase("use")) {
                 useItem(stringArray);
-            }else if(stringArray[0].equalsIgnoreCase("take")){
+            } else if (stringArray[0].equalsIgnoreCase("take")) {
                 takeItem(stringArray);
-            } else if(stringArray[0].equalsIgnoreCase("drop")) {
+            } else if (stringArray[0].equalsIgnoreCase("drop")) {
                 dropItem(stringArray);
-            } else if(stringArray[0].equalsIgnoreCase("inspect")) {
+            } else if (stringArray[0].equalsIgnoreCase("inspect")) {
                 inspectItem(stringArray);
-            }else{
+            } else {
                 //enhanced switch case
                 switch (choice.toLowerCase()) {
                     //movement
@@ -55,36 +57,28 @@ public class UserInterface {
                         //nested switch case to handle several scenarios (can move | cant move | locked room)
                         switch (adventure.moveNorth()) {
                             case 0 -> System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
-                            case 1 -> {
-                                newRoom = true;
-                            }
+                            case 1 -> newRoom = true;
                             case 2 -> System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
                         }
                     }
                     case "go south", "south", "go s", "s" -> {
                         switch (adventure.moveSouth()) {
                             case 0 -> System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
-                            case 1 -> {
-                                newRoom = true;
-                            }
+                            case 1 -> newRoom = true;
                             case 2 -> System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
                         }
                     }
                     case "go east", "east", "go e", "e" -> {
                         switch (adventure.moveEast()) {
                             case 0 -> System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
-                            case 1 -> {
-                                newRoom = true;
-                            }
+                            case 1 -> newRoom = true;
                             case 2 -> System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
                         }
                     }
                     case "go west", "west", "go w", "w" -> {
                         switch (adventure.moveWest()) {
                             case 0 -> System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
-                            case 1 -> {
-                                newRoom = true;
-                            }
+                            case 1 -> newRoom = true;
                             case 2 -> System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
                         }
                     }
@@ -119,9 +113,12 @@ public class UserInterface {
                 - "Take ___" to take an item from a room
                 - "Drop ___" to discard an item from inventory
                 - "Inventory" to view all items in inventory
+                - "Use ___" to use an item from inventory
+                - "Eat ___" to consume an item from inventory
+                - "Inspect ___" to inspect an item from inventory
                 - Locked rooms require specific keys.
                 - Dark rooms require a flashlight.
-                - "Exit" makes you commit suicide by leaping from the airlock. Why would you do that?
+                - "Exit" makes you commit self-die by leaping from the airlock. Why would you do that?
                 """);
     }
 
@@ -136,12 +133,12 @@ public class UserInterface {
     private void look() {
         String string = "";
         if (adventure.getPlayerLocation().isLitUp()) {
-            string += Colours.GREEN_BOLD+adventure.getPlayerLocation().getDescription();
+            string += Colours.GREEN_BOLD + adventure.getPlayerLocation().getDescription();
             if (!adventure.getPlayerLocation().getRoomItems().isEmpty()) {
                 string += "\nItems found in the room:" +
-                          "\n------------------------";
+                        "\n------------------------";
                 for (Item item : adventure.getPlayerLocation().getRoomItems()) {
-                    string += "\n" + item.getName() + ": " + item.getDescription();
+                    string += "\n" + item.getName() + ": " + item.getROOM_DESCRIPTION();
                 }
                 string += "\n------------------------";
             }
@@ -152,29 +149,35 @@ public class UserInterface {
         }
     }
 
-    private void inventory(){
-        String string = "------------\n";
+    private void inventory() {
+        String string = "----------------------\n";
         string += adventure.getPlayer().viewInventory();
-        if(string.equals("------------\n") || string.equals("------------\n------------")){
-            System.out.println(Colours.RED+"Inventory is empty!"+Colours.RESET);
-        }else{
-            System.out.println(string+"------------");
+        if (string.equals("----------------------\n") || string.equals("----------------------\n----------------------")) {
+            System.out.println(Colours.RED + "Inventory is empty!" + Colours.RESET);
+        } else {
+            System.out.println(string + "----------------------");
         }
     }
 
-    private void inspectItem(String[] stringArray){
+    private void inspectItem(String[] stringArray) {
         String itemDescription = "";
         if (stringArray.length > 1) {
-            String itemName = stringArray[1];
-            for (Item item: adventure.getPlayer().getInventory()) {
+            String itemName = "";
+            for (int i = 1; i < stringArray.length; i++) {
+                itemName += stringArray[i] + " ";
+            }
+            itemName = itemName.trim();
+
+            for (Item item : adventure.getPlayerInventory()) {
                 if (item.getName().toLowerCase().contains(itemName.toLowerCase())) {
-                    itemDescription += item.getItemBrief()+"\n"+item.getDescription();
+                    itemDescription += Colours.BLUE + item.getItemBrief() + "\n" + Colours.CYAN + item.getDescription()
+                                        + Colours.RESET + "\n";
                 }
             }
-            if(itemDescription.equals("")){
-                System.out.println(Colours.RED+"Item not found!"+Colours.RESET);
-            }else {
-                System.out.println(itemDescription);
+            if (itemDescription.equals("")) {
+                System.out.println(Colours.RED + "Item not found!" + Colours.RESET);
+            } else {
+                System.out.print(itemDescription);
             }
         } else {
             invalidCommand();
@@ -182,52 +185,71 @@ public class UserInterface {
     }
 
     private void passphraseToRoom14() {
-        if (adventure.getPlayerLocation().getNeighbourEast() != null) {
-            if (adventure.getPlayerLocation().getNeighbourEast().getName().equals("Engine Room Vestibule")) {
+        if (adventure.getRoomEast() != null) {
+            if (adventure.getRoomEast().getName().equals("Engine Room Vestibule")) {
                 System.out.println("A " + Colours.BLUE + "beep" + Colours.RESET + " sounds from the door. " +
                         "Then it says, in a robotic voice:\n" + Colours.BLUE + "\"Pass-phrase Correct!\"" + Colours.RESET);
-                adventure.getPlayerLocation().getNeighbourEast().setLocked(false);
+                adventure.getRoomEast().setLocked(false);
             }
         }
     }
 
     private void unlockRoom(String input) {
         if (input.contains("unlock n")) {
-            if (adventure.getPlayerLocation().getNeighbourNorth() != null &&
-                    adventure.getPlayerLocation().getNeighbourNorth().isLocked()) {
-                adventure.getPlayerLocation().getNeighbourNorth().setLocked(false);
-                System.out.println(Colours.PURPLE_BOLD+adventure.getPlayerLocation().getNeighbourNorth().getName()+
-                        " unlocked!"+Colours.RESET);
+            if (adventure.getRoomNorth() != null &&
+                    adventure.getRoomNorth().isLocked()) {
+                adventure.getRoomNorth().setLocked(false);
+                System.out.println(Colours.PURPLE_BOLD + adventure.getRoomNorth().getName() +
+                        " unlocked!" + Colours.RESET);
             } else {
                 invalidCommand();
             }
         } else if (input.contains("unlock s")) {
-            if (adventure.getPlayerLocation().getNeighbourSouth() != null &&
-                    adventure.getPlayerLocation().getNeighbourSouth().isLocked()) {
-                adventure.getPlayerLocation().getNeighbourSouth().setLocked(false);
-                System.out.println(Colours.PURPLE_BOLD+adventure.getPlayerLocation().getNeighbourSouth().getName()+
-                        " unlocked!"+Colours.RESET);
+            if (adventure.getRoomSouth() != null &&
+                    adventure.getRoomSouth().isLocked()) {
+                adventure.getRoomSouth().setLocked(false);
+                System.out.println(Colours.PURPLE_BOLD + adventure.getRoomSouth().getName() +
+                        " unlocked!" + Colours.RESET);
             } else {
                 invalidCommand();
             }
         } else if (input.contains("unlock e")) {
-            if (adventure.getPlayerLocation().getNeighbourEast() != null &&
-                    adventure.getPlayerLocation().getNeighbourEast().isLocked()) {
-                adventure.getPlayerLocation().getNeighbourEast().setLocked(false);
-                System.out.println(Colours.PURPLE_BOLD+adventure.getPlayerLocation().getNeighbourEast().getName()+
-                        " unlocked!"+Colours.RESET);
+            if (adventure.getRoomEast() != null &&
+                    adventure.getRoomEast().isLocked()) {
+                adventure.getRoomEast().setLocked(false);
+                System.out.println(Colours.PURPLE_BOLD + adventure.getRoomEast().getName() +
+                        " unlocked!" + Colours.RESET);
             } else {
                 invalidCommand();
             }
         } else if (input.contains("unlock w")) {
-            if (adventure.getPlayerLocation().getNeighbourWest() != null &&
-                    adventure.getPlayerLocation().getNeighbourWest().isLocked()) {
-                adventure.getPlayerLocation().getNeighbourWest().setLocked(false);
-                System.out.println(Colours.PURPLE_BOLD+adventure.getPlayerLocation().getNeighbourWest().getName()+
-                        " unlocked!"+Colours.RESET);
+            if (adventure.getRoomWest() != null &&
+                    adventure.getRoomWest().isLocked()) {
+                adventure.getRoomWest().setLocked(false);
+                System.out.println(Colours.PURPLE_BOLD + adventure.getRoomWest().getName() +
+                        " unlocked!" + Colours.RESET);
             } else {
                 invalidCommand();
             }
+        } else {
+            invalidCommand();
+        }
+    }
+
+    private void eatItem(String[] stringArray) {
+        if (stringArray.length > 1) {
+            String itemName = "";
+            for (int i = 1; i < stringArray.length; i++) {
+                itemName += stringArray[i] + " ";
+            }
+            itemName = itemName.trim();
+            int returnNumber = adventure.eatItem(itemName);
+            switch (returnNumber) {
+                case 0 -> System.out.println(Colours.RED + "You cannot consume that!" + Colours.RESET);
+                case 1 -> System.out.println(Colours.PURPLE_BOLD + "Nom nom nom." + Colours.RESET);
+                default -> System.out.println(returnNumber);
+            }
+
         } else {
             invalidCommand();
         }
@@ -235,8 +257,23 @@ public class UserInterface {
 
     private void useItem(String[] stringArray) {
         if (stringArray.length > 1) {
-            String itemName = stringArray[1];
-            System.out.println(Colours.PURPLE_BOLD+"Using " + itemName+Colours.RESET);
+            String itemName = "";
+            for (int i = 1; i < stringArray.length; i++) {
+                itemName += stringArray[i] + " ";
+            }
+            itemName = itemName.trim();
+            Item item = adventure.useItem(itemName);
+            if (item != null) {
+                switch (stringArray[1].toLowerCase()) {
+                    case "flashlight" -> {
+                        System.out.println(Colours.PURPLE_BOLD + "Using " + item.getName() + Colours.RESET);
+                        adventure.getPlayerLocation().setLitUp(true);
+                    }
+                    case "map" -> System.out.println(item.getDescription());
+                }
+            } else {
+                System.out.println(Colours.RED + "Item doesn't exist!" + Colours.RESET);
+            }
         } else {
             invalidCommand();
         }
@@ -244,11 +281,15 @@ public class UserInterface {
 
     private void takeItem(String[] stringArray) {
         if (stringArray.length > 1) {
-            String itemName = stringArray[1];
-            switch (adventure.addItem(itemName)){
-                case 0 -> System.out.println(Colours.RED+"Item already acquired!"+Colours.RESET);
-                case 1 -> System.out.println(Colours.PURPLE_BOLD+"Item acquired!"+Colours.RESET);
-                case 2 -> System.out.println(Colours.RED+"Item doesn't exist!"+Colours.RESET);
+            String itemName = "";
+            for (int i = 1; i < stringArray.length; i++) {
+                itemName += stringArray[i] + " ";
+            }
+            itemName = itemName.trim();
+            switch (adventure.addItem(itemName)) {
+                case 0 -> System.out.println(Colours.RED + "Item already acquired!" + Colours.RESET);
+                case 1 -> System.out.println(Colours.PURPLE_BOLD + "Item acquired!" + Colours.RESET);
+                case 2 -> System.out.println(Colours.RED + "Item doesn't exist!" + Colours.RESET);
             }
         } else {
             invalidCommand();
@@ -257,10 +298,14 @@ public class UserInterface {
 
     private void dropItem(String[] stringArray) {
         if (stringArray.length > 1) {
-            String itemName = stringArray[1];
-            switch (adventure.dropItem(itemName)){
-                case 0 -> System.out.println(Colours.RED+"Item not in inventory!"+Colours.RESET);
-                case 1 -> System.out.println(Colours.PURPLE_BOLD+"Item discard!"+Colours.RESET);
+            String itemName = "";
+            for (int i = 1; i < stringArray.length; i++) {
+                itemName += stringArray[i] + " ";
+            }
+            itemName = itemName.trim();
+            switch (adventure.dropItem(itemName)) {
+                case 0 -> System.out.println(Colours.RED + "Item not in inventory!" + Colours.RESET);
+                case 1 -> System.out.println(Colours.PURPLE_BOLD + "Item discard!" + Colours.RESET);
             }
         } else {
             invalidCommand();
@@ -273,17 +318,17 @@ public class UserInterface {
 
     private void skeletonKey() {
         System.out.println(Colours.PURPLE_BOLD + "You used the Skeleton Key to open all nearby locked doors!" + Colours.RESET);
-        if (adventure.getPlayerLocation().getNeighbourNorth() != null) {
-            adventure.getPlayerLocation().getNeighbourNorth().setLocked(false);
+        if (adventure.getRoomNorth() != null) {
+            adventure.getRoomNorth().setLocked(false);
         }
-        if (adventure.getPlayerLocation().getNeighbourSouth() != null) {
-            adventure.getPlayerLocation().getNeighbourSouth().setLocked(false);
+        if (adventure.getRoomSouth() != null) {
+            adventure.getRoomSouth().setLocked(false);
         }
-        if (adventure.getPlayerLocation().getNeighbourEast() != null) {
-            adventure.getPlayerLocation().getNeighbourEast().setLocked(false);
+        if (adventure.getRoomEast() != null) {
+            adventure.getRoomEast().setLocked(false);
         }
-        if (adventure.getPlayerLocation().getNeighbourWest() != null) {
-            adventure.getPlayerLocation().getNeighbourWest().setLocked(false);
+        if (adventure.getRoomWest() != null) {
+            adventure.getRoomWest().setLocked(false);
         }
     }
 
