@@ -27,6 +27,10 @@ public class UserInterface {
                 Welcome aboard the Discovery Vessel 'Hildebrand'.
                 """ + Colours.RESET);
         do {
+            if(adventure.getPlayerHealth() == 0){
+                System.out.println(Colours.RED_BOLD+"You have died!\nGame Over!"+Colours.RESET);
+                System.exit(666);
+            }
             //checks if it is a newroom, if it is the same room, it will not print the room name again
             if (newRoom) {
                 System.out.printf(Colours.BLUE_BOLD + """
@@ -273,7 +277,7 @@ public class UserInterface {
             switch (eatDTO.getReturnEatMessage()) {
                 case CANT_EAT -> System.out.println(Colours.RED + "You cannot consume that!" + Colours.RESET);
                 case EAT_JUNK -> System.out.println(Colours.PURPLE_BOLD + "Nom nom nom." + Colours.RESET);
-                case EAT_MAP -> System.out.println(Colours.PURPLE_BOLD + "You eat the only map of the spacecraft. " +
+                case EAT_MAP -> System.out.println(Colours.PURPLE_BOLD + "You eat the only map of the spacecraft.\n" +
                         Colours.RED + "That was pretty stupid."+ Colours.RESET);
                 case EAT_HEAL_FOOD -> {
                     System.out.println(Colours.GREEN + "You are healed " + eatDTO.getFoodHealValue() +

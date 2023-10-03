@@ -101,7 +101,7 @@ public class Player {
         return healthPoints;
     }
     public int takeDamage(int damageValue){
-        healthPoints -= -1*damageValue;
+        healthPoints += damageValue;
         if(healthPoints < MIN_HEALTH_VALUE){
             healthPoints = MIN_HEALTH_VALUE;
         }
@@ -152,7 +152,7 @@ public class Player {
                 "A Map of the Discovery Vessel 'Hildebrand'.");
         inventory.add(hildebrandMap);
 
-
+        //test food items
         Food heal25Food = new Food("Test Heal Food 25","Test Food","This is a test consumable",
                 "A pixellated blob of goo. It doesn't look very appetising.",25);
         Food heal100Food = new Food("Test Heal Food 100","Test Food","This is a test consumable",
