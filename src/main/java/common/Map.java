@@ -1,3 +1,10 @@
+package common;
+
+import items.Food;
+import items.Item;
+import items.Keycard;
+import ui.Colours;
+
 public class Map {
 
     private Room current;
@@ -352,15 +359,16 @@ public class Map {
         //--------------------------------------------------------------
         // Room items
 
-        room0.addItemToRoom(new Item("Test","Tester","This is a test object",
-                "A pixellated JPG that says '404'."));
+        Item testItem = new Item("Test Item","Test Item","This is a test item",
+                "A pixellated JPG that says '404'.");
+        Keycard testKeycard1 = new Keycard("Test Keycard 1","Dummy Keycard","This is a test object",
+                "A pixellated Keycard that says 'Room -1.","Room -1'");
+        Keycard testKeycard2 = new Keycard("Test Keycard 2","Dummy Keycard","This is a test object",
+                "A pixellated Keycard that says 'Room -2.","Room -2'");
 
-        room0.addItemToRoom(new Keycard("Test Keycard 1","Dummy Keycard","This is a test object",
-                "A pixellated Keycard that says 'Room -1.","Room -1'"));
-
-        room0.addItemToRoom(new Keycard("Test Keycard 2","Dummy Keycard","This is a test object",
-                "A pixellated Keycard that says 'Room -1.","Room -1'"));
-
+        room0.addItemToRoom(testItem);
+        room0.addItemToRoom(testKeycard1);
+        room0.addItemToRoom(testKeycard2);
 
         // Start Room
         current = room0;

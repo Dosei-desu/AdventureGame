@@ -1,3 +1,5 @@
+package items;
+
 public class Food extends Item{
     private final int HEALTH_POINTS;
     public Food(String NAME, String FUNCTION, String DESCRIPTION, int HEALTH_POINTS) {
@@ -12,5 +14,13 @@ public class Food extends Item{
 
     public int getFoodHealthPoints(){
         return HEALTH_POINTS;
+    }
+
+    //just a test thing
+    public String toString(){
+        return NAME + " : " + FUNCTION + "\n"+
+                DESCRIPTION + "\n"+
+                ROOM_DESCRIPTION+ "\n"+
+                "Healing amount: "+HEALTH_POINTS;
     }
 }

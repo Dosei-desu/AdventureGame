@@ -1,3 +1,7 @@
+package common;
+
+import items.Item;
+
 import java.util.ArrayList;
 
 public class Adventure {
@@ -23,51 +27,51 @@ public class Adventure {
         return player;
     }
 
-    public int moveNorth() {
+    public ReturnMoveMessage moveNorth() {
         if (player.getPlayerLocation().getNeighbourNorth() != null) {
             if (player.getPlayerLocation().getNeighbourNorth().isLocked()) {
-                return 0;
+                return ReturnMoveMessage.DOOR_LOCKED;
             }
             player.moveNorth();
-            return 1;
+            return ReturnMoveMessage.CAN_MOVE;
         } else {
-            return 2;
+            return ReturnMoveMessage.CANT_MOVE;
         }
     }
 
-    public int moveSouth() {
+    public ReturnMoveMessage moveSouth() {
         if (player.getPlayerLocation().getNeighbourSouth() != null) {
             if (player.getPlayerLocation().getNeighbourSouth().isLocked()) {
-                return 0;
+                return ReturnMoveMessage.DOOR_LOCKED;
             }
             player.moveSouth();
-            return 1;
+            return ReturnMoveMessage.CAN_MOVE;
         } else {
-            return 2;
+            return ReturnMoveMessage.CANT_MOVE;
         }
     }
 
-    public int moveEast() {
+    public ReturnMoveMessage moveEast() {
         if (player.getPlayerLocation().getNeighbourEast() != null) {
             if (player.getPlayerLocation().getNeighbourEast().isLocked()) {
-                return 0;
+                return ReturnMoveMessage.DOOR_LOCKED;
             }
             player.moveEast();
-            return 1;
+            return ReturnMoveMessage.CAN_MOVE;
         } else {
-            return 2;
+            return ReturnMoveMessage.CANT_MOVE;
         }
     }
 
-    public int moveWest() {
+    public ReturnMoveMessage moveWest() {
         if (player.getPlayerLocation().getNeighbourWest() != null) {
             if (player.getPlayerLocation().getNeighbourWest().isLocked()) {
-                return 0;
+                return ReturnMoveMessage.DOOR_LOCKED;
             }
             player.moveWest();
-            return 1;
+            return ReturnMoveMessage.CAN_MOVE;
         } else {
-            return 2;
+            return ReturnMoveMessage.CANT_MOVE;
         }
     }
 
@@ -81,10 +85,10 @@ public class Adventure {
         if (player.getPlayerLocation().getRoomItems().contains(item)) {
             if (player.getInventory().contains(item)) {
                 //doesnt add item if it already exists
-                //doesn't work...
+                //except it doesn't work...
                 return 0;
             } else {
-                //successfully taken item
+                //successfully taken an  item
                 player.takeItem(item); //adds to player inventory
                 getPlayerLocation().removeItemFromRoom(item); //removes from room item list
                 return 1;
@@ -113,7 +117,7 @@ public class Adventure {
         }
     }
 
-    public int eatItem(String name){
+    public EatDTO eatItem(String name){
         Item item = null;
         for (Item i : player.getInventory()) {
             if (i.getName().toLowerCase().contains(name.toLowerCase())) {
@@ -122,9 +126,17 @@ public class Adventure {
         }
         return player.eatItem(item);
     }
-
-    public Item useItem(String name){
-        return player.useItem(name);
+    public int heal(int healValue){
+        return player.heal(healValue);
+    }
+    public int takeDamage(int damageValue){
+        return player.takeDamage(damageValue);
+    }
+    public int getPlayerHealth(){
+        return player.getHealthPoints();
+    }
+    public Item findItem(String name){
+        return player.findItem(name);
     }
 
     public ArrayList<Item> getPlayerInventory(){

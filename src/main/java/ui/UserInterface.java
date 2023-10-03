@@ -1,3 +1,12 @@
+package ui;
+
+import common.Adventure;
+import common.EatDTO;
+import items.Food;
+import items.Item;
+
+
+
 import java.util.Scanner;
 
 public class UserInterface {
@@ -56,36 +65,37 @@ public class UserInterface {
                     case "go north", "north", "go n", "n" -> {
                         //nested switch case to handle several scenarios (can move | cant move | locked room)
                         switch (adventure.moveNorth()) {
-                            case 0 -> System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
-                            case 1 -> newRoom = true;
-                            case 2 -> System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
+                            case DOOR_LOCKED -> System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
+                            case CAN_MOVE -> newRoom = true;
+                            case CANT_MOVE -> System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
                         }
                     }
                     case "go south", "south", "go s", "s" -> {
                         switch (adventure.moveSouth()) {
-                            case 0 -> System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
-                            case 1 -> newRoom = true;
-                            case 2 -> System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
+                            case DOOR_LOCKED -> System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
+                            case CAN_MOVE -> newRoom = true;
+                            case CANT_MOVE -> System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
                         }
                     }
                     case "go east", "east", "go e", "e" -> {
                         switch (adventure.moveEast()) {
-                            case 0 -> System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
-                            case 1 -> newRoom = true;
-                            case 2 -> System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
+                            case DOOR_LOCKED -> System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
+                            case CAN_MOVE -> newRoom = true;
+                            case CANT_MOVE -> System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
                         }
                     }
                     case "go west", "west", "go w", "w" -> {
                         switch (adventure.moveWest()) {
-                            case 0 -> System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
-                            case 1 -> newRoom = true;
-                            case 2 -> System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
+                            case DOOR_LOCKED -> System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
+                            case CAN_MOVE -> newRoom = true;
+                            case CANT_MOVE -> System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
                         }
                     }
                     //actions
                     case "look", "l" -> look();
                     case "help", "h" -> help();
                     case "inventory", "inv", "i" -> inventory();
+                    case "status" -> status();
                     case "exit" -> exit(); //aka diving head-first out the airlock
                     //special actions
                     case "unlock north", "unlock n" -> unlockRoom(choice);
@@ -107,7 +117,7 @@ public class UserInterface {
 
     //help provides a list of instructions and hints
     private void help() {
-        System.out.print("""
+        System.out.print(Colours.CYAN_BOLD+"""
                 - You can move in the cardinal direction (North, East, South, West) by typing "Go direction" or just "Direction".
                 - "Look" allows you to see more in-depth information about the room you are currently in.
                 - "Take ___" to take an item from a room
@@ -116,13 +126,14 @@ public class UserInterface {
                 - "Use ___" to use an item from inventory
                 - "Eat ___" to consume an item from inventory
                 - "Inspect ___" to inspect an item from inventory
+                - "Status" to view player status, such as health
                 - Locked rooms require specific keys.
                 - Dark rooms require a flashlight.
                 - "Exit" makes you commit self-die by leaping from the airlock. Why would you do that?
-                """);
+                """+Colours.RESET);
     }
 
-    //exits the Adventure by quite literally throwing yourself out the airlock
+    //exits the common.Adventure by quite literally throwing yourself out the airlock
     private void exit() {
         System.out.println(Colours.RED + "You have taken the easy way out and shunted yourself out the airlock." + Colours.RESET);
         System.exit(1);
@@ -133,7 +144,7 @@ public class UserInterface {
     private void look() {
         String string = "";
         if (adventure.getPlayerLocation().isLitUp()) {
-            string += Colours.GREEN_BOLD + adventure.getPlayerLocation().getDescription();
+            string += adventure.getPlayerLocation().getDescription();
             if (!adventure.getPlayerLocation().getRoomItems().isEmpty()) {
                 string += "\nItems found in the room:" +
                         "\n------------------------";
@@ -142,11 +153,22 @@ public class UserInterface {
                 }
                 string += "\n------------------------";
             }
-            string += Colours.RESET;
-            System.out.println(string);
+            System.out.println(Colours.GREEN_BOLD + string + Colours.RESET);
         } else { //unless it is a dark room (note that you can still navigate dark rooms, but it may be fatal later on)
             System.out.println(Colours.RED + "It is too dark to see anything." + Colours.RESET);
         }
+    }
+
+    private void status(){
+        String string;
+        if(adventure.getPlayerHealth() <= 25){
+            string = Colours.RED_BRIGHT + adventure.getPlayerHealth();
+        }else if(adventure.getPlayerHealth() <= 74){
+            string = Colours.BLUE_BRIGHT + adventure.getPlayerHealth();
+        }else{
+            string = Colours.GREEN_BRIGHT + adventure.getPlayerHealth();
+        }
+        System.out.println(Colours.CYAN + "Your health is at " + string + Colours.RESET);
     }
 
     private void inventory() {
@@ -155,7 +177,7 @@ public class UserInterface {
         if (string.equals("----------------------\n") || string.equals("----------------------\n----------------------")) {
             System.out.println(Colours.RED + "Inventory is empty!" + Colours.RESET);
         } else {
-            System.out.println(string + "----------------------");
+            System.out.println(Colours.CYAN + string + "----------------------" + Colours.RESET);
         }
     }
 
@@ -170,14 +192,13 @@ public class UserInterface {
 
             for (Item item : adventure.getPlayerInventory()) {
                 if (item.getName().toLowerCase().contains(itemName.toLowerCase())) {
-                    itemDescription += Colours.BLUE + item.getItemBrief() + "\n" + Colours.CYAN + item.getDescription()
-                                        + Colours.RESET + "\n";
+                    itemDescription += item.getItemBrief() + "\n" + Colours.CYAN + item.getDescription() + "\n";
                 }
             }
             if (itemDescription.equals("")) {
                 System.out.println(Colours.RED + "Item not found!" + Colours.RESET);
             } else {
-                System.out.print(itemDescription);
+                System.out.print(Colours.BLUE + itemDescription + Colours.RESET);
             }
         } else {
             invalidCommand();
@@ -186,14 +207,16 @@ public class UserInterface {
 
     private void passphraseToRoom14() {
         if (adventure.getRoomEast() != null) {
-            if (adventure.getRoomEast().getName().equals("Engine Room Vestibule")) {
-                System.out.println("A " + Colours.BLUE + "beep" + Colours.RESET + " sounds from the door. " +
-                        "Then it says, in a robotic voice:\n" + Colours.BLUE + "\"Pass-phrase Correct!\"" + Colours.RESET);
+            if (adventure.getRoomEast().getName().equals("Engine common.Room Vestibule")) {
+                System.out.println(Colours.GREEN_BOLD + "A " + Colours.BLUE + "beep" + Colours.GREEN_BOLD  +
+                        " sounds from the door. Then it says, in a robotic voice:\n" + Colours.BLUE +
+                        "\"Pass-phrase Correct!\"" + Colours.RESET);
                 adventure.getRoomEast().setLocked(false);
             }
         }
     }
 
+    //TODO implement keycard objects as keys for doors, disabling the unlock command unless you have the correct key
     private void unlockRoom(String input) {
         if (input.contains("unlock n")) {
             if (adventure.getRoomNorth() != null &&
@@ -243,11 +266,25 @@ public class UserInterface {
                 itemName += stringArray[i] + " ";
             }
             itemName = itemName.trim();
-            int returnNumber = adventure.eatItem(itemName);
-            switch (returnNumber) {
-                case 0 -> System.out.println(Colours.RED + "You cannot consume that!" + Colours.RESET);
-                case 1 -> System.out.println(Colours.PURPLE_BOLD + "Nom nom nom." + Colours.RESET);
-                default -> System.out.println(returnNumber);
+
+            EatDTO eatDTO = adventure.eatItem(itemName); //returns a DTO (Data Transfer Object) which contains
+            //the ReturnEatMessage Enum and the FoodHealValue integer
+
+            switch (eatDTO.getReturnEatMessage()) {
+                case CANT_EAT -> System.out.println(Colours.RED + "You cannot consume that!" + Colours.RESET);
+                case EAT_JUNK -> System.out.println(Colours.PURPLE_BOLD + "Nom nom nom." + Colours.RESET);
+                case EAT_MAP -> System.out.println(Colours.PURPLE_BOLD + "You eat the only map of the spacecraft. " +
+                        Colours.RED + "That was pretty stupid."+ Colours.RESET);
+                case EAT_HEAL_FOOD -> {
+                    System.out.println(Colours.GREEN + "You are healed " + eatDTO.getFoodHealValue() +
+                            "!" + Colours.CYAN);
+                    status();
+                }
+                case EAT_DAMAGE_FOOD -> {
+                    System.out.println(Colours.RED + "You are damaged " + eatDTO.getFoodHealValue() +
+                            "!" + Colours.CYAN);
+                    status();
+                }
             }
         } else {
             invalidCommand();
@@ -255,15 +292,22 @@ public class UserInterface {
     }
 
     private void useItem(String[] stringArray) {
-        if (stringArray.length > 1) {
+        if (stringArray.length > 1) { //checks if the stringArray has more than 1 index point, to avoid arrayIndexOutOfBounds
             String itemName = "";
+            //takes everything from the stringArray (except the first index point and adds it to 'itemName', since index0 is
+            //the command prompt (in this case "use")
             for (int i = 1; i < stringArray.length; i++) {
                 itemName += stringArray[i] + " ";
             }
             itemName = itemName.trim();
-            Item item = adventure.useItem(itemName);
+            Item item = adventure.findItem(itemName); //search function to find the item based on inputted name
             if (item != null) {
+                //if the item used is food, the item is pushed to the "eatItem()" method
+                if(item instanceof Food){
+                    eatItem(stringArray);
+                }
                 switch (stringArray[1].toLowerCase()) {
+                    //unique scenario
                     case "flashlight" -> {
                         System.out.println(Colours.PURPLE_BOLD + "Using " + item.getName() + Colours.RESET);
                         adventure.getPlayerLocation().setLitUp(true);
@@ -286,7 +330,7 @@ public class UserInterface {
             }
             itemName = itemName.trim();
             switch (adventure.addItem(itemName)) {
-                case 0 -> System.out.println(Colours.RED + "Item already acquired!" + Colours.RESET);
+                case 0 -> System.out.println(Colours.RED + "Item already acquired!" + Colours.RESET); //this doesn't seem to work
                 case 1 -> System.out.println(Colours.PURPLE_BOLD + "Item acquired!" + Colours.RESET);
                 case 2 -> System.out.println(Colours.RED + "Item doesn't exist!" + Colours.RESET);
             }

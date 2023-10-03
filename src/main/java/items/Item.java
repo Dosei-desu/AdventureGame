@@ -1,8 +1,12 @@
+package items;
+
 public class Item {
-    private final String NAME;
-    private final String FUNCTION;
-    private final String DESCRIPTION;
-    private final String ROOM_DESCRIPTION;
+    //'Protected' means that it cannot be used outside the class, but can be used by subclasses and package methods
+    //to make this work, such that these variables are not accessible where they shouldn't be
+    protected final String NAME;
+    protected final String FUNCTION;
+    protected final String DESCRIPTION;
+    protected final String ROOM_DESCRIPTION;
 
     public Item(String NAME, String FUNCTION, String DESCRIPTION) {
         this.NAME = NAME;

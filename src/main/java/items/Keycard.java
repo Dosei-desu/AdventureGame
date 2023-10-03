@@ -1,3 +1,5 @@
+package items;
+
 public class Keycard extends Item{
     private final String ROOM_NAME;
     public Keycard(String NAME, String FUNCTION, String DESCRIPTION, String ROOM_NAME) {

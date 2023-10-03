@@ -1,6 +1,8 @@
+package ui;
+
 //code taken from https://www.w3schools.blog/ansi-colors-java
 //the colours are all static and can be invoked by typing (for example):
-//"Colours.BLACK" before text. "Colours.RESET" has to be used afterward to
+//"ui.Colours.BLACK" before text. "ui.Colours.RESET" has to be used afterward to
 //prevent the colour from leaking over into text unintentionally
 public class Colours {
     // Reset
