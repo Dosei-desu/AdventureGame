@@ -7,12 +7,18 @@ public class Item {
     protected final String FUNCTION;
     protected final String DESCRIPTION;
     protected final String ROOM_DESCRIPTION;
+    //dynamic variables
+    protected boolean isEquippable;
+    protected boolean isEquipped;
+    protected int numberOfUses;
 
     public Item(String NAME, String FUNCTION, String DESCRIPTION) {
         this.NAME = NAME;
         this.FUNCTION = FUNCTION;
         this.DESCRIPTION = DESCRIPTION;
         this.ROOM_DESCRIPTION = "";
+        setEquippable(false);
+        setEquipped(false);
     }
 
     public Item(String NAME, String FUNCTION, String DESCRIPTION, String ROOM_DESCRIPTION) {
@@ -20,6 +26,8 @@ public class Item {
         this.FUNCTION = FUNCTION;
         this.DESCRIPTION = DESCRIPTION;
         this.ROOM_DESCRIPTION = ROOM_DESCRIPTION;
+        setEquippable(false);
+        setEquipped(false);
     }
 
     public String getName() {
@@ -40,5 +48,37 @@ public class Item {
 
     public String getROOM_DESCRIPTION() {
         return ROOM_DESCRIPTION;
+    }
+
+    public boolean isEquippable() {
+        return isEquippable;
+    }
+
+    public void setEquippable(boolean equippable) {
+        isEquippable = equippable;
+    }
+
+    public boolean isEquipped() {
+        return isEquipped;
+    }
+
+    public void setEquipped(boolean isEquipped){
+        this.isEquipped = isEquipped;
+    }
+
+    public ReturnEquipMessage equip(){
+        return ReturnEquipMessage.CANT_EQUIP;
+    }
+
+    public ReturnAttackMessage attack(){
+        return ReturnAttackMessage.CANT_ATTACK;
+    }
+
+    public int getNumberOfUses() {
+        return numberOfUses;
+    }
+
+    public void setNumberOfUses(int numberOfUses) {
+        this.numberOfUses = numberOfUses;
     }
 }

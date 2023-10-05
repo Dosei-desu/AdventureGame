@@ -1,6 +1,7 @@
 package common;
 
 import items.Item;
+import items.ReturnEquipMessage;
 
 import java.util.ArrayList;
 
@@ -137,6 +138,10 @@ public class Adventure {
     }
     public Item findItem(String name){
         return player.findItem(name);
+    }
+
+    public ReturnEquipMessage equip(String name){
+        return player.equip(name);
     }
 
     public ArrayList<Item> getPlayerInventory(){

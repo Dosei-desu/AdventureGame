@@ -1,8 +1,6 @@
 package common;
 
-import items.Food;
-import items.Item;
-import items.Keycard;
+import items.*;
 import ui.Colours;
 
 public class Map {
@@ -214,9 +212,10 @@ public class Map {
                                      The bets lie in a pile in the middle of the table, and you notice a shiny flashlight.
                                      Connected to rooms via doors to the East and North.""",true);
                                      //items: Flashlight
-        room37.addItemToRoom(new Item("Flashlight","Tool","A shiny flashlight that looks " +
-                                            "very expensive. As you look closer, you realise it is made of polished silver.",
-                          "A shiny flashlight."));
+        Item flashlight = new MeleeWeapon("Flashlight","Tool","A shiny flashlight that looks " +
+                                     "very expensive. As you look closer, you realise it is made of polished silver.",
+                "A shiny flashlight.", 1);
+        room37.addItemToRoom(flashlight);
         Room room38 = new Room("Crew Quarters A", """
                                      The smell of burnt meat, as well as copious amount of smoke, fills the air and you
                                      see that the source is a BBQ grill that someone has left unattended. Red solo cups
@@ -361,14 +360,21 @@ public class Map {
 
         Item testItem = new Item("Test Item","Test Item","This is a test item",
                 "A pixellated JPG that says '404'.");
-        Keycard testKeycard1 = new Keycard("Test Keycard 1","Dummy Keycard","This is a test object",
+        Keycard testKeycard1 = new Keycard("Test Keycard 1","Dummy Keycard","This is a test object.",
                 "A pixellated Keycard that says 'Room -1.","Room -1'");
-        Keycard testKeycard2 = new Keycard("Test Keycard 2","Dummy Keycard","This is a test object",
+        Keycard testKeycard2 = new Keycard("Test Keycard 2","Dummy Keycard","This is a test object.",
                 "A pixellated Keycard that says 'Room -2.","Room -2'");
+        Weapon testRangedWeapon = new RangedWeapon("Test Gun","Ranged Weapon","This is a test gun.",
+                "A square box missing textures.",2);
+        Weapon testMeleeWeapon = new MeleeWeapon("Test Blade","Melee Weapon","This is a test blade.",
+                "A stick. Like, literally just a stick.",1);
 
         room0.addItemToRoom(testItem);
         room0.addItemToRoom(testKeycard1);
         room0.addItemToRoom(testKeycard2);
+        room0.addItemToRoom(testRangedWeapon);
+        room0.addItemToRoom(testMeleeWeapon);
+        room0.addItemToRoom(flashlight);
 
         // Start Room
         current = room0;
