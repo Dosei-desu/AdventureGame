@@ -4,10 +4,18 @@ import common.Adventure;
 import common.EatDTO;
 import items.Food;
 import items.Item;
+import items.Keycard;
 import items.ReturnAttackMessage;
 
 
+import java.util.ArrayList;
 import java.util.Scanner;
+
+/**TODO
+ * fix use with items that cant be used
+ * remove (broken) & numberOfUses from items where irrelevant
+ */
+
 
 public class UserInterface {
     private boolean newRoom;
@@ -26,18 +34,21 @@ public class UserInterface {
 
         do {
             if (adventure.getPlayerHealth() == 0) { //You died
-                System.out.println(Colours.RED_BOLD + "You have died!\nGame Over!" + Colours.RESET);
-                System.out.println("Would you like to continue?");
+                System.out.println(Colours.RED_BOLD + "You have died!\nGame Over!\n"+
+                                    Colours.BLUE_BOLD+"Would you like to continue?"+Colours.RESET);
                 String answer = scanner.nextLine();
                 switch (answer.toLowerCase()) {
+                    //if you want to continue (added a lot of ways to say yes)
                     case "ye", "yarp", "yass", "yes", "dah", "oui", "jahwol", "yep", "ja", "jaja" -> {
+                        //resets game, prints welcome message, and sets newRoom to "true"
                         adventure = new Adventure();
                         welcome();
                         newRoom = true;
                     }
+                    //if you say no (exits game after waiting half a second)
                     case "no", "nope", "im out of here", "narp", "cya" -> {
                         try {
-                            Thread.sleep(2500);
+                            Thread.sleep(500);
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
@@ -179,7 +190,7 @@ public class UserInterface {
     private void exit() {
         System.out.println(Colours.RED + "You have taken the easy way out and shunted yourself out the airlock." + Colours.RESET);
         try {
-            Thread.sleep(2500);
+            Thread.sleep(2500); //waits 2.5 seconds before shutting down, so there's time to read message
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -273,39 +284,81 @@ public class UserInterface {
 
     //TODO implement keycard objects as keys for doors, disabling the unlock command unless you have the correct key
     private void unlockRoom(String input) {
+        ArrayList<Item> inventory = adventure.getPlayerInventory();
+        boolean canOpen = false;
         if (input.contains("unlock n")) {
-            if (adventure.getRoomNorth() != null &&
-                    adventure.getRoomNorth().isLocked()) {
-                adventure.getRoomNorth().setLocked(false);
-                System.out.println(Colours.PURPLE_BOLD + adventure.getRoomNorth().getName() +
-                        " unlocked!" + Colours.RESET);
+            if (adventure.getRoomNorth() != null && adventure.getRoomNorth().isLocked()) {
+                for (Item item: inventory) {
+                    if(item instanceof Keycard){
+                        if (((Keycard) item).getKeycardRoomName().equalsIgnoreCase(adventure.getRoomNorth().getName())){
+                            canOpen = true;
+                        }
+                    }
+                }
+                if(canOpen) {
+                    adventure.getRoomNorth().setLocked(false);
+                    System.out.println(Colours.PURPLE_BOLD + adventure.getRoomNorth().getName() +
+                            " unlocked!" + Colours.RESET);
+                }else{
+                    invalidCommand();
+                }
             } else {
                 invalidCommand();
             }
         } else if (input.contains("unlock s")) {
-            if (adventure.getRoomSouth() != null &&
-                    adventure.getRoomSouth().isLocked()) {
-                adventure.getRoomSouth().setLocked(false);
-                System.out.println(Colours.PURPLE_BOLD + adventure.getRoomSouth().getName() +
-                        " unlocked!" + Colours.RESET);
+            if (adventure.getRoomSouth() != null && adventure.getRoomSouth().isLocked()) {
+                for (Item item: inventory) {
+                    if(item instanceof Keycard){
+                        if (((Keycard) item).getKeycardRoomName().equalsIgnoreCase(adventure.getRoomSouth().getName())){
+                            canOpen = true;
+                        }
+                    }
+                }
+                if(canOpen) {
+                    adventure.getRoomSouth().setLocked(false);
+                    System.out.println(Colours.PURPLE_BOLD + adventure.getRoomSouth().getName() +
+                            " unlocked!" + Colours.RESET);
+                }else{
+                    invalidCommand();
+                }
             } else {
                 invalidCommand();
             }
         } else if (input.contains("unlock e")) {
-            if (adventure.getRoomEast() != null &&
-                    adventure.getRoomEast().isLocked()) {
-                adventure.getRoomEast().setLocked(false);
-                System.out.println(Colours.PURPLE_BOLD + adventure.getRoomEast().getName() +
-                        " unlocked!" + Colours.RESET);
+            if (adventure.getRoomEast() != null && adventure.getRoomEast().isLocked()) {
+                for (Item item: inventory) {
+                    if(item instanceof Keycard){
+                        if (((Keycard) item).getKeycardRoomName().equalsIgnoreCase(adventure.getRoomEast().getName())){
+                            canOpen = true;
+                        }
+                    }
+                }
+                if(canOpen) {
+                    adventure.getRoomEast().setLocked(false);
+                    System.out.println(Colours.PURPLE_BOLD + adventure.getRoomEast().getName() +
+                            " unlocked!" + Colours.RESET);
+                }else{
+                    invalidCommand();
+                }
             } else {
                 invalidCommand();
             }
         } else if (input.contains("unlock w")) {
-            if (adventure.getRoomWest() != null &&
-                    adventure.getRoomWest().isLocked()) {
-                adventure.getRoomWest().setLocked(false);
-                System.out.println(Colours.PURPLE_BOLD + adventure.getRoomWest().getName() +
-                        " unlocked!" + Colours.RESET);
+            if (adventure.getRoomWest() != null && adventure.getRoomWest().isLocked()) {
+                for (Item item: inventory) {
+                    if(item instanceof Keycard){
+                        if (((Keycard) item).getKeycardRoomName().equalsIgnoreCase(adventure.getRoomWest().getName())){
+                            canOpen = true;
+                        }
+                    }
+                }
+                if(canOpen) {
+                    adventure.getRoomWest().setLocked(false);
+                    System.out.println(Colours.PURPLE_BOLD + adventure.getRoomWest().getName() +
+                            " unlocked!" + Colours.RESET);
+                }else{
+                    invalidCommand();
+                }
             } else {
                 invalidCommand();
             }
