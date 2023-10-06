@@ -5,7 +5,6 @@ import common.EatDTO;
 import items.Food;
 import items.Item;
 import items.ReturnAttackMessage;
-import items.Weapon;
 
 
 import java.util.Scanner;
@@ -23,14 +22,28 @@ public class UserInterface {
         String choice;
         newRoom = true;
 
+        welcome();
 
-        System.out.print(Colours.BLUE_BOLD + """
-                Welcome aboard the Discovery Vessel 'Hildebrand'.
-                """ + Colours.RESET);
         do {
-            if (adventure.getPlayerHealth() == 0) {
+            if (adventure.getPlayerHealth() == 0) { //You died
                 System.out.println(Colours.RED_BOLD + "You have died!\nGame Over!" + Colours.RESET);
-                System.exit(666);
+                System.out.println("Would you like to continue?");
+                String answer = scanner.nextLine();
+                switch (answer.toLowerCase()) {
+                    case "ye", "yarp", "yass", "yes", "dah", "oui", "jahwol", "yep", "ja", "jaja" -> {
+                        adventure = new Adventure();
+                        welcome();
+                        newRoom = true;
+                    }
+                    case "no", "nope", "im out of here", "narp", "cya" -> {
+                        try {
+                            Thread.sleep(2500);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                        System.exit(2);
+                    }
+                }
             }
             //checks if it is a newroom, if it is the same room, it will not print the room name again
             if (newRoom) {
@@ -138,7 +151,8 @@ public class UserInterface {
                 //default is something useful to have a Switch Case, since it is a default response if none of the
                 //other options are chosen, in this case it is simply a service message to inform the user of a bad input
             }
-        } while (true);
+        }
+        while (true);
     }
 
     //help provides a list of instructions and hints
@@ -164,6 +178,11 @@ public class UserInterface {
     //exits the common.Adventure by quite literally throwing yourself out the airlock
     private void exit() {
         System.out.println(Colours.RED + "You have taken the easy way out and shunted yourself out the airlock." + Colours.RESET);
+        try {
+            Thread.sleep(2500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         System.exit(1);
     }
 
@@ -225,8 +244,8 @@ public class UserInterface {
                         itemDescription += " (Equipped)";
                     }
                     itemDescription += "\n" + Colours.CYAN + item.getDescription() + "\n";
-                    itemDescription += Colours.BLUE+ "Number of uses: " + item.getNumberOfUses() + "\n";
-                    if(item.getNumberOfUses() <= 0){
+                    itemDescription += Colours.BLUE + "Number of uses: " + item.getNumberOfUses() + "\n";
+                    if (item.getNumberOfUses() <= 0) {
                         itemDescription += Colours.RED + "(Broken)\n";
                     }
                 }
@@ -243,7 +262,7 @@ public class UserInterface {
 
     private void passphraseToRoom14() {
         if (adventure.getRoomEast() != null) {
-            if (adventure.getRoomEast().getName().equals("Engine common.Room Vestibule")) {
+            if (adventure.getRoomEast().getName().equals("Engine Room Vestibule")) {
                 System.out.println(Colours.GREEN_BOLD + "A " + Colours.BLUE + "beep" + Colours.GREEN_BOLD +
                         " sounds from the door. Then it says, in a robotic voice:\n" + Colours.BLUE +
                         "\"Pass-phrase Correct!\"" + Colours.RESET);
@@ -341,14 +360,14 @@ public class UserInterface {
                 //if the item used is food, the item is pushed to the "eatItem()" method
                 if (item instanceof Food) {
                     eatItem(stringArray);
-                }
+                }else
 
                 //unique scenarios
                 if (itemName.toLowerCase().contains("f")) {
-                    if(item.getNumberOfUses() > 0) {
+                    if (item.getNumberOfUses() > 0) {
                         System.out.println(Colours.PURPLE_BOLD + "Using " + item.getName() + " to light up the room." + Colours.RESET);
                         adventure.getPlayerLocation().setLitUp(true);
-                    }else{
+                    } else {
                         System.out.println(Colours.RED + "You broke your " + item.getName() + " because you used it as a " +
                                 "weapon!" + Colours.RESET);
                     }
@@ -364,24 +383,28 @@ public class UserInterface {
         }
     }
 
-    private void attack(){
+    private void attack() {
         Item attackItem = null;
         for (Item item : adventure.getPlayerInventory()) {
-            if(item.isEquipped()){
+            if (item.isEquipped()) {
                 attackItem = item;
             }
         }
-        if(attackItem != null) {
+        if (attackItem != null) {
             ReturnAttackMessage message = attackItem.attack();
             switch (message) {
-                case CANT_ATTACK -> System.out.println(Colours.RED+"Cannot attack with that weapon!"+Colours.RESET);
-                case MELEE_ATTACK -> System.out.println(Colours.PURPLE_BOLD+"You swing your "+attackItem.getName()+"!"+Colours.RESET);
-                case CANT_MELEE_ATTACK -> System.out.println(Colours.RED+attackItem.getName()+" is broken!"+Colours.RESET);
-                case RANGED_ATTACK -> System.out.println(Colours.PURPLE_BOLD+"You fire your "+attackItem.getName()+"!"+Colours.RESET);
-                case CANT_RANGED_ATTACK -> System.out.println(Colours.RED+attackItem.getName()+" is out of ammunition!"+Colours.RESET);
+                case CANT_ATTACK -> System.out.println(Colours.RED + "Cannot attack with that weapon!" + Colours.RESET);
+                case MELEE_ATTACK ->
+                        System.out.println(Colours.PURPLE_BOLD + "You swing your " + attackItem.getName() + "!" + Colours.RESET);
+                case CANT_MELEE_ATTACK ->
+                        System.out.println(Colours.RED + attackItem.getName() + " is broken!" + Colours.RESET);
+                case RANGED_ATTACK ->
+                        System.out.println(Colours.PURPLE_BOLD + "You fire your " + attackItem.getName() + "!" + Colours.RESET);
+                case CANT_RANGED_ATTACK ->
+                        System.out.println(Colours.RED + attackItem.getName() + " is out of ammunition!" + Colours.RESET);
             }
-        }else{
-            System.out.println(Colours.RED+"No weapon equipped!"+Colours.RESET);
+        } else {
+            System.out.println(Colours.RED + "No weapon equipped!" + Colours.RESET);
         }
     }
 
@@ -464,5 +487,11 @@ public class UserInterface {
         System.out.println(Colours.PURPLE_BOLD + "You cast a magic spell to summon a floating ethereal " +
                 "lantern inexplicably named Bob" + Colours.RESET);
         adventure.getPlayerLocation().setLitUp(true);
+    }
+
+    private void welcome() {
+        System.out.print(Colours.BLUE_BOLD + """
+                Welcome aboard the Discovery Vessel 'Hildebrand'.
+                """ + Colours.RESET);
     }
 }
