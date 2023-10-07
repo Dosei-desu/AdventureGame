@@ -19,6 +19,8 @@ import java.util.Scanner;
    to make travelling in the dark a VERY BAD IDEA
  * fix use with items that cant be used
  * fix attack message appearing after death (only works with non-target attack)
+ *
+ * Finally: Make UML Class Diagrams that dont look like crap
  */
 
 
