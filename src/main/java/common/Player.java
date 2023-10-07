@@ -15,6 +15,7 @@ public class Player {
     //unique items player starts with
     private Item hildebrandMap;
     private Item missionBrief;
+    private Item fists;
 
     public Player() {
         inventory = new ArrayList<>();
@@ -30,9 +31,15 @@ public class Player {
         inventory.add(item);
     }
 
-    public void dropItem(Item item) {
-        inventory.remove(item);
-        item.setEquipped(false);
+    public boolean dropItem(Item item) {
+        if(item != null) {
+            if (item != fists) {
+                inventory.remove(item);
+                item.setEquipped(false);
+                return true;
+            }
+        }
+        return false;
     }
 
     public Item findItem(String name) {
@@ -78,11 +85,13 @@ public class Player {
         String string = "";
         for (Item item : inventory) {
             string += item.getItemBrief();
-            if (item.isEquipped()) {
-                string += " (Equipped)";
-            }
-            if(item instanceof Weapon & item.getNumberOfUses() <= 0){ //TODO use Enum
-                string += " (Broken)";
+            if(item instanceof Weapon) {
+                if (item.isEquipped()) {
+                    string += " (Equipped)";
+                }
+                if (item.getNumberOfUses() == 0) {
+                    string += " (Broken)";
+                }
             }
             string += "\n";
         }
@@ -118,7 +127,7 @@ public class Player {
     }
 
     public int takeDamage(int damageValue) {
-        healthPoints += damageValue;
+        healthPoints -= damageValue;
         if (healthPoints < MIN_HEALTH_VALUE) {
             healthPoints = MIN_HEALTH_VALUE;
         }
@@ -206,6 +215,11 @@ public class Player {
         missionBrief = new Item("Mission Brief","Instruction",brief,
                 "Instructions for your mission abord the Hildebrand");
 
+        fists = new MeleeWeapon("Fists","Your fists","These are your fists. They are quite dainty.",
+                "You'll never see this, cause you can't drop your fists.",-1,1);
+
+        inventory.add(fists);
+        equip("fists");
         inventory.add(missionBrief);
         inventory.add(hildebrandMap);
 

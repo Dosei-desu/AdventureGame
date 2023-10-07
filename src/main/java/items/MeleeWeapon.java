@@ -18,6 +18,9 @@ public class MeleeWeapon extends Weapon {
                 setNumberOfUses(getNumberOfUses() - 1);
                 attackDTO = new AttackDTO(ReturnAttackMessage.MELEE_ATTACK, getDamage());
                 return attackDTO;
+            } else if (getNumberOfUses() == -1) {
+                attackDTO = new AttackDTO(ReturnAttackMessage.MELEE_ATTACK, getDamage());
+                return attackDTO;
             }
             attackDTO = new AttackDTO(ReturnAttackMessage.CANT_MELEE_ATTACK, getDamage());
             return attackDTO;

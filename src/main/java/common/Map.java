@@ -339,6 +339,11 @@ public class Map {
     }
 
     private void placeEnemies() {
+        Enemy welcomeDroid = new Enemy("Welcome Droid 'Kass'","A silvery spherical robot that dangles " +
+                "from the ceiling on a sparking cable. It keeps repeating, \"Welcome.\"",1,
+                new MeleeWeapon("Kass' Feather-Duster","Tool","It's a feather-duster.",
+                        "A dusty feather-duster covered in cobwebs.",1,1));
+        room0.addEnemyToRoom(welcomeDroid);
 
     }
 

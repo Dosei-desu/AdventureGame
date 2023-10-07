@@ -3,26 +3,22 @@ package common;
 import items.Weapon;
 
 public class Enemy {
-    private Room currentRoom;
-    private String enemy;
+    private String name;
     private String description;
     private int health;
     private Weapon weapon;
+    private int maxHealth;
 
-    public Enemy(Room currentRoom, String enemy, String description, int health, Weapon weapon) {
-        this.currentRoom = currentRoom;
-        this.enemy = enemy;
+    public Enemy(String enemy, String description, int health, Weapon weapon) {
+        this.name = enemy;
         this.description = description;
         this.health = health;
+        this.maxHealth = health;
         this.weapon = weapon;
     }
 
-    public Room getCurrentRoom() {
-        return currentRoom;
-    }
-
-    public String getEnemy() {
-        return enemy;
+    public String getName() {
+        return name;
     }
 
     public String getDescription() {
@@ -33,6 +29,10 @@ public class Enemy {
         return health;
     }
 
+    public int getMaxHealth(){
+        return maxHealth;
+    }
+
     public Weapon getWeapon() {
         return weapon;
     }
@@ -41,4 +41,7 @@ public class Enemy {
         return weapon.getDamage();
     }
 
+    public void takeDamage(int damage){
+        health -= damage;
+    }
 }

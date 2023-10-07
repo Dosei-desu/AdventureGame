@@ -76,7 +76,7 @@ public class Adventure {
         }
     }
 
-    public int addItem(String name) {
+    public ReturnTakeMessage addItem(String name) {
         Item item = null;
         for (Item i : player.getPlayerLocation().getRoomItems()) {
             if (i.getName().toLowerCase().contains(name.toLowerCase())) {
@@ -87,20 +87,20 @@ public class Adventure {
             if (player.getInventory().contains(item)) {
                 //doesnt add item if it already exists
                 //except it doesn't work...
-                return 0;
+                return ReturnTakeMessage.ALREADY_HAVE;
             } else {
                 //successfully taken an  item
                 player.takeItem(item); //adds to player inventory
                 getPlayerLocation().removeItemFromRoom(item); //removes from room item list
-                return 1;
+                return ReturnTakeMessage.CAN_TAKE;
             }
         } else {
             //item doesn't exist
-            return 2;
+            return ReturnTakeMessage.DOESNT_EXIST;
         }
     }
 
-    public int dropItem(String name) {
+    public ReturnDropMessage dropItem(String name) {
         Item item = null;
         for (Item i : player.getInventory()) {
             if (i.getName().toLowerCase().contains(name.toLowerCase())) {
@@ -109,12 +109,15 @@ public class Adventure {
         }
         if (player.getInventory().contains(item)) {
             //successfully dropped item
-            player.dropItem(item); //removes to player inventory
-            getPlayerLocation().addItemToRoom(item); //adds from room item list
-            return 1;
+            boolean canDrop = player.dropItem(item); //removes to player inventory
+            if(canDrop) {
+                getPlayerLocation().addItemToRoom(item); //adds from room item list
+                return ReturnDropMessage.CAN_DROP;
+            }
+            return ReturnDropMessage.CANT_DROP;
         } else {
             //item doesn't exist
-            return 0;
+            return ReturnDropMessage.DOESNT_EXIST;
         }
     }
 
@@ -129,8 +132,12 @@ public class Adventure {
     }
 
     //TODO
-    public void enemyDies(){
+    public void enemyDies(Enemy enemy){
         //drops weapon it is holding to the room it is in
+        if(enemy != null) {
+            player.getPlayerLocation().addItemToRoom(enemy.getWeapon());
+            player.getPlayerLocation().removeEnemyFromRoom(enemy);
+        }
     }
 
     public int heal(int healValue){

@@ -2,31 +2,38 @@ package ui;
 
 import common.Adventure;
 import common.EatDTO;
-import items.Food;
-import items.Item;
-import items.Keycard;
-import items.ReturnAttackMessage;
+import common.Enemy;
+import items.*;
 
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/**TODO
+/**
+ * TODO
+ * add enemies to rooms
+ * finish room descriptions
+ * add more items and food to rooms
+ * implement a "Trap" class that extends "Enemy" to make a type of
+   enemy that only attacks when you try to travel through a room and
+   to make travelling in the dark a VERY BAD IDEA
  * fix use with items that cant be used
- * remove (broken) & numberOfUses from items where irrelevant
+ * fix attack message appearing after death (only works with non-target attack)
  */
 
 
 public class UserInterface {
     private boolean newRoom;
     private Adventure adventure;
+    private Scanner scanner;
+    private boolean enemyHasAttacked;
 
     public UserInterface(Adventure adventure) {
         this.adventure = adventure;
     }
 
     public void run() {
-        Scanner scanner = new Scanner(System.in);
+        scanner = new Scanner(System.in);
         String choice;
         newRoom = true;
 
@@ -34,28 +41,9 @@ public class UserInterface {
 
         do {
             if (adventure.getPlayerHealth() == 0) { //You died
-                System.out.println(Colours.RED_BOLD + "You have died!\nGame Over!\n"+
-                                    Colours.BLUE_BOLD+"Would you like to continue?"+Colours.RESET);
-                String answer = scanner.nextLine();
-                switch (answer.toLowerCase()) {
-                    //if you want to continue (added a lot of ways to say yes)
-                    case "ye", "yarp", "yass", "yes", "dah", "oui", "jahwol", "yep", "ja", "jaja" -> {
-                        //resets game, prints welcome message, and sets newRoom to "true"
-                        adventure = new Adventure();
-                        welcome();
-                        newRoom = true;
-                    }
-                    //if you say no (exits game after waiting half a second)
-                    case "no", "nope", "im out of here", "narp", "cya" -> {
-                        try {
-                            Thread.sleep(500);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                        System.exit(2);
-                    }
-                }
+                playerDeath();
             }
+            enemyHasAttacked = false;
             //checks if it is a newroom, if it is the same room, it will not print the room name again
             if (newRoom) {
                 System.out.printf(Colours.BLUE_BOLD + """
@@ -86,6 +74,7 @@ public class UserInterface {
                 }
                 case "use" -> {
                     useItem(stringArray);
+                    roomEnemiesAttack(); //doing this action will make the enemy attack
                     choicePicked = true;
                 }
                 case "take" -> {
@@ -104,11 +93,17 @@ public class UserInterface {
                     equipItem(stringArray);
                     choicePicked = true;
                 }
+                case "attack" -> {
+                    attackEnemy(stringArray);
+                    roomEnemiesAttack();
+                    choicePicked = true;
+                }
             }
             //enhanced switch case
             switch (choice.toLowerCase()) {
                 //movement
                 case "go north", "north", "go n", "n" -> {
+                    roomEnemiesAttack();
                     //nested switch case to handle several scenarios (can move | cant move | locked room)
                     switch (adventure.moveNorth()) {
                         case DOOR_LOCKED -> System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
@@ -117,6 +112,7 @@ public class UserInterface {
                     }
                 }
                 case "go south", "south", "go s", "s" -> {
+                    roomEnemiesAttack();
                     switch (adventure.moveSouth()) {
                         case DOOR_LOCKED -> System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
                         case CAN_MOVE -> newRoom = true;
@@ -124,6 +120,7 @@ public class UserInterface {
                     }
                 }
                 case "go east", "east", "go e", "e" -> {
+                    roomEnemiesAttack();
                     switch (adventure.moveEast()) {
                         case DOOR_LOCKED -> System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
                         case CAN_MOVE -> newRoom = true;
@@ -131,6 +128,7 @@ public class UserInterface {
                     }
                 }
                 case "go west", "west", "go w", "w" -> {
+                    roomEnemiesAttack();
                     switch (adventure.moveWest()) {
                         case DOOR_LOCKED -> System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
                         case CAN_MOVE -> newRoom = true;
@@ -142,7 +140,10 @@ public class UserInterface {
                 case "help", "h" -> help();
                 case "inventory", "inv", "i" -> inventory();
                 case "status" -> status();
-                case "attack" -> attack();
+                case "attack" -> {
+                    attack();
+                    roomEnemiesAttack();
+                }
                 case "exit" -> exit(); //aka diving head-first out the airlock
                 //special actions
                 case "unlock n", "unlock north" -> unlockRoom(choice);
@@ -159,8 +160,6 @@ public class UserInterface {
                         invalidCommand();
                     }
                 }
-                //default is something useful to have a Switch Case, since it is a default response if none of the
-                //other options are chosen, in this case it is simply a service message to inform the user of a bad input
             }
         }
         while (true);
@@ -169,7 +168,8 @@ public class UserInterface {
     //help provides a list of instructions and hints
     private void help() {
         System.out.print(Colours.CYAN_BOLD + """
-                - You can move in the cardinal direction (North, East, South, West) by typing "Go direction" or just "Direction".
+                - You can move in the cardinal direction (North, East, South, West)
+                  by typing "Go direction" or just "Direction".
                 - "Look" allows you to see more in-depth information about the room you are currently in.
                 - "Take ___" to take an item from a room
                 - "Drop ___" to discard an item from inventory
@@ -178,7 +178,7 @@ public class UserInterface {
                 - "Eat ___" to consume an item from inventory
                 - "Inspect ___" to inspect an item from inventory
                 - "Equip ___" to equip an item from inventory
-                - "Attack" to use an equipped weapon to attack
+                - "Attack ___" to use equipped weapon to attack a target
                 - "Status" to view player status, such as health
                 - Locked rooms require specific keys.
                 - Dark rooms require a flashlight.
@@ -204,10 +204,21 @@ public class UserInterface {
         if (adventure.getPlayerLocation().isLitUp()) {
             string += adventure.getPlayerLocation().getDescription();
             if (!adventure.getPlayerLocation().getRoomItems().isEmpty()) {
-                string += "\nItems found in the room:" +
+                string += Colours.BLUE +
+                        "\nItems found in the room:" +
                         "\n------------------------";
                 for (Item item : adventure.getPlayerLocation().getRoomItems()) {
                     string += "\n" + item.getName() + ": " + item.getROOM_DESCRIPTION();
+                }
+                string += "\n------------------------";
+            }
+            if(!adventure.getPlayerLocation().getRoomEnemies().isEmpty()){
+                string += Colours.RED +
+                        "\nEnemies in the room:" +
+                        "\n------------------------";
+                for (Enemy enemy: adventure.getPlayerLocation().getRoomEnemies()) {
+                    string += "\n" + enemy.getName() + " ("+enemy.getHealth()+"/"+enemy.getMaxHealth()+")" +
+                            " : " + enemy.getDescription();
                 }
                 string += "\n------------------------";
             }
@@ -255,8 +266,13 @@ public class UserInterface {
                         itemDescription += " (Equipped)";
                     }
                     itemDescription += "\n" + Colours.CYAN + item.getDescription() + "\n";
-                    itemDescription += Colours.BLUE + "Number of uses: " + item.getNumberOfUses() + "\n";
-                    if (item.getNumberOfUses() <= 0) {
+                    itemDescription += Colours.BLUE + "Number of uses: ";
+                    if(item.getNumberOfUses() >= 0) {
+                        itemDescription += item.getNumberOfUses() + "\n";
+                    }else{
+                        itemDescription += "∞\n";
+                    }
+                    if (item.getNumberOfUses() == 0) {
                         itemDescription += Colours.RED + "(Broken)\n";
                     }
                 }
@@ -288,18 +304,18 @@ public class UserInterface {
         boolean canOpen = false;
         if (input.contains("unlock n")) {
             if (adventure.getRoomNorth() != null && adventure.getRoomNorth().isLocked()) {
-                for (Item item: inventory) {
-                    if(item instanceof Keycard){
-                        if (((Keycard) item).getKeycardRoomName().equalsIgnoreCase(adventure.getRoomNorth().getName())){
+                for (Item item : inventory) {
+                    if (item instanceof Keycard) {
+                        if (((Keycard) item).getKeycardRoomName().equalsIgnoreCase(adventure.getRoomNorth().getName())) {
                             canOpen = true;
                         }
                     }
                 }
-                if(canOpen) {
+                if (canOpen) {
                     adventure.getRoomNorth().setLocked(false);
                     System.out.println(Colours.PURPLE_BOLD + adventure.getRoomNorth().getName() +
                             " unlocked!" + Colours.RESET);
-                }else{
+                } else {
                     invalidCommand();
                 }
             } else {
@@ -307,18 +323,18 @@ public class UserInterface {
             }
         } else if (input.contains("unlock s")) {
             if (adventure.getRoomSouth() != null && adventure.getRoomSouth().isLocked()) {
-                for (Item item: inventory) {
-                    if(item instanceof Keycard){
-                        if (((Keycard) item).getKeycardRoomName().equalsIgnoreCase(adventure.getRoomSouth().getName())){
+                for (Item item : inventory) {
+                    if (item instanceof Keycard) {
+                        if (((Keycard) item).getKeycardRoomName().equalsIgnoreCase(adventure.getRoomSouth().getName())) {
                             canOpen = true;
                         }
                     }
                 }
-                if(canOpen) {
+                if (canOpen) {
                     adventure.getRoomSouth().setLocked(false);
                     System.out.println(Colours.PURPLE_BOLD + adventure.getRoomSouth().getName() +
                             " unlocked!" + Colours.RESET);
-                }else{
+                } else {
                     invalidCommand();
                 }
             } else {
@@ -326,18 +342,18 @@ public class UserInterface {
             }
         } else if (input.contains("unlock e")) {
             if (adventure.getRoomEast() != null && adventure.getRoomEast().isLocked()) {
-                for (Item item: inventory) {
-                    if(item instanceof Keycard){
-                        if (((Keycard) item).getKeycardRoomName().equalsIgnoreCase(adventure.getRoomEast().getName())){
+                for (Item item : inventory) {
+                    if (item instanceof Keycard) {
+                        if (((Keycard) item).getKeycardRoomName().equalsIgnoreCase(adventure.getRoomEast().getName())) {
                             canOpen = true;
                         }
                     }
                 }
-                if(canOpen) {
+                if (canOpen) {
                     adventure.getRoomEast().setLocked(false);
                     System.out.println(Colours.PURPLE_BOLD + adventure.getRoomEast().getName() +
                             " unlocked!" + Colours.RESET);
-                }else{
+                } else {
                     invalidCommand();
                 }
             } else {
@@ -345,18 +361,18 @@ public class UserInterface {
             }
         } else if (input.contains("unlock w")) {
             if (adventure.getRoomWest() != null && adventure.getRoomWest().isLocked()) {
-                for (Item item: inventory) {
-                    if(item instanceof Keycard){
-                        if (((Keycard) item).getKeycardRoomName().equalsIgnoreCase(adventure.getRoomWest().getName())){
+                for (Item item : inventory) {
+                    if (item instanceof Keycard) {
+                        if (((Keycard) item).getKeycardRoomName().equalsIgnoreCase(adventure.getRoomWest().getName())) {
                             canOpen = true;
                         }
                     }
                 }
-                if(canOpen) {
+                if (canOpen) {
                     adventure.getRoomWest().setLocked(false);
                     System.out.println(Colours.PURPLE_BOLD + adventure.getRoomWest().getName() +
                             " unlocked!" + Colours.RESET);
-                }else{
+                } else {
                     invalidCommand();
                 }
             } else {
@@ -413,18 +429,18 @@ public class UserInterface {
                 //if the item used is food, the item is pushed to the "eatItem()" method
                 if (item instanceof Food) {
                     eatItem(stringArray);
-                }else
+                } else
 
-                //unique scenarios
-                if (itemName.toLowerCase().contains("f")) {
-                    if (item.getNumberOfUses() > 0) {
-                        System.out.println(Colours.PURPLE_BOLD + "Using " + item.getName() + " to light up the room." + Colours.RESET);
-                        adventure.getPlayerLocation().setLitUp(true);
-                    } else {
-                        System.out.println(Colours.RED + "You broke your " + item.getName() + " because you used it as a " +
-                                "weapon!" + Colours.RESET);
+                    //unique scenarios
+                    if (itemName.toLowerCase().contains("f")) {
+                        if (item.getNumberOfUses() > 0) {
+                            System.out.println(Colours.PURPLE_BOLD + "Using " + item.getName() + " to light up the room." + Colours.RESET);
+                            adventure.getPlayerLocation().setLitUp(true);
+                        } else {
+                            System.out.println(Colours.RED + "You broke your " + item.getName() + " because you used it as a " +
+                                    "weapon!" + Colours.RESET);
+                        }
                     }
-                }
                 if (itemName.toLowerCase().contains("m")) {
                     System.out.println(item.getDescription());
                 }
@@ -436,6 +452,7 @@ public class UserInterface {
         }
     }
 
+    //attack with no target (still uses ammo and decreases durability)
     private void attack() {
         Item attackItem = null;
         for (Item item : adventure.getPlayerInventory()) {
@@ -447,17 +464,85 @@ public class UserInterface {
             ReturnAttackMessage message = attackItem.attack().getReturnAttackMessage();
             switch (message) {
                 case CANT_ATTACK -> System.out.println(Colours.RED + "Cannot attack with that weapon!" + Colours.RESET);
-                case MELEE_ATTACK ->
-                        System.out.println(Colours.PURPLE_BOLD + "You swing your " + attackItem.getName() + "!" + Colours.RESET);
+                case MELEE_ATTACK -> {
+                    System.out.println(Colours.PURPLE_BOLD + "You swing your " + attackItem.getName() + "!" + Colours.RESET);
+                    System.out.println(Colours.RED + attackItem.getName() + " produces a *swoosh* as travels through the air " +
+                            "hitting nothing!" + Colours.RESET);
+                }
                 case CANT_MELEE_ATTACK ->
                         System.out.println(Colours.RED + attackItem.getName() + " is broken!" + Colours.RESET);
-                case RANGED_ATTACK ->
-                        System.out.println(Colours.PURPLE_BOLD + "You fire your " + attackItem.getName() + "!" + Colours.RESET);
+                case RANGED_ATTACK -> {
+                    System.out.println(Colours.PURPLE_BOLD + "You fire your " + attackItem.getName() + "!" + Colours.RESET);
+                    System.out.println(Colours.RED + attackItem.getName() + " fires and hits the wall in front of you, " +
+                            "hitting nothing!" + Colours.RESET);
+                }
                 case CANT_RANGED_ATTACK ->
                         System.out.println(Colours.RED + attackItem.getName() + " is out of ammunition!" + Colours.RESET);
             }
         } else {
             System.out.println(Colours.RED + "No weapon equipped!" + Colours.RESET);
+        }
+    }
+
+    //attack a target
+    private void attackEnemy(String[] stringArray) {
+        if (stringArray.length > 1) {
+            String enemyName = "";
+            for (int i = 1; i < stringArray.length; i++) {
+                enemyName += stringArray[i] + " ";
+            }
+            enemyName = enemyName.trim();
+            Enemy enemyInRoom = null;
+            for (Enemy enemy : adventure.getPlayerLocation().getRoomEnemies()) {
+                if (enemy.getName().toLowerCase().contains(enemyName.toLowerCase())) {
+                    enemyInRoom = enemy;
+                }
+            }
+            if (enemyInRoom != null) {
+                Item attackItem = null;
+                for (Item item : adventure.getPlayerInventory()) {
+                    if (item.isEquipped()) {
+                        attackItem = item;
+                    }
+                }
+                if (attackItem != null) {
+                    ReturnAttackMessage message = attackItem.attack().getReturnAttackMessage();
+                    switch (message) {
+                        case CANT_ATTACK ->
+                                System.out.println(Colours.RED + "Cannot attack with that weapon!" + Colours.RESET);
+                        case MELEE_ATTACK -> {
+                            enemyInRoom.takeDamage(attackItem.attack().getDamage());
+                            System.out.println(Colours.PURPLE_BOLD + "You swing your " + attackItem.getName() + " and deal "
+                                    + attackItem.attack().getDamage() + " damage to " + Colours.RED + enemyInRoom.getName() +
+                                    Colours.PURPLE_BOLD + "!" + Colours.RESET);
+                            if (enemyInRoom.getHealth() < 1){
+                                System.out.println(Colours.PURPLE_BOLD + "Your attack killed " + enemyInRoom.getName() +
+                                        "!"+Colours.RESET);
+                                adventure.enemyDies(enemyInRoom);
+                            }
+                        }
+                        case CANT_MELEE_ATTACK ->
+                                System.out.println(Colours.RED + attackItem.getName() + " is broken!" + Colours.RESET);
+                        case RANGED_ATTACK -> {
+                            enemyInRoom.takeDamage(attackItem.attack().getDamage());
+                            System.out.println(Colours.PURPLE_BOLD + "You fire your " + attackItem.getName() + " and deal "
+                                    + attackItem.attack().getDamage() + " damage to " + Colours.RED + enemyInRoom.getName() +
+                                    Colours.PURPLE_BOLD + "!" + Colours.RESET);
+                            if (enemyInRoom.getHealth() < 1){
+                                System.out.println(Colours.PURPLE_BOLD + "Your attack killed " + enemyInRoom.getName() +
+                                        "!"+Colours.RESET);
+                                adventure.enemyDies(enemyInRoom);
+                            }
+                        }
+                        case CANT_RANGED_ATTACK ->
+                                System.out.println(Colours.RED + attackItem.getName() + " is out of ammunition!" + Colours.RESET);
+                    }
+                } else {
+                    System.out.println(Colours.RED + "No weapon equipped!" + Colours.RESET);
+                }
+            } else {
+                System.out.println(Colours.RED + "No such enemy in the room!" + Colours.RESET);
+            }
         }
     }
 
@@ -469,11 +554,11 @@ public class UserInterface {
             }
             itemName = itemName.trim();
 
-            switch (adventure.addItem(itemName)) { //TODO make Enum
-                case 0 ->
-                        System.out.println(Colours.RED + "Item already acquired!" + Colours.RESET); //this doesn't seem to work
-                case 1 -> System.out.println(Colours.PURPLE_BOLD + "Item acquired!" + Colours.RESET);
-                case 2 -> System.out.println(Colours.RED + "Item doesn't exist!" + Colours.RESET);
+            switch (adventure.addItem(itemName)) {
+                //this doesn't seem to work
+                case ALREADY_HAVE -> System.out.println(Colours.RED + "Item already acquired!" + Colours.RESET);
+                case CAN_TAKE -> System.out.println(Colours.PURPLE_BOLD + "Item acquired!" + Colours.RESET);
+                case DOESNT_EXIST -> System.out.println(Colours.RED + "Item doesn't exist!" + Colours.RESET);
             }
         } else {
             invalidCommand();
@@ -508,11 +593,54 @@ public class UserInterface {
             }
             itemName = itemName.trim();
             switch (adventure.dropItem(itemName)) { //TODO make this Enum
-                case 0 -> System.out.println(Colours.RED + "Item not in inventory!" + Colours.RESET);
-                case 1 -> System.out.println(Colours.PURPLE_BOLD + "Item discarded!" + Colours.RESET);
+                case DOESNT_EXIST -> System.out.println(Colours.RED + "Item not in inventory!" + Colours.RESET);
+                case CAN_DROP -> System.out.println(Colours.PURPLE_BOLD + "Item discarded!" + Colours.RESET);
+                case CANT_DROP -> System.out.println(Colours.RED + "You cannot drop this item!" + Colours.RESET);
             }
         } else {
             invalidCommand();
+        }
+    }
+
+    private void roomEnemiesAttack(){
+        if(!adventure.getPlayerLocation().getRoomEnemies().isEmpty() && !enemyHasAttacked){
+            System.out.println(Colours.RED + "----------------------");
+            for (Enemy enemy: adventure.getPlayerLocation().getRoomEnemies()) {
+                if(enemy.attack() > 0) {
+                    adventure.takeDamage(enemy.attack());
+                    System.out.println(enemy.getName() + " attacks you, dealing "+enemy.attack()+" damage!");
+                }
+            }
+            System.out.println("----------------------"+Colours.RESET);
+            enemyHasAttacked = true;
+            if(adventure.getPlayerHealth() == 0){
+                playerDeath();
+            }
+        }
+    }
+
+    private void playerDeath(){
+        scanner = new Scanner(System.in);
+        System.out.println(Colours.RED_BOLD + "You have died!\nGame Over!\n" +
+                Colours.BLUE_BOLD + "Would you like to continue?" + Colours.RESET);
+        String answer = scanner.nextLine();
+        switch (answer.toLowerCase()) {
+            //if you want to continue (added a lot of ways to say yes)
+            case "ye", "yarp", "yass", "yes", "dah", "oui", "jahwol", "yep", "ja", "jaja" -> {
+                //resets game, prints welcome message, and sets newRoom to "true"
+                adventure = new Adventure();
+                welcome();
+                newRoom = true;
+            }
+            //if you say no (exits game after waiting half a second)
+            case "no", "nope", "im out of here", "narp", "cya" -> {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                System.exit(2);
+            }
         }
     }
 
