@@ -14,6 +14,7 @@ public class Room {
     private Room neighbourWest;
     private Room neighbourEast;
     private ArrayList<Item> roomItems;
+    private ArrayList<Enemy> roomEnemies;
 
     //standard constructor with just name and description (default values are set for Locked and LitUp)
     public Room(String name, String description) {
@@ -22,6 +23,7 @@ public class Room {
         this.locked = false;
         this.litUp = true;
         roomItems = new ArrayList<>();
+        roomEnemies = new ArrayList<>();
     }
 
     //constructor for rooms that are locked (LitUp is defaulted to False)
@@ -31,6 +33,7 @@ public class Room {
         this.locked = locked;
         this.litUp = true;
         roomItems = new ArrayList<>();
+        roomEnemies = new ArrayList<>();
     }
 
     //constructor for rooms where you want to set Locked and LitUp manually
@@ -40,6 +43,7 @@ public class Room {
         this.locked = locked;
         this.litUp = litUp;
         roomItems = new ArrayList<>();
+        roomEnemies = new ArrayList<>();
     }
 
     public void addItemToRoom(Item item){
@@ -52,6 +56,18 @@ public class Room {
 
     public void removeItemFromRoom(Item item){
         roomItems.remove(item);
+    }
+
+    public void addEnemyToRoom(Enemy enemy){
+        roomEnemies.add(enemy);
+    }
+
+    public ArrayList<Enemy> getRoomEnemies() {
+        return roomEnemies;
+    }
+
+    public void removeEnemyFromRoom(Enemy enemy){
+        roomEnemies.remove(enemy);
     }
 
     public boolean isLocked() {
@@ -88,31 +104,15 @@ public class Room {
         return neighbourNorth;
     }
 
-    public void setNeighbourNorth(Room neighbourNorth) {
-        this.neighbourNorth = neighbourNorth;
-    }
-
     public Room getNeighbourSouth() {
         return neighbourSouth;
-    }
-
-    public void setNeighbourSouth(Room neighbourSouth) {
-        this.neighbourSouth = neighbourSouth;
     }
 
     public Room getNeighbourWest() {
         return neighbourWest;
     }
 
-    public void setNeighbourWest(Room neighbourWest) {
-        this.neighbourWest = neighbourWest;
-    }
-
     public Room getNeighbourEast() {
         return neighbourEast;
-    }
-
-    public void setNeighbourEast(Room neighbourEast) {
-        this.neighbourEast = neighbourEast;
     }
 }

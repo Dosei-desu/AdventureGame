@@ -8,10 +8,13 @@ import java.util.ArrayList;
 public class Player {
     private Room playerLocation;
     private ArrayList<Item> inventory;
-    private Item hildebrandMap;
     private int healthPoints;
     private final int MAX_HEALTH_VALUE = 100;
     private final int MIN_HEALTH_VALUE = 0;
+
+    //unique items player starts with
+    private Item hildebrandMap;
+    private Item missionBrief;
 
     public Player() {
         inventory = new ArrayList<>();
@@ -186,9 +189,24 @@ public class Player {
                         """ + Colours.RED + """
                 You have to get to room 34.
                 Your starting position is room 00.""" + Colours.RESET;
-
         hildebrandMap = new Item("Map of Hildebrand", "Map", map,
                 "A Map of the Discovery Vessel 'Hildebrand'.");
+
+        String brief = """
+                Currently
+                The
+                Story
+                Hasn't
+                Been
+                Written
+                ...
+                
+                - Dosei
+                """;
+        missionBrief = new Item("Mission Brief","Instruction",brief,
+                "Instructions for your mission abord the Hildebrand");
+
+        inventory.add(missionBrief);
         inventory.add(hildebrandMap);
 
         //test food items
@@ -200,9 +218,5 @@ public class Player {
                 "A pixellated blob of goo. It doesn't look very appetising.", -50);
         Food damage100Food = new Food("Test Damage Food 100", "Test Food", "This is a test consumable",
                 "A pixellated blob of goo. It doesn't look very appetising.", -100);
-        inventory.add(heal25Food);
-        inventory.add(heal100Food);
-        inventory.add(damage50Food);
-        inventory.add(damage100Food);
     }
 }

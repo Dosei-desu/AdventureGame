@@ -127,6 +127,12 @@ public class Adventure {
         }
         return player.eatItem(item);
     }
+
+    //TODO
+    public void enemyDies(){
+        //drops weapon it is holding to the room it is in
+    }
+
     public int heal(int healValue){
         return player.heal(healValue);
     }

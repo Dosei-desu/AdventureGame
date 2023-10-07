@@ -444,7 +444,7 @@ public class UserInterface {
             }
         }
         if (attackItem != null) {
-            ReturnAttackMessage message = attackItem.attack();
+            ReturnAttackMessage message = attackItem.attack().getReturnAttackMessage();
             switch (message) {
                 case CANT_ATTACK -> System.out.println(Colours.RED + "Cannot attack with that weapon!" + Colours.RESET);
                 case MELEE_ATTACK ->

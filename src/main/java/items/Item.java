@@ -34,10 +34,6 @@ public class Item {
         return NAME;
     }
 
-    public String getFunction() {
-        return FUNCTION;
-    }
-
     public String getItemBrief(){
         return NAME + " : " + FUNCTION;
     }
@@ -70,8 +66,9 @@ public class Item {
         return ReturnEquipMessage.CANT_EQUIP;
     }
 
-    public ReturnAttackMessage attack(){
-        return ReturnAttackMessage.CANT_ATTACK;
+    public AttackDTO attack(){
+        AttackDTO attackDTO = new AttackDTO(ReturnAttackMessage.CANT_ATTACK,0);
+        return attackDTO;
     }
 
     public int getNumberOfUses() {

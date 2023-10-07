@@ -1,30 +1,28 @@
 package items;
 
-public class MeleeWeapon extends Weapon{
-
-    public MeleeWeapon(String NAME, String FUNCTION, String DESCRIPTION, int numberOfUses) {
-        super(NAME, FUNCTION, DESCRIPTION, numberOfUses);
-    }
-
-    public MeleeWeapon(String NAME, String FUNCTION, String DESCRIPTION, String ROOM_DESCRIPTION, int numberOfUses) {
-        super(NAME, FUNCTION, DESCRIPTION, ROOM_DESCRIPTION, numberOfUses);
+public class MeleeWeapon extends Weapon {
+    public MeleeWeapon(String NAME, String FUNCTION, String DESCRIPTION, String ROOM_DESCRIPTION, int numberOfUses, int damage) {
+        super(NAME, FUNCTION, DESCRIPTION, ROOM_DESCRIPTION, numberOfUses, damage);
     }
 
     @Override
-    public ReturnEquipMessage equip(){
+    public ReturnEquipMessage equip() {
         return ReturnEquipMessage.EQUIP_MELEE;
     }
 
     @Override
-    public ReturnAttackMessage attack() {
-        //maybe the player takes damage when attacking with a melee weapon
-        if(isEquipped()) {
+    public AttackDTO attack() {
+        AttackDTO attackDTO;
+        if (isEquipped()) {
             if (getNumberOfUses() > 0) {
                 setNumberOfUses(getNumberOfUses() - 1);
-                return ReturnAttackMessage.MELEE_ATTACK;
+                attackDTO = new AttackDTO(ReturnAttackMessage.MELEE_ATTACK, getDamage());
+                return attackDTO;
             }
-            return ReturnAttackMessage.CANT_MELEE_ATTACK;
+            attackDTO = new AttackDTO(ReturnAttackMessage.CANT_MELEE_ATTACK, getDamage());
+            return attackDTO;
         }
-        return ReturnAttackMessage.CANT_ATTACK;
+        attackDTO = new AttackDTO(ReturnAttackMessage.CANT_ATTACK, getDamage());
+        return attackDTO;
     }
 }
