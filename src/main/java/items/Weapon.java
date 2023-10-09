@@ -13,10 +13,6 @@ public abstract class Weapon extends Item{
         setEquipped(false);
     }
 
-    public AttackDTO attack(){
-        return attack();
-    }
-
     public int getDamage() {
         return damage;
     }
@@ -25,12 +21,20 @@ public abstract class Weapon extends Item{
         return numberOfUses;
     }
 
+    public boolean isEquipped() {
+        return equipped;
+    }
+
     public void setNumberOfUses(int numberOfUses) {
         this.numberOfUses = numberOfUses;
     }
 
-    public boolean isEquipped() {
-        return equipped;
+    public void useOnce(){
+        setNumberOfUses(getNumberOfUses()-1);
+    }
+
+    public String breakStatus(){
+        return "";
     }
 
     public void setEquipped(boolean equipped) {

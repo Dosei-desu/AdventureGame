@@ -135,7 +135,9 @@ public class Adventure {
     public void enemyDies(Enemy enemy){
         //drops weapon it is holding to the room it is in
         if(enemy != null) {
-            player.getPlayerLocation().addItemToRoom(enemy.getWeapon());
+            if(!(enemy instanceof Trap)) { //a very ugly way to do "enemy isn't instanceof Trap class" <.<
+                player.getPlayerLocation().addItemToRoom(enemy.getWeapon());
+            }
             player.getPlayerLocation().removeEnemyFromRoom(enemy);
         }
     }

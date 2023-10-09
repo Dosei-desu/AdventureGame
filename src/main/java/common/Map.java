@@ -117,16 +117,15 @@ public class Map {
                 password to open."""); //found in room9
 
         // Bottom section
-        room16 = new Room("Room 16", "");
-        room17 = new Room("Room 17", "");
-        room18 = new Room("Room 18", "");
-        room19 = new Room("Room 19", "");
-        room20 = new Room("Room 20", "");
+        room16 = new Room("Server Room", "",false,false);
+        room17 = new Room("Engine Room Hallway", "",false,false);
+        room18 = new Room("Engineer Break-Room", "",false,false);
+        room19 = new Room("Engine Bay C", "",false,false);
+        room20 = new Room("Engine Bay B", "",false,false);
         //items: Keycard to room30
+        room21 = new Room("Engine Bay A", "",false,false);
 
-        room21 = new Room("Room 21", "");
-
-        // Top section
+        // Top section TODO remake
         room22 = new Room("Pile of machines and computers", """
                 There are unused computers and cables everywhere in the room.
                 Some of them which is turned on, and some cables are shaking among the computers.
@@ -282,6 +281,7 @@ public class Map {
         makeConnections();
         placeItems();
         placeEnemies();
+        placeTraps();
 
         // Start Room
         startRoom = room0;
@@ -344,7 +344,13 @@ public class Map {
                 new MeleeWeapon("Kass' Feather-Duster","Tool","It's a feather-duster.",
                         "A dusty feather-duster covered in cobwebs.",1,1));
         room0.addEnemyToRoom(welcomeDroid);
+    }
 
+    private void placeTraps(){
+        Enemy tripWire01 = new Trap("Heat-Sensor Trap","A little square box that hangs from the ceiling and" +
+                "might go off if you try to leave.",1,new RangedWeapon("Explosion","Bomb",
+                "Boom!","It's a bomb!",1,100));
+        room1.addEnemyToRoom(tripWire01);
     }
 
     private void makeConnections(){

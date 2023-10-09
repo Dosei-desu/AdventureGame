@@ -71,11 +71,21 @@ public class Item {
         return attackDTO;
     }
 
+    public void setNumberOfUses(int numberOfUses) {
+        this.numberOfUses = numberOfUses;
+    }
+
+    public void useOnce(){
+        setNumberOfUses(getNumberOfUses()-1);
+    }
+
     public int getNumberOfUses() {
         return numberOfUses;
     }
 
-    public void setNumberOfUses(int numberOfUses) {
-        this.numberOfUses = numberOfUses;
+    public String breakStatus() {
+        return "";
     }
+
+
 }

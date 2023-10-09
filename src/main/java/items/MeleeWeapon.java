@@ -15,7 +15,6 @@ public class MeleeWeapon extends Weapon {
         AttackDTO attackDTO;
         if (isEquipped()) {
             if (getNumberOfUses() > 0) {
-                setNumberOfUses(getNumberOfUses() - 1);
                 attackDTO = new AttackDTO(ReturnAttackMessage.MELEE_ATTACK, getDamage());
                 return attackDTO;
             } else if (getNumberOfUses() == -1) {
@@ -27,5 +26,10 @@ public class MeleeWeapon extends Weapon {
         }
         attackDTO = new AttackDTO(ReturnAttackMessage.CANT_ATTACK, getDamage());
         return attackDTO;
+    }
+
+    @Override
+    public String breakStatus() {
+        return "(Broken)";
     }
 }

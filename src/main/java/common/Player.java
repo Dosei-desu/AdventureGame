@@ -16,6 +16,7 @@ public class Player {
     private Item hildebrandMap;
     private Item missionBrief;
     private Item fists;
+    private Item trustyNeedler;
 
     public Player() {
         inventory = new ArrayList<>();
@@ -90,7 +91,7 @@ public class Player {
                     string += " (Equipped)";
                 }
                 if (item.getNumberOfUses() == 0) {
-                    string += " (Broken)";
+                    string += " "+item.breakStatus();
                 }
             }
             string += "\n";
@@ -216,10 +217,15 @@ public class Player {
                 "Instructions for your mission abord the Hildebrand");
 
         fists = new MeleeWeapon("Fists","Your fists","These are your fists. They are quite dainty.",
-                "You'll never see this, cause you can't drop your fists.",-1,1);
+                "You'll never see this, because you can't drop your fists...",-1,1);
+
+        trustyNeedler = new RangedWeapon("Trusty Needler","Needler Gun","A Trusty Needler gun that has "+
+                "saved you more times than you can remember.","A worn Needler Gun with a maximum capacity of three shots",
+                3,8);
 
         inventory.add(fists);
         equip("fists");
+        inventory.add(trustyNeedler);
         inventory.add(missionBrief);
         inventory.add(hildebrandMap);
 
