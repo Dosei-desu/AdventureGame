@@ -164,6 +164,14 @@ public class Adventure {
         return player.equip(name);
     }
 
+    public void enemiesPatrol(){
+        map.mechHoundMoves(getPlayerLocation());
+    }
+
+    public boolean mechHoundIsNear(){
+        return map.mechHoundIsNear(getPlayerLocation());
+    }
+
     public ArrayList<Item> getPlayerInventory(){
         return player.getInventory();
     }

@@ -3,6 +3,10 @@ package common;
 import items.*;
 import ui.Colours;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Map {
     //very long list of all standard rooms
     private Room room0, room1, room2, room3, room4, room5, room6, room7, room8, room9, room10, room11, room12, room13,
@@ -14,6 +18,8 @@ public class Map {
     private Room outerSpace; //technically any place that is outside the boundaries of the spaceship
     private Room startRoom;
     private Room roomToTeleportTo;
+    //unique enemies
+    private Enemy mechHound;
 
     public void buildMap() {
         // Rooms
@@ -28,6 +34,8 @@ public class Map {
                 Connected to the Discovery Vessel via a door to the West.""" +
                 "\nYou could leave out the docking port to the East, but it would " +
                 Colours.RED + "kill" + Colours.GREEN_BOLD + " you.");
+        //enemies: Welcome Droid 'Kass'
+        //look closer event
         room1 = new Room("East Vestibule", """
                 Spacesuits and oxygen tanks hang from the walls.
                 Connected to rooms via three doors to the North, West, and South.
@@ -78,7 +86,8 @@ public class Map {
                 are scattered across the room, and there is even a mini-fridge full of beer, although
                 all the bottles are empty.
                 Connected to rooms via doors to the North, East, and West.""", false, false);
-        //contains the password to special door from room15 to room14
+        //items: Beer Bottle (empty)
+        //look closer event: contains the password to special door from room15 to room14
         room10 = new Room("Hallway of Mirrors", """
                 Highly-reflective mirrors cover every inch of the hallway, making it very disorienting
                 to walk through. At first you believe there are twelve doors, but it turns out there
@@ -116,13 +125,19 @@ public class Map {
                 password to open."""); //found in room9
 
         // Bottom section
-        room16 = new Room("Server Room", "",false,false);
-        room17 = new Room("Engine Room Hallway", "",false,false);
-        room18 = new Room("Engineer Break-Room", "",false,false);
-        room19 = new Room("Engine Bay C", "",false,false);
-        room20 = new Room("Engine Bay B", "",false,false);
+            //Patrolling Enemy: Mech-Hound (rooms 16-21)
+        room16 = new Room("Server Room", """
+                Server banks line the walls and there are terminals here, although they are inaccessible
+                since the power to this entire area is switched off. It seems that calculations for FTL
+                jumps might have been handled here. There is a lab-coat draped across a chair with a name-
+                tag that says 'Nigel'.""", false, false);
+                //items: Nigel's Lab-coat (junk)
+        room17 = new Room("Engine Room Hallway", "", false, false);
+        room18 = new Room("Engineer Break-Room", "", false, false);
+        room19 = new Room("Engine Bay C", "", false, false);
+        room20 = new Room("Engine Bay B", "", false, false);
         //items: Keycard to room30
-        room21 = new Room("Engine Bay A", "",false,false);
+        room21 = new Room("Engine Bay A", "", false, false);
 
         // Top section TODO remake
         //---
@@ -175,7 +190,7 @@ public class Map {
                 An alien maid is scrubbing the floor and complaining about how some mad doctor did that.
                 The toilets are locked with a sign that says
                 'The toilets were destroyed by a mad doctor, Dr. Fluke Hawkins.'""");
-        room34 = new Room("The Command Deck", """
+        room34 = new Room("Command Deck", """
                 There is a reeeeally big window to the outer space,
                 You can see some killer klowns are raging in war with the martians with googly eyes 
                 and featuring their brains in glass helmets on some asteroids.
@@ -194,6 +209,8 @@ public class Map {
                 "\nYou could leave out the docking port to the West, but it would " +
                 Colours.RED + "kill" + Colours.GREEN_BOLD + " you.");
         //items: Keycard to room53
+        //enemies: Welcome Droid Hass
+        //look closer event
         room36 = new Room("Engine Crew Quarters A", """
                 One enormous bed covers half the room, and on the bed are twelve separate pillows
                 and duvets. It seems as though the Engine Crew used to snuggle when they slept here.
@@ -231,6 +248,7 @@ public class Map {
                 socks lies a keycard that reads 'Engine Crew Quarters A'.
                 Connected to a room via a door to the North.""", false, false);
         //items: Keycard to room37 | Nasty Sock-Mushrooms (poisoned)
+        //enemy: Ceiling Turret
         room42 = new Room("Engine Crew Quarters B", """
                 Several machines are playing synth music formed from many differently-pitched beeps
                 and a massive totem of machine parts stands along the backwall, and it seems to have
@@ -245,31 +263,48 @@ public class Map {
                 with balloons on it. You have no idea how long the bots have been at it, but no winner
                 has yet to emerge.
                 Connected to rooms via doors to the North and West.""");
-                //item : Pile of Credsticks worth 350 credits
+        //item : Pile of Credsticks worth 350 credits
         room44 = new Room("Experimental R&D Storage", """
                 Empty creates, overturned databanks, and other miscellaneous items lay all around. Looters
                 have been through here, but they have left two items behind on one of the item racks on the wall.
                 Connected to a room via a door to the East.""");
-                //items: Darklight (anti flashlight weapon that turns rooms dark) | Nova Ray (one shot weapon with 1 shot)
+        //items: Darklight (anti flashlight weapon that turns rooms dark) | Nova Ray (one shot weapon with 1 shot)
         room45 = new Room("Experimental R&D Lab", """
                 Computers and microscopes and many other specialised tools flood the room and make it hard
                 to move around.One of the computers is on and there is a note written on it. For some reason,
                 chairs have been welded to the ceiling. Shoved away atop a shelf is a generator that seem to
                 be the source of power for the power in this part of the ship.
                 Connected to rooms via doors to the North and South.""");
-                //look closer : find some password or something
+        //look closer : find some password or something
         room46 = new Room("Experimental R&D Common Room", """
                 Floating couches and furniture fill the room, and for some reason the power is still on
                 in this part of the stern of the Discovery Vessel. The fridges have been raided, but there
                 are still some things left in one of them.
                 Connected to rooms via doors to the East and West.""");
-                //items: Chewy Leaves (food) | Glowing Cheetos (food) | Suspicious Goop (poison)
-        room47 = new Room("Hydroponics Lab Common Room", "");
-        room48 = new Room("Hydroponics Lab Greenhouse A", "");
-        room49 = new Room("Hydroponics Lab Greenhouse B", "");
+        //items: Chewy Leaves (food) | Glowing Cheetos (food) | Suspicious Goop (poisoned)
+        room47 = new Room("Hydroponics Lab Common Room", """
+                Since the power to this area is off and seems to have been off for a while, the fridges
+                are full of decayed food, mostly vegetables and fruits, but there are some synth-gummies on
+                one of the tables next to some overturned chairs. There's a Caffeine Brewer next to the
+                fridges, but a note is plasted on it that says, 'Broken'.
+                Connected to rooms via doors to the East and West.""",false,false);
+        //items: Green Synth-Gummies (food) | Melted Blue Synth-Gummies (food)
+        room48 = new Room("Hydroponics Lab Greenhouse A", """
+                Tall plastic boxes run along the walls of the room, but the contents of the boxes are all
+                wilted and decayed and mouldy. Murky water is covering the floor and the air is buzzing with
+                fat flies. Within a pile of gloopy mulch half a Keycard is visible.
+                Connected to rooms via doors to the North and South.""",false,false);
+        //items: Keycard to room52
+        room49 = new Room("Hydroponics Lab Greenhouse B", """
+                You immediately come face-to-face with an enormous Pitcher Plant, from which pokes two skeletal legs. It
+                is the first body of the vanished crew you have come across, and unfortunately, as you stare at the plant,
+                it swallows the skeleton with a gulp and then seems to look towards you. On the floor, vines suddenly shift,
+                before lifting into the air and preparing to attack you.
+                Connected to a room via a door to the West.""",false,false);
+        //enemies: Giant Pitcher Plant
         room50 = new Room("Captain's Quarters", "");
         room51 = new Room("Captain's Quarters", "");
-        room52 = new Room("Captain's Quarters", "");
+        room52 = new Room("Captain's Quarters", "", true);
         room53 = new Room("Navigator Quarters", "", true);
         room54 = new Room("Navigator Quarters", "");
         room55 = new Room("Navigator Quarters", "");
@@ -300,7 +335,7 @@ public class Map {
 
     private void placeItems() {
         room3.addItemToRoom(new Keycard("Engine Room Keycard", "Keycard", "Grants access to " +
-                "the Engine Room to the South.", "a filthy keycard with " +
+                "the Engine Room to the South.", "A filthy keycard with " +
                 "the words 'Engine Room' on it.", "Engine Room Vestibule"));
         room4.addItemToRoom(new Item("Motivational Poster", "Junk", "A motivational poster with " +
                 "picture of a cute kitten hanging from a cliff, which states, encouragingly, 'Hang in there!'",
@@ -308,6 +343,12 @@ public class Map {
         room5.addItemToRoom(new Item("Origami Unicorn", "Junk", "A well-crafted origami sculpture " +
                 "depicting a unicorn. You are unsure how it is possible to fold something so meticulously.",
                 "A well-crafted origami unicorn."));
+        room9.addItemToRoom(new Item("Beer Bottle (empty)", "Container", "This bottle smells of beer, " +
+                "but it is now empty. It could probably be filled with something else.",
+                "An empty beer bottle."));
+        room16.addItemToRoom(new Item("Nigel's Lab-coat","Clothing",
+                "A lab-coat with a name-tag that says 'Nigel'. It smells faintly of synth-apples.",
+                "A lab-coat."));
         room20.addItemToRoom(new Keycard("Bridge Keycard", "Keycard", "Grants access to " +
                 "the Bridge of Discovery Vessel 'Hildebrand' to the North.",
                 "A keycard that reads 'Bridge' on it.", "Room 30"));
@@ -335,44 +376,113 @@ public class Map {
         room42.addItemToRoom(new Keycard("Hallway Keycard", "Keycard", "Grants access to " +
                 "the locked hallway near the Crew Quarters to the North.",
                 "A keycard that reads 'Hallway to Crew Quarters'.", "Dirty Hallway"));
-        room43.addItemToRoom(new Item("Pile of Credsticks","Currency","A pile of Credsticks" +
+        room43.addItemToRoom(new Item("Pile of Credsticks", "Currency", "A pile of Credsticks" +
                 " worth 350 Credits. Given rising inflation, it is about enough to buy three synth-apples from a grocer.",
                 "A pile of Credsticks."));
-        room44.addItemToRoom(new MeleeWeapon("Darklight","Tool","A black cylindrical tool" +
-                " with an on-off switch on the side.","A black cylindrical tool.",1,5));
-        room44.addItemToRoom(new RangedWeapon("Nova Ray","Experimental Gun",
-                "A smooth white banana-shaped gun with a soft trigger and a black bead at its tip that might"+
+        room44.addItemToRoom(new MeleeWeapon("Darklight", "Tool", "A black cylindrical tool" +
+                " with an on-off switch on the side.", "A black cylindrical tool.", 1, 5));
+        room44.addItemToRoom(new RangedWeapon("Nova Ray", "Experimental Gun",
+                "A smooth white banana-shaped gun with a soft trigger and a black bead at its tip that might" +
                         "\nfire some kind of beam. The fact that it has been left behind probably means it is dangerous.",
-                "A smooth white banana-shaped experimental gun.",1,999));
-        room46.addItemToRoom(new Food("Chewy Leaves","Consumable",
+                "A smooth white banana-shaped experimental gun.", 1, 999));
+        room46.addItemToRoom(new Food("Chewy Leaves", "Consumable",
                 "Some kind of basil leaves that might have been grown in the hydroponics lab.",
-                "Some kind of basil leaves.",10));
-        room46.addItemToRoom(new Food("Glowing Cheetos","Consumable",
+                "Some kind of basil leaves.", 10));
+        room46.addItemToRoom(new Food("Glowing Cheetos", "Consumable",
                 "An open and half-emptied bag of Cheetos. For some reason the Cheetos glow. It's probably\n" +
-                        "safe to eat?","An opened bag of glowing Cheetos.",15));
-        room46.addItemToRoom(new Food("Suspicious Goop","Consumable",
+                        "safe to eat?", "An opened bag of glowing Cheetos.", 15));
+        room46.addItemToRoom(new Food("Suspicious Goop", "Consumable",
                 "It looks like cursed mashed potatoes and gives off an earthy smell. It seems to move on its own\n" +
-                        "when you prod it with your fingers.","A mass of goop.",-25));
+                        "when you prod it with your fingers.", "A mass of goop.", -25));
+        room47.addItemToRoom(new Food("Green Synth-Gummies", "Consumable",
+                "Some rather tough synth-gummies, which tastes of Green Number 7.", "Stale-looking" +
+                " green synth-gummies.",5));
+        room47.addItemToRoom(new Food("Melted Blue Synth-Gummies", "Consumable",
+                "A goopy conglomerated mess of synth-gummies, which tastes of Blue Number 92.",
+                "A melted-together mass of blue synth-gummies.",1));
+        room48.addItemToRoom(new Keycard("Captain's Quarters Keycard", "Keycard", "Grants access to " +
+                "the Captain's Quarters to the North.", "A keycard with " +
+                "the words 'Captain's Quarters' on it.", "Captain's Quarters"));
         room55.addItemToRoom(new Keycard("Command Deck Keycard", "Keycard", "Grants access to " +
-                "the Command Deck to the North.", "", "The Command Deck"));
+                "the Command Deck to the North.", "A keycard with the words 'Command Deck' on it.",
+                "Command Deck"));
     }
 
     private void placeEnemies() {
-        Enemy welcomeDroid = new Enemy("Welcome Droid 'Kass'","A silvery spherical robot that dangles " +
-                "from the ceiling on a sparking cable. It keeps repeating, \"Welcome.\"",1,
-                new MeleeWeapon("Kass' Feather-Duster","Tool","It's a feather-duster.",
-                        "A dusty feather-duster covered in cobwebs.",1,1));
-        room0.addEnemyToRoom(welcomeDroid);
+        room0.addEnemyToRoom(new Enemy("Welcome Droid 'Kass'", "A silvery spherical robot that dangles " +
+                "from the ceiling on a sparking cable.\nIt keeps repeating, \"Welcome.\"", 1,
+                new MeleeWeapon("Kass' Feather-Duster", "Tool", "It's a feather-duster.",
+                        "A dusty feather-duster covered in cobwebs.", 1, 1)));
+
+        mechHound = new Enemy("Mech-Hound 'Nibbles'", "An imposing canine mech " +
+                "that lets out a synthesised growl that makes the\nfloor shake. It seems to be guarding the Engine area of" +
+                " the Discovery Vessel. It has blood on its claws\nand sharp-toothed maw.", 60,
+                new MeleeWeapon("Nibbles' Claws", "Weapon", "Deadly flensing claws.",
+                        "The front claws of the Mech-Hound named 'Nibbles'. They look like they could" +
+                                " easily cut through steel.", 8, 15));
+        room17.addEnemyToRoom(mechHound);
+
+        room35.addEnemyToRoom(new Enemy("Welcome Droid 'Hass'", "A silvery spherical robot that dangles " +
+                "from the ceiling on a yellow cable.\nIt keeps repeating, \"Please leave.\"", 1,
+                new MeleeWeapon("Stunner", "Weapon", "It's a stun-gun covered in yellow" +
+                        " danger tape and lightning-bolt symbols.","A yellow stun-gun.",
+                        4, 3)));
+
+        room41.addEnemyToRoom(new Enemy("Ceiling Turret",
+                "An automated turret hanging from a socket in the ceiling. A glowing targeting" +
+                        "beam sweeps\nback and forth across the room, before settling on you.", 10,
+                new RangedWeapon("Lance Shot", "Laser Gun",
+                        "A rusted pipe-shaped laser gun torn from a dead turret. It has a simple firing" +
+                                " mechanism, but no shoulder\nstock. It fires laser lances through from the optical" +
+                                " lens at the front.", "A rusted pipe-shaped laser gun.", 4,
+                        6)));
+
+        room49.addEnemyToRoom(new Enemy("Giant Pitcher Plant", "A sentient and very hungry-looking" +
+                "Pitcher Plant shaped like an upside-down bell\nand sloshing with some kind of acidic fluid inside its 'mouth'.",
+                22,new MeleeWeapon("Vine Whip","Organic Weapon","A torn-off vine" +
+                " of the Giant Pitcher Plant. It has quite some reach on it.","A long vine torn from the " +
+                "Giant Pitcher Plant.",2,8)));
     }
 
-    private void placeTraps(){
-        Enemy tripWire01 = new Trap("Heat-Sensor Trap","A little square box that hangs from the ceiling and" +
-                "might go off if you try to leave.",1,new RangedWeapon("Explosion","Bomb",
-                "Boom!","It's a bomb!",1,100));
+    public void mechHoundMoves(Room room) {
+        if (!room.getRoomEnemies().contains(mechHound)) {
+            if (room17.getRoomEnemies().contains(mechHound)) {
+                room17.getRoomEnemies().remove(mechHound);
+                room16.getRoomEnemies().add(mechHound);
+            } else if (room16.getRoomEnemies().contains(mechHound)) {
+                room16.getRoomEnemies().remove(mechHound);
+                room19.getRoomEnemies().add(mechHound);
+            } else if (room19.getRoomEnemies().contains(mechHound)) {
+                room19.getRoomEnemies().remove(mechHound);
+                room20.getRoomEnemies().add(mechHound);
+            } else if (room20.getRoomEnemies().contains(mechHound)) {
+                room20.getRoomEnemies().remove(mechHound);
+                room21.getRoomEnemies().add(mechHound);
+            } else if (room21.getRoomEnemies().contains(mechHound)) {
+                room21.getRoomEnemies().remove(mechHound);
+                room18.getRoomEnemies().add(mechHound);
+            } else if (room18.getRoomEnemies().contains(mechHound)) {
+                room18.getRoomEnemies().remove(mechHound);
+                room17.getRoomEnemies().add(mechHound);
+            }
+        }
+    }
+
+    public boolean mechHoundIsNear(Room room) {
+        if (room.getRoomEnemies().contains(mechHound)) {
+            return true;
+        }
+        return false;
+    }
+
+    private void placeTraps() {
+        Enemy tripWire01 = new Trap("Heat-Sensor Trap", "A little square box that hangs from the ceiling and" +
+                "might go off if you try to leave.", 1, new RangedWeapon("Explosion", "Bomb",
+                "Boom!", "It's a bomb!", 1, 100));
         room1.addEnemyToRoom(tripWire01);
     }
 
-    private void makeConnections(){
+    private void makeConnections() {
         // Room Connections
 
         // Middle section

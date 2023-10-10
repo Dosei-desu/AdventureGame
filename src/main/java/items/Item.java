@@ -42,6 +42,10 @@ public class Item {
         return DESCRIPTION;
     }
 
+    public String getFunction(){
+        return FUNCTION;
+    }
+
     public String getROOM_DESCRIPTION() {
         return ROOM_DESCRIPTION;
     }

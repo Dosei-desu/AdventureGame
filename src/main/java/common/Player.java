@@ -191,16 +191,16 @@ public class Player {
                     35--03  02--01--""" +
                 Colours.RED + "00" + Colours.GREEN_BOLD +
                 """
-                                    
-                                    ||  ||
-                            36  12--11  10  42
-                            ||  ||      ||  ||
-                            37--15--14--13--43
-                                    ||
-                        ||--49  18--17--16  44--||
-                        48      ||      ||      45
-                        ||--47--21--20--19--46--||
-                        """ + Colours.RED + """
+                            
+                            ||  ||
+                    36  12--11  10  42
+                    ||  ||      ||  ||
+                    37--15--14--13--43
+                            ||
+                ||--49  18--17--16  44--||
+                48      ||      ||      45
+                ||--47--21--20--19--46--||
+                """ + Colours.RED + """
                 You have to get to room 34.
                 Your starting position is room 00.""" + Colours.RESET;
         hildebrandMap = new Item("Map of Hildebrand", "Map", map,
@@ -221,7 +221,9 @@ public class Player {
                 "Instructions for your mission abord the Hildebrand");
 
         fists = new MeleeWeapon("Fists","Your fists","These are your fists. They are quite dainty.",
-                "You'll never see this, because you can't drop your fists...",-1,1);
+                "You'll never see this, because you can't drop your fists...",24,1);
+        //was originally limitless uses, but i thought it would be funny if someone persistent enough kept swinging their fists
+        //and ended up breaking them as a result
 
         trustyNeedler = new RangedWeapon("Trusty Needler","Needler Gun","A trusty Needler Gun that has "+
                 "saved you more times than you can remember.","A worn Needler Gun with a maximum capacity of three shots",
@@ -233,7 +235,8 @@ public class Player {
         inventory.add(missionBrief);
         inventory.add(hildebrandMap);
 
-        //test food items
+
+        //test items
         Food heal25Food = new Food("Test Heal Food 25", "Test Food", "This is a test consumable",
                 "A pixellated blob of goo. It doesn't look very appetising.", 25);
         Food heal100Food = new Food("Test Heal Food 100", "Test Food", "This is a test consumable",

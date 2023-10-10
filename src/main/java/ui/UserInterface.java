@@ -29,6 +29,7 @@ public class UserInterface {
     private Adventure adventure;
     private Scanner scanner;
     private boolean enemyHasAttacked;
+    private boolean moveFlag;
 
     public UserInterface(Adventure adventure) {
         this.adventure = adventure;
@@ -37,9 +38,10 @@ public class UserInterface {
     public void run() {
         scanner = new Scanner(System.in);
         String choice;
-        newRoom = true;
+        newRoom = true; //used to determine when player has entered a new room (control room message)
+        moveFlag = false; //used to determine when player has moved or tried to move (controls patrolling enemies' turns)
 
-        welcome();
+        welcome(); //welcome message
 
         do {
             //if player ejects themselves into outer space (hint: they die)
@@ -48,17 +50,30 @@ public class UserInterface {
                         "\nYou were not the imposter!" + Colours.RESET);
                 adventure.getPlayer().takeDamage(999);
             }
+
+            //checks if player is alive
             if (adventure.getPlayerHealth() == 0) { //You died
                 playerDeath();
             }
-            enemyHasAttacked = false;
-            //checks if it is a newroom, if it is the same room, it will not print the room name again
+
+            //checks if it is a new room, if it is the same room, it will not print the room name again
             if (newRoom) {
-                System.out.printf(Colours.BLUE_BOLD + """
-                        You are currently in %s
-                        """ + Colours.RESET, adventure.getPlayerLocation().getName());
+                String roomMessage = "You are currently in "+adventure.getPlayerLocation().getName()+".";
+                if (!adventure.getPlayerLocation().isLitUp()){
+                    roomMessage += Colours.RED+"\nThe lights are off in here.";
+                }
+                System.out.println(Colours.BLUE_BOLD + roomMessage + Colours.RESET);
             }
+
+            //checks if player is in the same room as  the Mech-Hound that patrols the south of the spaceship
+            if (adventure.mechHoundIsNear() && moveFlag){
+                System.out.println(Colours.RED + "A loud synthesised growl startles you! Two glowing eyes glare at you!"
+                        + Colours.RESET);
+            }
+
             newRoom = false; //this is only set to true if the player successfully moves to a new room
+            enemyHasAttacked = false; //just like newRoom, this is set such that enemies only can attack once per "turn"
+            moveFlag = false;
 
             //this is where the player inputs their command (a wrong command will trigger default response)
             System.out.print(">");
@@ -89,7 +104,7 @@ public class UserInterface {
                     roomEnemiesAttack();
                     choicePicked = true;
                 }
-                case "inspect" -> {
+                case "inspect", "ins" -> {
                     inspectItem(stringArray);
                     choicePicked = true;
                 }
@@ -108,6 +123,7 @@ public class UserInterface {
             switch (choice.toLowerCase()) {
                 //movement
                 case "go north", "north", "go n", "n" -> {
+                    moveFlag = true;
                     roomEnemiesAttack();
                     roomTrapsGoOff();
                     //nested switch case to handle several scenarios (can move | cant move | locked room)
@@ -118,6 +134,7 @@ public class UserInterface {
                     }
                 }
                 case "go south", "south", "go s", "s" -> {
+                    moveFlag = true;
                     roomEnemiesAttack();
                     roomTrapsGoOff();
                     switch (adventure.moveSouth()) {
@@ -127,6 +144,7 @@ public class UserInterface {
                     }
                 }
                 case "go east", "east", "go e", "e" -> {
+                    moveFlag = true;
                     roomEnemiesAttack();
                     roomTrapsGoOff();
                     switch (adventure.moveEast()) {
@@ -136,6 +154,7 @@ public class UserInterface {
                     }
                 }
                 case "go west", "west", "go w", "w" -> {
+                    moveFlag = true;
                     roomEnemiesAttack();
                     roomTrapsGoOff();
                     switch (adventure.moveWest()) {
@@ -148,6 +167,7 @@ public class UserInterface {
                 case "look", "l" -> look();
                 case "look closer", "lc" -> lookCloser();
                 case "help", "h" -> help();
+                case "hint" -> hints();
                 case "inventory", "inv", "i" -> inventory();
                 case "status" -> status();
                 case "exit" -> exit(); //aka diving head-first out the airlock
@@ -157,7 +177,7 @@ public class UserInterface {
                 case "unlock e", "unlock east" -> unlockRoom(choice);
                 case "unlock w", "unlock west" -> unlockRoom(choice);
                 case "captain delaine suxx!" -> passphraseToRoom14();
-                case "chaotic convergence" -> {
+                case "chaotic convergence", "cc" -> {
                     adventure.teleport();
                     newRoom = true;
                 }
@@ -170,6 +190,9 @@ public class UserInterface {
                         invalidCommand();
                     }
                 }
+            }
+            if(moveFlag) {
+                enemiesPatrol(); //this is what makes the patrolling enemies move to the next room in their circuit
             }
         }
         while (true);
@@ -192,8 +215,25 @@ public class UserInterface {
                 - "Attack ___" to use equipped weapon to attack a target.
                 - "Status" to view player status, such as health.
                 - Locked rooms require specific keys.
-                - Dark rooms require a flashlight.
-                - "Exit" makes you commit self-die by leaping from the airlock. Why would you do that?
+                - Dark rooms require a flashlight or other source of light.
+                - "Exit" makes you commit self-die by leaping from the airlock. But why would you do that?
+                """ + Colours.RESET);
+    }
+
+    private void hints(){
+        System.out.print(Colours.CYAN_BOLD + """
+                - "Look Closer" can be used to reveal passwords and secret information, so make sure to use it!
+                - Moving through dark rooms can be dangerous, because you never know what lurks in the darkness!
+                - Traps can only be effectively disarmed by using a ranged weapon. Once you are in a room with a
+                  trap, you cannot leave the room without it going off. Hitting traps with a melee weapon is also
+                  a bad idea.
+                - Enemies react to your actions. If you attack them, they will attack you. If you try to leave a
+                  room they are in, then they will attack you. Same if you try to change weapons or use items.
+                - If an enemy is too strong to overcome, it might be worth leaving the room. Most enemies will
+                  not leave the room they are guarding, and you may be able to heal up and find better weapons
+                  to return and defeat them.
+                - There are a few roaming enemies which follow a set path aboard the Discovery Vessel. These are
+                  dangerous and should be avoided.
                 """ + Colours.RESET);
     }
 
@@ -267,7 +307,7 @@ public class UserInterface {
         }
     }
 
-    private void status() {
+    private void status() { //gives health status (can be expanded to include status effects if I add those)
         String string;
         if (adventure.getPlayerHealth() <= 25) {
             string = Colours.RED_BRIGHT + adventure.getPlayerHealth();
@@ -279,7 +319,7 @@ public class UserInterface {
         System.out.println(Colours.CYAN + "Your health is at " + string + Colours.RESET);
     }
 
-    private void inventory() {
+    private void inventory() { //looks up player inventory
         String string = "----------------------\n";
         string += adventure.getPlayer().viewInventory();
         if (string.equals("----------------------\n") || string.equals("----------------------\n----------------------")) {
@@ -307,15 +347,15 @@ public class UserInterface {
                     itemDescription += "\n" + Colours.CYAN + item.getDescription() + "\n";
                     if(item instanceof Weapon){
                         itemDescription += Colours.RED_BRIGHT+"Damage: "+((Weapon) item).getDamage()+"\n";
-                    }
-                    itemDescription += Colours.BLUE + "Number of uses: ";
-                    if (item.getNumberOfUses() >= 0) {
-                        itemDescription += item.getNumberOfUses() + "\n";
-                    } else {
-                        itemDescription += "∞\n";
-                    }
-                    if (item.getNumberOfUses() == 0) {
-                        itemDescription += Colours.RED + item.breakStatus() + "\n";
+                        itemDescription += Colours.BLUE + "Number of uses: ";
+                        if (item.getNumberOfUses() >= 0) {
+                            itemDescription += item.getNumberOfUses() + "\n";
+                        } else {
+                            itemDescription += "∞\n";
+                        }
+                        if (item.getNumberOfUses() == 0) {
+                            itemDescription += Colours.RED + item.breakStatus() + "\n";
+                        }
                     }
                 }
             }
@@ -471,23 +511,46 @@ public class UserInterface {
                 //if the item used is food, the item is pushed to the "eatItem()" method
                 if (item instanceof Food) {
                     eatItem(stringArray);
-                } else if (item instanceof Weapon) {
-                    equipItem(stringArray);
-                } else {
-                    switch (itemName.toLowerCase()) {
+                } else if(!item.getFunction().toLowerCase().contains("weapon") || !item.getFunction().toLowerCase().contains("gun")){
+                    switch (item.getName().toLowerCase()) {
                         //unique scenarios
-                        case "flash" -> {
+                        case "flashlight" -> {
                             if (item.getNumberOfUses() > 0) {
-                                System.out.println(Colours.PURPLE_BOLD + "Using " + item.getName() + " to light up the room." + Colours.RESET);
+                                System.out.println(Colours.PURPLE_BOLD + "Using " + item.getName() + " to light up the room."
+                                        + Colours.RESET);
                                 adventure.getPlayerLocation().setLitUp(true);
                             } else {
                                 System.out.println(Colours.RED + "You broke your " + item.getName() + " because you used it as a " +
                                         "weapon!" + Colours.RESET);
                             }
                         }
-                        case "map", "brief" -> System.out.println(item.getDescription());
+                        case "darklight" -> {
+                            if (item.getNumberOfUses() > 0) {
+                                System.out.println(Colours.PURPLE_BOLD + "Using " + item.getName() + " to darken the the room."
+                                        + Colours.RESET);
+                                adventure.getPlayerLocation().setLitUp(false);
+                            } else {
+                                System.out.println(Colours.RED + "You broke your " + item.getName() + " because you used it as a " +
+                                        "weapon!" + Colours.RESET);
+                            }
+                        }
+                        case "map of hildebrand", "mission brief" -> System.out.println(item.getDescription());
+                        case "nigel's lab-coat" -> {
+                            System.out.println(Colours.PURPLE_BOLD + "Using your bare hands, you tear apart "+item.getName()+
+                                    " and scraps of the lab-coat fall to the floor.\nYou're not quite sure why you did this..."
+                                    + Colours.RESET);
+                            adventure.getPlayerInventory().remove(item);
+                            adventure.getPlayerLocation().addItemToRoom(new Food("Clothing Scraps",
+                                    "Bandage","Shredded scraps of Nigel's Lab-coat. These can probably" +
+                                    " be used to dress a wound. Nigel would be livid if he knew you did this\nto his favourite" +
+                                    " lab-coat, but Nigel is most likely dead, so you will not have to experience a British" +
+                                    " man's wrath today.",
+                                    "The leftover scraps of Nigel's Lab-coat.",100));
+                        }
                         default -> System.out.println(Colours.RED + "Item cannot be used!" + Colours.RESET);
                     }
+                } else if (item instanceof Weapon) {
+                    equipItem(stringArray);
                 }
             } else {
                 System.out.println(Colours.RED + "Item doesn't exist!" + Colours.RESET);
@@ -562,7 +625,8 @@ public class UserInterface {
                                     + attackItem.attack().getDamage() + " damage to " + Colours.RED + enemyInRoom.getName() +
                                     Colours.PURPLE_BOLD + "!" + Colours.RESET);
                             attackItem.useOnce();
-                            if (enemyInRoom instanceof Trap) {
+                            //if it is a trap it goes off (unless it is the long-ranged "Vine Whip" from Hydroponics Greenhouse B
+                            if (enemyInRoom instanceof Trap && !attackItem.getName().equals("Vine Whip")) {
                                 roomTrapsGoOff();
                             }
                             enemyInRoom.takeDamage(attackItem.attack().getDamage());
@@ -679,6 +743,10 @@ public class UserInterface {
         }
     }
 
+    private void enemiesPatrol(){
+        adventure.enemiesPatrol();
+    }
+
     private void roomTrapsGoOff() {
         if (!adventure.getPlayerLocation().getRoomEnemies().isEmpty() && !enemyHasAttacked) {
             String string = "";
@@ -753,7 +821,9 @@ public class UserInterface {
     }
 
     private void welcome() {
+        help();
         System.out.print(Colours.BLUE_BOLD + """
+                -------------------------------------------------
                 Welcome aboard the Discovery Vessel 'Hildebrand'.
                 """ + Colours.RESET);
     }
