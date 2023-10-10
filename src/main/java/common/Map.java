@@ -76,8 +76,7 @@ public class Map {
                 the ceiling. Most of the graffiti are lewd acts performed by either the Captain of the
                 Discover Vessel, the Emperor of Man, or other important figures. Couches and bookshelves
                 are scattered across the room, and there is even a mini-fridge full of beer, although
-                all the bottles are empty. Scrawled above the fridge is the phrase 'Captain Delaine
-                Suxx!' It is underscored with red lines for some reason.
+                all the bottles are empty.
                 Connected to rooms via doors to the North, East, and West.""", false, false);
         //contains the password to special door from room15 to room14
         room10 = new Room("Hallway of Mirrors", """
@@ -126,6 +125,7 @@ public class Map {
         room21 = new Room("Engine Bay A", "",false,false);
 
         // Top section TODO remake
+        //---
         room22 = new Room("Pile of machines and computers", """
                 There are unused computers and cables everywhere in the room.
                 Some of them which is turned on, and some cables are shaking among the computers.
@@ -183,7 +183,7 @@ public class Map {
                 communications technician.
                 Captain Space Nemo is focused on observing the bridge.
                 He pays no mind to you since you're a nobody who has no meaning in the whole space.""", true);
-
+        //---
         // Outer Rooms
         room35 = new Room("West Airlock", """
                 Entrance into 'Discovery Vessel Hildebrand'.
@@ -245,12 +245,28 @@ public class Map {
                 with balloons on it. You have no idea how long the bots have been at it, but no winner
                 has yet to emerge.
                 Connected to rooms via doors to the North and West.""");
-        room44 = new Room("Room 44", "");
-        room45 = new Room("Room 45", "");
-        room46 = new Room("Room 46", "");
-        room47 = new Room("Room 47", "");
-        room48 = new Room("Room 48", "");
-        room49 = new Room("Room 49", "");
+                //item : Pile of Credsticks worth 350 credits
+        room44 = new Room("Experimental R&D Storage", """
+                Empty creates, overturned databanks, and other miscellaneous items lay all around. Looters
+                have been through here, but they have left two items behind on one of the item racks on the wall.
+                Connected to a room via a door to the East.""");
+                //items: Darklight (anti flashlight weapon that turns rooms dark) | Nova Ray (one shot weapon with 1 shot)
+        room45 = new Room("Experimental R&D Lab", """
+                Computers and microscopes and many other specialised tools flood the room and make it hard
+                to move around.One of the computers is on and there is a note written on it. For some reason,
+                chairs have been welded to the ceiling. Shoved away atop a shelf is a generator that seem to
+                be the source of power for the power in this part of the ship.
+                Connected to rooms via doors to the North and South.""");
+                //look closer : find some password or something
+        room46 = new Room("Experimental R&D Common Room", """
+                Floating couches and furniture fill the room, and for some reason the power is still on
+                in this part of the stern of the Discovery Vessel. The fridges have been raided, but there
+                are still some things left in one of them.
+                Connected to rooms via doors to the East and West.""");
+                //items: Chewy Leaves (food) | Glowing Cheetos (food) | Suspicious Goop (poison)
+        room47 = new Room("Hydroponics Lab Common Room", "");
+        room48 = new Room("Hydroponics Lab Greenhouse A", "");
+        room49 = new Room("Hydroponics Lab Greenhouse B", "");
         room50 = new Room("Captain's Quarters", "");
         room51 = new Room("Captain's Quarters", "");
         room52 = new Room("Captain's Quarters", "");
@@ -261,21 +277,6 @@ public class Map {
 
         //--------------------------------------------------------------
 
-
-        //--------------------------------------------------------------
-        // Room items
-
-        Item testItem = new Item("Test Item", "Test Item", "This is a test item",
-                "A pixellated JPG that says '404'.");
-        Keycard testKeycard1 = new Keycard("Test Keycard 1", "Dummy Keycard", "This is a test object.",
-                "A pixellated Keycard that says 'Room -1.", "Room -1'");
-        Keycard testKeycard2 = new Keycard("Test Keycard 2", "Dummy Keycard", "This is a test object.",
-                "A pixellated Keycard that says 'Room -2.", "Room -2'");
-        Weapon testRangedWeapon = new RangedWeapon("Test Gun", "Ranged Weapon", "This is a test gun.",
-                "A square box missing textures.", 2, 1);
-        Weapon testMeleeWeapon = new MeleeWeapon("Test Blade", "Melee Weapon", "This is a test blade.",
-                "A stick. Like, literally just a stick.", 1, 1);
-
         // Make connections, place items, place enemies (separated into methods for easier bug fixing, since there is a
         // lot of info that is otherwise completely unwieldy in one giant list of just "buildMap".
         makeConnections();
@@ -285,7 +286,7 @@ public class Map {
 
         // Start Room
         startRoom = room0;
-        roomToTeleportTo = room20;
+        roomToTeleportTo = room19;
     }
 
     public Room starterRoom() {
@@ -334,6 +335,24 @@ public class Map {
         room42.addItemToRoom(new Keycard("Hallway Keycard", "Keycard", "Grants access to " +
                 "the locked hallway near the Crew Quarters to the North.",
                 "A keycard that reads 'Hallway to Crew Quarters'.", "Dirty Hallway"));
+        room43.addItemToRoom(new Item("Pile of Credsticks","Currency","A pile of Credsticks" +
+                " worth 350 Credits. Given rising inflation, it is about enough to buy three synth-apples from a grocer.",
+                "A pile of Credsticks."));
+        room44.addItemToRoom(new MeleeWeapon("Darklight","Tool","A black cylindrical tool" +
+                " with an on-off switch on the side.","A black cylindrical tool.",1,5));
+        room44.addItemToRoom(new RangedWeapon("Nova Ray","Experimental Gun",
+                "A smooth white banana-shaped gun with a soft trigger and a black bead at its tip that might"+
+                        "\nfire some kind of beam. The fact that it has been left behind probably means it is dangerous.",
+                "A smooth white banana-shaped experimental gun.",1,999));
+        room46.addItemToRoom(new Food("Chewy Leaves","Consumable",
+                "Some kind of basil leaves that might have been grown in the hydroponics lab.",
+                "Some kind of basil leaves.",10));
+        room46.addItemToRoom(new Food("Glowing Cheetos","Consumable",
+                "An open and half-emptied bag of Cheetos. For some reason the Cheetos glow. It's probably\n" +
+                        "safe to eat?","An opened bag of glowing Cheetos.",15));
+        room46.addItemToRoom(new Food("Suspicious Goop","Consumable",
+                "It looks like cursed mashed potatoes and gives off an earthy smell. It seems to move on its own\n" +
+                        "when you prod it with your fingers.","A mass of goop.",-25));
         room55.addItemToRoom(new Keycard("Command Deck Keycard", "Keycard", "Grants access to " +
                 "the Command Deck to the North.", "", "The Command Deck"));
     }

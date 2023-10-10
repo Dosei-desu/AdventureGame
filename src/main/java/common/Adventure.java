@@ -1,5 +1,6 @@
 package common;
 
+import items.EquipDTO;
 import items.Item;
 import items.ReturnEquipMessage;
 
@@ -26,6 +27,10 @@ public class Adventure {
 
     public Player getPlayer(){
         return player;
+    }
+
+    public void teleport(){
+        setPlayerLocation(map.teleportRoom());
     }
 
     public ReturnMoveMessage moveNorth() {
@@ -155,7 +160,7 @@ public class Adventure {
         return player.findItem(name);
     }
 
-    public ReturnEquipMessage equip(String name){
+    public EquipDTO equip(String name){
         return player.equip(name);
     }
 

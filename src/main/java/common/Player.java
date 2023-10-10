@@ -143,13 +143,15 @@ public class Player {
         return healthPoints;
     }
 
-    public ReturnEquipMessage equip(String name) {
+    public EquipDTO equip(String name) {
+        EquipDTO equipDTO;
         Item itemToEquip = findItem(name);
         if (itemToEquip.isEquippable()) { //can it be equipped?
             for (Item item : inventory) {
                 if (item.isEquipped()) {
                     if (item == itemToEquip) { //if item is already equipped and matches name, it sends an error message
-                        return ReturnEquipMessage.ALREADY_EQUIPPED;
+                        equipDTO = new EquipDTO(ReturnEquipMessage.ALREADY_EQUIPPED,item);
+                        return equipDTO;
                     }
                 }
                 item.setEquipped(false); //sets all items to not equipped
@@ -159,11 +161,13 @@ public class Player {
             if(itemToEquip.isEquippable()) {
                 if (item == itemToEquip) { //set matched item to equipped
                     item.setEquipped(true);
-                    return item.equip();
+                    equipDTO = new EquipDTO(item.equip(),item);
+                    return equipDTO;
                 }
             }
         }
-        return ReturnEquipMessage.CANT_EQUIP; //if not equippable
+        equipDTO = new EquipDTO(ReturnEquipMessage.CANT_EQUIP,null); //if not equippable
+        return equipDTO;
     }
 
     private void startingInventory() {
@@ -219,7 +223,7 @@ public class Player {
         fists = new MeleeWeapon("Fists","Your fists","These are your fists. They are quite dainty.",
                 "You'll never see this, because you can't drop your fists...",-1,1);
 
-        trustyNeedler = new RangedWeapon("Trusty Needler","Needler Gun","A Trusty Needler gun that has "+
+        trustyNeedler = new RangedWeapon("Trusty Needler","Needler Gun","A trusty Needler Gun that has "+
                 "saved you more times than you can remember.","A worn Needler Gun with a maximum capacity of three shots",
                 3,8);
 

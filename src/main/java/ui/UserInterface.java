@@ -15,10 +15,12 @@ import java.util.Scanner;
  * add enemies to rooms
  * finish room descriptions
  * add more items and food to rooms
- * fix use with items that cant be used
  * fix attack message appearing after death (only works with non-target attack)
  * fix switch case handling inputs from scanner, since right now it's a mess
- * Finally: Make UML Class Diagrams that dont look like crap
+ * makes it so a room returns to darkness if it was dark when you entered
+ * Finally:
+ * Make UML Class Diagrams that dont look like crap
+ * Make activity diagram of attack method
  */
 
 
@@ -155,6 +157,10 @@ public class UserInterface {
                 case "unlock e", "unlock east" -> unlockRoom(choice);
                 case "unlock w", "unlock west" -> unlockRoom(choice);
                 case "captain delaine suxx!" -> passphraseToRoom14();
+                case "chaotic convergence" -> {
+                    adventure.teleport();
+                    newRoom = true;
+                }
                 //test methods for unlocking and lighting-up rooms
                 case "skeleton key" -> skeletonKey();
                 case "lantern bob" -> magicLanternCalledBob();
@@ -235,12 +241,12 @@ public class UserInterface {
 
     private void lookCloser() {
         switch (adventure.getPlayerLocation().getName()) {
-            case "East Airlock" -> System.out.print(Colours.PURPLE_BOLD + """
+            case "East Airlock" -> System.out.print(Colours.GREEN_BOLD + """
                     Through a porthole in the wall, you can see the dark of space and the spaceship that brought you here
                     disappearing into the vastness of the asteroid field where the Hildebrand has become derelict.
                     """ + Colours.RESET);
             case "West Airlock" -> {
-                System.out.print(Colours.PURPLE_BOLD + """
+                System.out.print(Colours.GREEN_BOLD + """
                         Through a porthole in the wall, you see an eye. Yes, a giant swirling eye that seems to contain a galaxy
                         within its iris. You take a step back from the porthole and wonder just how big the creature that stares
                         at you really is. A shiver escapes your body and you leave the room.
@@ -248,6 +254,16 @@ public class UserInterface {
                 adventure.moveEast(); //forces player to leave room as a result of looking closer
                 newRoom = true;
             }
+            case "Vandalised Common Room" -> //unique password to get into Engine Room Vestibule
+                    System.out.println(Colours.GREEN_BOLD + "Scrawled above the fridge is the phrase " +
+                            Colours.RED_UNDERLINED + "\'Captain Delaine Suxx!\'" + Colours.RESET + Colours.GREEN_BOLD +
+                            " It is underscored with red \nlines for some reason." + Colours.RESET);
+            case "Experimental R&D Lab" ->
+                    System.out.println(Colours.GREEN_BOLD + "As you look closer at the screen, you see a note that says " +
+                            Colours.RED_UNDERLINED + "\'Open Sesame!\'" + Colours.RESET + Colours.GREEN_BOLD +
+                            " Under it is written "+ Colours.RED_UNDERLINED + "\'Weapons Locker\'" + Colours.RESET +
+                            Colours.GREEN_BOLD + "." + Colours.RESET);
+            default -> System.out.println(Colours.GREEN_BOLD+"There is nothing more to see here."+Colours.RESET);
         }
     }
 
@@ -289,6 +305,9 @@ public class UserInterface {
                         itemDescription += " (Equipped)";
                     }
                     itemDescription += "\n" + Colours.CYAN + item.getDescription() + "\n";
+                    if(item instanceof Weapon){
+                        itemDescription += Colours.RED_BRIGHT+"Damage: "+((Weapon) item).getDamage()+"\n";
+                    }
                     itemDescription += Colours.BLUE + "Number of uses: ";
                     if (item.getNumberOfUses() >= 0) {
                         itemDescription += item.getNumberOfUses() + "\n";
@@ -452,7 +471,7 @@ public class UserInterface {
                 //if the item used is food, the item is pushed to the "eatItem()" method
                 if (item instanceof Food) {
                     eatItem(stringArray);
-                } else if (item instanceof Weapon){
+                } else if (item instanceof Weapon) {
                     equipItem(stringArray);
                 } else {
                     switch (itemName.toLowerCase()) {
@@ -467,6 +486,7 @@ public class UserInterface {
                             }
                         }
                         case "map", "brief" -> System.out.println(item.getDescription());
+                        default -> System.out.println(Colours.RED + "Item cannot be used!" + Colours.RESET);
                     }
                 }
             } else {
@@ -607,12 +627,13 @@ public class UserInterface {
             }
             itemName = itemName.trim();
 
-            switch (adventure.equip(itemName)) {
+            EquipDTO equipDTO = adventure.equip(itemName);
+            switch (equipDTO.getReturnEquipMessage()) {
                 case CANT_EQUIP -> System.out.println(Colours.RED + "Item cannot be equipped!" + Colours.RESET);
-                case ALREADY_EQUIPPED -> System.out.println(Colours.RED + "Weapon already equipped!" + Colours.RESET);
-                case EQUIP_MELEE -> System.out.println(Colours.PURPLE_BOLD + "Melee weapon equipped!" + Colours.RESET);
-                case EQUIP_RANGED ->
-                        System.out.println(Colours.PURPLE_BOLD + "Ranged weapon equipped!" + Colours.RESET);
+                case ALREADY_EQUIPPED -> System.out.println(Colours.RED + equipDTO.getItem().getName()+" already equipped!"
+                        + Colours.RESET);
+                case EQUIP_MELEE, EQUIP_RANGED -> System.out.println(Colours.PURPLE_BOLD + equipDTO.getItem().getName()+
+                        " equipped!" + Colours.RESET);
             }
         } else {
             invalidCommand();
@@ -640,9 +661,11 @@ public class UserInterface {
         if (!adventure.getPlayerLocation().getRoomEnemies().isEmpty() && !enemyHasAttacked) {
             String string = "";
             for (Enemy enemy : adventure.getPlayerLocation().getRoomEnemies()) {
-                if (enemy.attack() > 0) {
-                    adventure.takeDamage(enemy.attack());
-                    string += enemy.getName() + " attacks you, dealing " + enemy.attack() + " damage!";
+                if (!(enemy instanceof Trap)) {
+                    if (enemy.attack() > 0) {
+                        adventure.takeDamage(enemy.attack());
+                        string += enemy.getName() + " attacks you, dealing " + enemy.attack() + " damage!";
+                    }
                 }
             }
             if (!string.equals("")) {
