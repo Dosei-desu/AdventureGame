@@ -15,13 +15,14 @@ import java.util.Scanner;
  * add enemies to rooms
  * finish room descriptions
  * add more items and food to rooms
- * fix attack message appearing after death (only works with non-target attack)
- * fix switch case handling inputs from scanner, since right now it's a mess
- * makes it so a room returns to darkness if it was dark when you entered
+
  * Finally:
  * Make UML Class Diagrams that dont look like crap
  * Make activity diagram of attack method
  * Unit Test it all!!
+
+ * Lastly, contemplate the folly of adding 55 rooms and
+ * a backstory to this simple game...
  */
 
 
@@ -30,6 +31,7 @@ public class UserInterface {
     private Adventure adventure;
     private Scanner scanner;
     private boolean enemyHasAttacked;
+    private boolean trapHasGoneOff;
     private boolean moveFlag;
     //unique scenario flags
     private boolean pass14DoOnce = true;
@@ -66,17 +68,27 @@ public class UserInterface {
                 if (!adventure.getPlayerLocation().isLitUp()) {
                     roomMessage += Colours.RED + "\nThe lights are off in here.";
                 }
+                if (adventure.getPlayerLocation().hasTrap()){
+                    roomMessage += Colours.RED + "\nA trap in the room is primed to explode.";
+                }
                 System.out.println(Colours.BLUE_BOLD + roomMessage + Colours.RESET);
             }
 
             //checks if player is in the same room as  the Mech-Hound that patrols the south of the spaceship
-            if (adventure.mechHoundIsNear() && moveFlag) {
-                System.out.println(Colours.RED + "A loud synthesised growl startles you! Two glowing eyes glare at you!"
-                        + Colours.RESET);
+            if (moveFlag) {
+                if (adventure.mechHoundIsNear()) {
+                    System.out.println(Colours.RED + "A loud synthesised growl startles you! Two glowing eyes glare at you!"
+                            + Colours.RESET);
+                }
+                if (adventure.spiderBotIsNear()){
+                    System.out.println(Colours.RED + "The heat of a powerful red laser assails you as the Spider Bot locks" +
+                            " its single eye on you." + Colours.RESET);
+                }
             }
 
             newRoom = false; //this is only set to true if the player successfully moves to a new room
             enemyHasAttacked = false; //just like newRoom, this is set such that enemies only can attack once per "turn"
+            trapHasGoneOff = false;
             moveFlag = false;
 
             //this is where the player inputs their command (a wrong command will trigger default response)
@@ -96,16 +108,19 @@ public class UserInterface {
                 case "use" -> {
                     useItem(stringArray);
                     roomEnemiesAttack();
+                    roomTrapsGoOff();
                     choicePicked = true;
                 }
                 case "take" -> {
                     takeItem(stringArray);
                     roomEnemiesAttack();
+                    roomTrapsGoOff();
                     choicePicked = true;
                 }
                 case "drop" -> {
                     dropItem(stringArray);
                     roomEnemiesAttack();
+                    roomTrapsGoOff();
                     choicePicked = true;
                 }
                 case "inspect", "ins" -> {
@@ -809,16 +824,12 @@ public class UserInterface {
                 if (!(enemy instanceof Trap)) {
                     if (enemy.attack() > 0) {
                         adventure.takeDamage(enemy.attack());
-                        string += enemy.getName() + " attacks you, dealing " + enemy.attack() + " damage!";
+                        string += enemy.getName() + " attacks you, dealing " + enemy.attack() + " damage!\n";
                     }
                 }
             }
             if (!string.equals("")) {
-                System.out.printf(Colours.RED + """
-                        ----------------------
-                        %s
-                        ----------------------
-                        """ + Colours.RESET, string);
+                System.out.println(Colours.RED + "----------------------\n"+string+"----------------------" + Colours.RESET);
             }
             enemyHasAttacked = true;
         }
@@ -829,7 +840,7 @@ public class UserInterface {
     }
 
     private void roomTrapsGoOff() {
-        if (!adventure.getPlayerLocation().getRoomEnemies().isEmpty() && !enemyHasAttacked) {
+        if (!adventure.getPlayerLocation().getRoomEnemies().isEmpty() && !trapHasGoneOff) {
             String string = "";
             for (Enemy enemy : adventure.getPlayerLocation().getRoomEnemies()) {
                 if (enemy.attack() > 0) {
@@ -846,7 +857,7 @@ public class UserInterface {
                         ----------------------
                         """ + Colours.RESET, string);
             }
-            enemyHasAttacked = true;
+            trapHasGoneOff = true;
         }
     }
 

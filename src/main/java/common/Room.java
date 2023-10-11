@@ -66,6 +66,15 @@ public class Room {
         return roomEnemies;
     }
 
+    public boolean hasTrap(){
+        for (Enemy enemy: roomEnemies) {
+            if(enemy instanceof Trap){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void removeEnemyFromRoom(Enemy enemy){
         roomEnemies.remove(enemy);
     }

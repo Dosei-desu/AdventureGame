@@ -166,10 +166,15 @@ public class Adventure {
 
     public void enemiesPatrol(){
         map.mechHoundMoves(getPlayerLocation());
+        map.spiderBotMoves(getPlayerLocation());
     }
 
     public boolean mechHoundIsNear(){
         return map.mechHoundIsNear(getPlayerLocation());
+    }
+
+    public boolean spiderBotIsNear(){
+        return map.spiderBotIsNear(getPlayerLocation());
     }
 
     public ArrayList<Item> getPlayerInventory(){

@@ -3,12 +3,10 @@ package common;
 import items.*;
 import ui.Colours;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
-
 public class Map {
     //very long list of all standard rooms
+    //i made them all global objects, such that I can handle them outside the "buildMap()" method in order to do more
+    //interesting things, such as allowing patrolling enemies and whatnot
     private Room room0, room1, room2, room3, room4, room5, room6, room7, room8, room9, room10, room11, room12, room13,
             room14, room15, room16, room17, room18, room19, room20, room21, room22, room23, room24, room25, room26, room27,
             room28, room29, room30, room31, room32, room33, room34, room35, room36, room37, room38, room39, room40, room41,
@@ -17,9 +15,21 @@ public class Map {
     //unique rooms
     private Room outerSpace; //technically any place that is outside the boundaries of the spaceship
     private Room startRoom;
-    private Room roomToTeleportTo;
+    private Room roomToTeleportTo; //currently just used for implementation testing of room features
     //unique enemies
-    private Enemy mechHound;
+    private Enemy mechHound = new Enemy("Mech-Hound 'Nibbles'", "An imposing canine mech " +
+            "that lets out a synthesised growl that makes the\nfloor shake. It seems to be guarding the Engine area of" +
+            " the Discovery Vessel. It has blood on its claws\nand sharp-toothed maw.", 60,
+            new MeleeWeapon("Nibbles' Claws", "Weapon", "Deadly flensing claws.",
+                    "The front claws of the Mech-Hound named 'Nibbles'. They look like they could" +
+                            " easily cut through steel.", 8, 15));
+    private boolean turnAroundSpiderBot;
+    private Enemy spiderBot = new Enemy("Experimental Spider Bot", "A creepy metallic ball supported on" +
+            " five spiky legs with a large glowing eye in its centre.\nIt seems to be patrolling the area outside of the command" +
+            " deck, as though looking for something or someone.", 40,
+            new RangedWeapon("Spider Bot Eye", "Laser Eye", "The eye torn from the Experimental" +
+                    " Spider Bot. By tapping the wires\ntogether, you might be able to fire it. Once.",
+                    "The Eye of the Experimental Spider Bot", 1, 22));
 
     public void buildMap() {
         // Rooms
@@ -173,64 +183,70 @@ public class Map {
 
         // Top section TODO remake
         //---
-        room22 = new Room("Pile of machines and computers", """
-                There are unused computers and cables everywhere in the room.
-                Some of them which is turned on, and some cables are shaking among the computers.
-                One of the computer screen shows a login screen.
-                A wild Edward Wong emerges from the pile of machines,
-                'AWESOME! So many Computer machines!!', 'I am going to hack the Space Ship for fun!!'
+        //----- Patrolling enemy (rooms 22-27, excluding 24): Experimental Spider Bot
+        room22 = new Room("Medical Bay", """
+                A room full of the stench of antiseptics and with eight beds lining the wall in a row. There is a Surgery-
+                Assistant Robot, but it has been destroyed with several blasts of a laser. You were hoping to raid the stash
+                of healing items in here, but someone get there before you, leaving just a single Medipen in the centre of
+                the room.
                 Connected to rooms via doors to the North and West.""");
-                                    /*additional information can be accessed by typing in the right password
-                                    When you open the computer with a password, Edward going wild and attack you because
-                                    she wants to use that. Weak enemy. */
-        room23 = new Room("Room 23", """
+        //items: medipen (heal item)
+        //trap: motion sensor trap
+        room23 = new Room("Canteen", """
+                Long picnic tables line the room and there is a buffet counter where, in theory, people could take a plate
+                and end up with a filling, albeit disappointing, meal. However, the buffet has been thoroughly raided and
+                only a tiny scrap of potato salad is left. There are marks on the floor that seem to suggest something often
+                enters the room and walks through, as though on a patrol.
+                Connected to rooms via doors to the North, East, and West.""");
+        //items: Potato Salad Leftovers (food)
+        room24 = new Room("Security Checkpoint", """
+                Under normal circumstances, a security officer would be checking all the crew-members who visit this part
+                of the ship, however, the security door at the far end is open and the officer is not at his post. There
+                are two turrets hanging from the ceiling however.
+                Connected to rooms via doors to the South and East.""");
+        //enemies: two ceiling turrets
+        room25 = new Room("Gravity Control", """
+                The gravity aboard the vessel is handled here. It thankfully is working automatically, otherwise you would
+                be upside down right now. For some reason, all the objects in the room are welded firm. Perhaps there was
+                once a disaster when the gravity was switched off and afterwards they took the precaution of keeping every-
+                thing grounded. After all, it would be difficult to turn the gravity back on if all the chairs and tables
+                were floating about.
+                Connected to rooms via doors to the South and East.""");
+        room26 = new Room("Astrometrics", """
+                The mapping and courses the Discovery Vessel might take seem to have been handled here, as several star-
+                charts and diagrams are plastered onto the walls. Parts of the FTL jumps might have been handled here,
+                before being sent back to the Engine Rooms. There are marks on the floor, indicating that something often
+                comes through here.
+                Connected to rooms via doors to the South and West.""");
+        room27 = new Room("Oxygen Control", """
+                Large filters cycle the air and feed in oxygen from large tanks that fortunately still have oxygen left in
+                them, although who knows how long they will last. Without the oxygen you would have to wear your spacesuit,
+                which would limit your mobility and hamper exploration. Plus, a tiny leak in your spacesuit in an anaerobic
+                environment result in immediate death. That is all to say: do not turn off the oxygen.
+                Connected to rooms via doors to the North, East, and West.""");
+        //-----
+
+        room28 = new Room("Communications", """
+                                
+                Connected to rooms via doors to the North and West.""");
+        room29 = new Room("Officer's Lounge", """
                 """);
-        room24 = new Room("Room 24", """
-                """);
-        room25 = new Room("The Space Bar", """
-                The room reeks of smoke from cigarettes and alcohols like vodka, gin and rum.
-                The barterner is cleaning the glasses for the bar.
-                He is looking at you as if you want to order something.
-                Spike Spiegel is sitting by the bar and smokes cigarette while talking to Faye Valentine
-                about love,
-                but Faye is ignoring him and drinking like there is no tomorrow.""");
-        //If take the alcohol the player would be unable to move for some time.
-        room26 = new Room("Hallway", """
-                The hallway is just a ordinary room but there are some people speaking high tone nearby.
-                Rei and Asuka are discussing and arguing with each other about something, Shinji is
-                trying to calm them down.
-                They're in their plugsuits getting ready for piloting the Evangelions.""");
-        room27 = new Room("Room 27", """
-                """);
-        room28 = new Room("Room 28", """
-                """);
-        room29 = new Room("Room 29", """
-                """);
-        room30 = new Room("Room 30", """
-                Showcase with Darth Vader mask and his red lightsaber
-                """, true);
-        room31 = new Room("Captain Space Nemo's Office", """
-                The room reeks of refined flowers on an office table with a picture of the Captain's grandmother.
-                The grandmother looks like some on 150 years, she could use some wrinkle cream.
-                There are portraits of family by the Captain. Those are some ugly kids!
-                A cupboard full of gine glasses and alcohol. The computer on the table is turned on and shows a login screen.""");
-        // Password til computeren er i computeren hos Edward i room22.
-        room32 = new Room("Room 32", """
-                """);
-        room33 = new Room("Stinky Locked Toilets", """
-                The room reeks awful with effluvia on the floor.
-                An alien maid is scrubbing the floor and complaining about how some mad doctor did that.
-                The toilets are locked with a sign that says
-                'The toilets were destroyed by a mad doctor, Dr. Fluke Hawkins.'""");
+        room30 = new Room("Robotics Workshop", """
+                                
+                Connected to rooms via doors to the North and West.""", true);
+        room31 = new Room("Escape Pods", """
+                                
+                Connected to rooms via doors to the North and West.""");
+        room32 = new Room("Command Deck Vestibule", """
+                                
+                Connected to rooms via doors to the North and West.""");
+        room33 = new Room("Observation Lounge", """
+                                
+                Connected to rooms via doors to the North and West.""");
         room34 = new Room("Command Deck", """
-                There is a reeeeally big window to the outer space,
-                You can see some killer klowns are raging in war with the martians with googly eyes 
-                and featuring their brains in glass helmets on some asteroids.
-                The bridge is filled with weapons-control officer and their subordinates, and a 
-                communications technician.
-                Captain Space Nemo is focused on observing the bridge.
-                He pays no mind to you since you're a nobody who has no meaning in the whole space.""", true);
-        //---
+                                
+                Connected to rooms via doors to the North and West.""", true);
+
         // Outer Rooms
         room35 = new Room("West Airlock", """
                 Entrance into 'Discovery Vessel Hildebrand'.
@@ -345,6 +361,7 @@ public class Map {
                 some of it with you, but you feel like it would be too heavy with all the jewels and gold sown into the
                 fabric. No, you prefer the comfortable feel of your worn bodyglove and decade-old spacesuit.
                 Connected to rooms via doors to the North and South.""");
+        //trap: a heat-sensor trap and a claymore
         room52 = new Room("Captain's Quarters", """
                 If you took a photo from a magazine of what a wealthy person's common looked like and compared it to this
                 room, then you would not see any distinctions between the two. It is so utterly lacking in personality and
@@ -354,20 +371,20 @@ public class Map {
                 The room is impressively minimalist. Aside from a rusted metallic stool and round table, there is nothing
                 of interest inside this room, except for a cleaner bot.
                 Connected to rooms via doors to the East and West.""", true);
-                //enemies: cleaner bot
+        //enemies: cleaner bot
         room54 = new Room("Navigator's Prayer Room", """
                 This room is full of blueprints and schematics of robots, as well as books about AI and fiction novels about
                 the 'Robot Uprising'. Obviously, everyone in the galaxy knows that the robot uprising that had been prophesied
                 never actually happened, but you still got some nutjobs worshipping their future 'overlords' like the
                 Navigator had clearly done.
                 Connected to rooms via doors to the North and South.""");
-                //item: robot uprising book
+        //item: robot uprising book
         room55 = new Room("Navigator's Bedroom", """
                 There is a hammock attached to the walls with a nail at each end and a pile of sand and lint lies inside it.
                 You get the feeling that the Navigator was a very strange person.
                 Connected to a room via a door to the East.""", false, false);
-                //enemies : sentient pile of sand and lint
-                //items: Keycard to room34(goal)
+        //enemies : sentient pile of sand and lint
+        //items: Keycard to room34(goal)
 
         //--------------------------------------------------------------
 
@@ -380,7 +397,7 @@ public class Map {
 
         // Start Room
         startRoom = room0;
-        roomToTeleportTo = room50;
+        roomToTeleportTo = room24;
     }
 
     public Room starterRoom() {
@@ -391,7 +408,7 @@ public class Map {
         return roomToTeleportTo;
     }
 
-
+    //for placing items
     private void placeItems() {
         room3.addItemToRoom(new Keycard("Engine Room Keycard", "Keycard", "Grants access to " +
                 "the Engine Room to the South.", "A filthy keycard with " +
@@ -415,6 +432,12 @@ public class Map {
         room20.addItemToRoom(new Keycard("Bridge Keycard", "Keycard", "Grants access to " +
                 "the Bridge of Discovery Vessel 'Hildebrand' to the North.",
                 "A keycard that reads 'Bridge' on it.", "Room 30"));
+        room22.addItemToRoom(new Food("Medipen", "Consumable", "The Medipen is an invention" +
+                " that revolutionised the medical profession, by making most doctors obsolete.", "A Medipen.",
+                25));
+        room23.addItemToRoom(new Food("Potato Salad Leftovers", "Consumable", "Some sad" +
+                " remains of what might once have been an 'okay' potato salad.", "Leftovers from the buffet.",
+                12));
         room35.addItemToRoom(new Keycard("Navigator's Quarters Keycard", "Keycard", "Grants access to " +
                 "the Navigator's Quarters to the North.",
                 "A keycard that reads 'Navigator's Quarters' on it.", "Navigator's Quarters"));
@@ -468,7 +491,7 @@ public class Map {
         room50.addItemToRoom(new Item("Panda Plushie", "Plushie", "A well-worn plushie." +
                 " You get the feeling that its name is 'Pandamonium', but you're unsure why.",
                 "A well-worned plushie."));
-        room54.addItemToRoom(new Item("\'The Robot Uprising\'","Junk","The book is written" +
+        room54.addItemToRoom(new Item("\'The Robot Uprising\'", "Junk", "The book is written" +
                 " entirely in machine-code. Have fun deciphering six-hundred pages of that!",
                 "A fiction novel."));
         room55.addItemToRoom(new Keycard("Command Deck Keycard", "Keycard", "Grants access to " +
@@ -476,19 +499,25 @@ public class Map {
                 "Command Deck"));
     }
 
+    //for placing enemies
     private void placeEnemies() {
         room0.addEnemyToRoom(new Enemy("Welcome Droid 'Kass'", "A silvery spherical robot that dangles " +
                 "from the ceiling on a sparking cable.\nIt keeps repeating, \"Welcome.\"", 1,
                 new MeleeWeapon("Kass' Feather-Duster", "Tool", "It's a feather-duster.",
                         "A dusty feather-duster covered in cobwebs.", 1, 1)));
 
-        mechHound = new Enemy("Mech-Hound 'Nibbles'", "An imposing canine mech " +
-                "that lets out a synthesised growl that makes the\nfloor shake. It seems to be guarding the Engine area of" +
-                " the Discovery Vessel. It has blood on its claws\nand sharp-toothed maw.", 60,
-                new MeleeWeapon("Nibbles' Claws", "Weapon", "Deadly flensing claws.",
-                        "The front claws of the Mech-Hound named 'Nibbles'. They look like they could" +
-                                " easily cut through steel.", 8, 15));
         room17.addEnemyToRoom(mechHound);
+
+        room24.addEnemyToRoom(new Enemy("Dart Turret #1", "A matte dark round turret with two barrels" +
+                " and a white '#1' sprayed onto it.", 8, new RangedWeapon("Dart Gun #1", "Gun",
+                "One of the gun barrels belonging to Dart Turret #1. It somehow works as a gun.",
+                "One of Dart Turret #1's barrels.", 2, 4)));
+        room24.addEnemyToRoom(new Enemy("Dart Turret #2", "A matte dark round turret with two barrels" +
+                " and a white '#2' sprayed onto it.", 8, new RangedWeapon("Dart Gun #2", "Gun",
+                "One of the gun barrels belonging to Dart Turret #2. It somehow works as a gun.",
+                "One of Dart Turret #2's barrels.", 2, 4)));
+
+        room25.addEnemyToRoom(spiderBot);
 
         room35.addEnemyToRoom(new Enemy("Welcome Droid 'Hass'", "A silvery spherical robot that dangles " +
                 "from the ceiling on a yellow cable.\nIt keeps repeating, \"Please leave.\"", 1,
@@ -522,6 +551,25 @@ public class Map {
                         1, 1)));
     }
 
+    //for placing traps
+    private void placeTraps() {
+        Enemy heatSensorTrap = new Trap("Heat-Sensor Trap", "A little black box that hangs from the ceiling and" +
+                " might go off if you try to leave.", 1, new RangedWeapon("Explosion", "Bomb",
+                "Boom!", "It's a bomb!", 1, 80));
+        Enemy motionSensorTrap = new Trap("Motion-Sensor Trap", "A black box that lets out a pulsing" +
+                " red light. One wrong move might set it off.", 1, new RangedWeapon("Explosion", "Bomb",
+                "Boom!", "Booom!", 1, 75));
+        Enemy claymore = new Trap("Claymore Trap", "A rectangular box on four legs that emits a small red" +
+                " beam.", 1, new RangedWeapon("Explosion", "Bomb",
+                "Bang!", "Pow!!", 1, 50));
+
+        room1.addEnemyToRoom(heatSensorTrap);
+        room22.addEnemyToRoom(motionSensorTrap);
+        room51.addEnemyToRoom(heatSensorTrap);
+        room51.addEnemyToRoom(claymore);
+    }
+
+    //this definitely works
     public void mechHoundMoves(Room room) {
         if (!room.getRoomEnemies().contains(mechHound)) {
             if (room17.getRoomEnemies().contains(mechHound)) {
@@ -546,18 +594,46 @@ public class Map {
         }
     }
 
-    public boolean mechHoundIsNear(Room room) {
-        if (room.getRoomEnemies().contains(mechHound)) {
-            return true;
+    //i think this works, but im not 100% sure... but whatever it takes too long to manually test
+    public void spiderBotMoves(Room room) {
+        if (!room.getRoomEnemies().contains(spiderBot)) {
+            if (room25.getRoomEnemies().contains(spiderBot)) {
+                turnAroundSpiderBot = false;
+                room25.getRoomEnemies().remove(spiderBot);
+                room22.getRoomEnemies().add(spiderBot);
+            }
+            else if (room22.getRoomEnemies().contains(spiderBot)) {
+                room22.getRoomEnemies().remove(spiderBot);
+                if (!turnAroundSpiderBot) {
+                    room23.getRoomEnemies().add(spiderBot);
+                } else room25.getRoomEnemies().add(spiderBot);
+            }
+            else if (room23.getRoomEnemies().contains(spiderBot)) {
+                room23.getRoomEnemies().remove(spiderBot);
+                if (!turnAroundSpiderBot) {
+                    room26.getRoomEnemies().add(spiderBot);
+                } else room22.getRoomEnemies().add(spiderBot);
+            }
+            else if (room26.getRoomEnemies().contains(spiderBot)) {
+                room26.getRoomEnemies().remove(spiderBot);
+                if (!turnAroundSpiderBot) {
+                    room27.getRoomEnemies().add(spiderBot);
+                } else room23.getRoomEnemies().add(spiderBot);
+            }
+            else if (room27.getRoomEnemies().contains(spiderBot)) {
+                turnAroundSpiderBot = true;
+                room27.getRoomEnemies().remove(spiderBot);
+                room26.getRoomEnemies().add(spiderBot);
+            }
         }
-        return false;
     }
 
-    private void placeTraps() {
-        Enemy heatSensorTrap1 = new Trap("Heat-Sensor Trap", "A little square box that hangs from the ceiling and" +
-                "might go off if you try to leave.", 1, new RangedWeapon("Explosion", "Bomb",
-                "Boom!", "It's a bomb!", 1, 100));
-        room1.addEnemyToRoom(heatSensorTrap1);
+    public boolean mechHoundIsNear(Room room) {
+        return room.getRoomEnemies().contains(mechHound);
+    }
+
+    public boolean spiderBotIsNear(Room room) {
+        return room.getRoomEnemies().contains(spiderBot);
     }
 
     private void makeConnections() { //basically, 'Tinder' for Room objects
