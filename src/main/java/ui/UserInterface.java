@@ -21,6 +21,7 @@ import java.util.Scanner;
  * Finally:
  * Make UML Class Diagrams that dont look like crap
  * Make activity diagram of attack method
+ * Unit Test it all!!
  */
 
 
@@ -30,6 +31,9 @@ public class UserInterface {
     private Scanner scanner;
     private boolean enemyHasAttacked;
     private boolean moveFlag;
+    //unique scenario flags
+    private boolean pass14DoOnce = true;
+    private boolean pass50DoOnce = true;
 
     public UserInterface(Adventure adventure) {
         this.adventure = adventure;
@@ -58,15 +62,15 @@ public class UserInterface {
 
             //checks if it is a new room, if it is the same room, it will not print the room name again
             if (newRoom) {
-                String roomMessage = "You are currently in "+adventure.getPlayerLocation().getName()+".";
-                if (!adventure.getPlayerLocation().isLitUp()){
-                    roomMessage += Colours.RED+"\nThe lights are off in here.";
+                String roomMessage = "You are currently in " + adventure.getPlayerLocation().getName() + ".";
+                if (!adventure.getPlayerLocation().isLitUp()) {
+                    roomMessage += Colours.RED + "\nThe lights are off in here.";
                 }
                 System.out.println(Colours.BLUE_BOLD + roomMessage + Colours.RESET);
             }
 
             //checks if player is in the same room as  the Mech-Hound that patrols the south of the spaceship
-            if (adventure.mechHoundIsNear() && moveFlag){
+            if (adventure.mechHoundIsNear() && moveFlag) {
                 System.out.println(Colours.RED + "A loud synthesised growl startles you! Two glowing eyes glare at you!"
                         + Colours.RESET);
             }
@@ -177,6 +181,7 @@ public class UserInterface {
                 case "unlock e", "unlock east" -> unlockRoom(choice);
                 case "unlock w", "unlock west" -> unlockRoom(choice);
                 case "captain delaine suxx!" -> passphraseToRoom14();
+                case "open sesame" -> passphraseToRoom50();
                 case "chaotic convergence", "cc" -> {
                     adventure.teleport();
                     newRoom = true;
@@ -191,7 +196,7 @@ public class UserInterface {
                     }
                 }
             }
-            if(moveFlag) {
+            if (moveFlag) {
                 enemiesPatrol(); //this is what makes the patrolling enemies move to the next room in their circuit
             }
         }
@@ -214,13 +219,14 @@ public class UserInterface {
                 - "Equip ___" to equip an item from inventory.
                 - "Attack ___" to use equipped weapon to attack a target.
                 - "Status" to view player status, such as health.
+                - "Hint" to see hints about certain parts of the game.
                 - Locked rooms require specific keys.
                 - Dark rooms require a flashlight or other source of light.
                 - "Exit" makes you commit self-die by leaping from the airlock. But why would you do that?
                 """ + Colours.RESET);
     }
 
-    private void hints(){
+    private void hints() {
         System.out.print(Colours.CYAN_BOLD + """
                 - "Look Closer" can be used to reveal passwords and secret information, so make sure to use it!
                 - Moving through dark rooms can be dangerous, because you never know what lurks in the darkness!
@@ -239,7 +245,7 @@ public class UserInterface {
 
     //exits the common.Adventure by quite literally throwing yourself out the airlock
     private void exit() {
-        System.out.println(Colours.RED + "You have taken the easy way out and shunted yourself out the airlock." + Colours.RESET);
+        System.out.println(Colours.RED + "You have shunted yourself out the airlock." + Colours.RESET);
         try {
             Thread.sleep(2500); //waits 2.5 seconds before shutting down, so there's time to read message
         } catch (InterruptedException e) {
@@ -280,12 +286,12 @@ public class UserInterface {
     }
 
     private void lookCloser() {
-        switch (adventure.getPlayerLocation().getName()) {
-            case "East Airlock" -> System.out.print(Colours.GREEN_BOLD + """
+        switch (adventure.getPlayerLocation().getName().toLowerCase()) {
+            case "east airlock" -> System.out.print(Colours.GREEN_BOLD + """
                     Through a porthole in the wall, you can see the dark of space and the spaceship that brought you here
                     disappearing into the vastness of the asteroid field where the Hildebrand has become derelict.
                     """ + Colours.RESET);
-            case "West Airlock" -> {
+            case "west airlock" -> {
                 System.out.print(Colours.GREEN_BOLD + """
                         Through a porthole in the wall, you see an eye. Yes, a giant swirling eye that seems to contain a galaxy
                         within its iris. You take a step back from the porthole and wonder just how big the creature that stares
@@ -294,16 +300,32 @@ public class UserInterface {
                 adventure.moveEast(); //forces player to leave room as a result of looking closer
                 newRoom = true;
             }
-            case "Vandalised Common Room" -> //unique password to get into Engine Room Vestibule
+            case "engineer break-room" -> //a way to fill up empty containers with scalding-hot Caffeine Brew
+                    System.out.print(Colours.GREEN_BOLD + """
+                            If you had a container, you might be able to fill it up with the scalding-hot Caffeine
+                            produced by the Brewer. Unfortunately, there are no cups in the Break-Room, so unless
+                            you brought your own, there will be no Caffeine for you.
+                            """ + Colours.RESET);
+            case "vandalised common room" -> //unique password to get into Engine Room Vestibule
                     System.out.println(Colours.GREEN_BOLD + "Scrawled above the fridge is the phrase " +
                             Colours.RED_UNDERLINED + "\'Captain Delaine Suxx!\'" + Colours.RESET + Colours.GREEN_BOLD +
                             " It is underscored with red \nlines for some reason." + Colours.RESET);
-            case "Experimental R&D Lab" ->
+            case "experimental r&d lab" ->
                     System.out.println(Colours.GREEN_BOLD + "As you look closer at the screen, you see a note that says " +
                             Colours.RED_UNDERLINED + "\'Open Sesame!\'" + Colours.RESET + Colours.GREEN_BOLD +
-                            " Under it is written "+ Colours.RED_UNDERLINED + "\'Weapons Locker\'" + Colours.RESET +
+                            " Under it is written " + Colours.RED_UNDERLINED + "\'Captain's Locker\'" + Colours.RESET +
                             Colours.GREEN_BOLD + "." + Colours.RESET);
-            default -> System.out.println(Colours.GREEN_BOLD+"There is nothing more to see here."+Colours.RESET);
+            case "captain's quarters" ->
+                    System.out.print(Colours.GREEN_BOLD + """
+                    You let out a yawn.
+                    """ + Colours.RESET);
+            case "captain's dedroom" ->
+                    System.out.print(Colours.GREEN_BOLD + """
+                    The tall locker has two items within, but it hard to tell exactly what they are, but you are
+                    fairly sure they must be the Captain's weapons. Unfortunately, the locker requires a passphrase
+                    to open.
+                    """ + Colours.RESET);
+            default -> System.out.println(Colours.GREEN_BOLD + "There is nothing more to see here." + Colours.RESET);
         }
     }
 
@@ -345,8 +367,8 @@ public class UserInterface {
                         itemDescription += " (Equipped)";
                     }
                     itemDescription += "\n" + Colours.CYAN + item.getDescription() + "\n";
-                    if(item instanceof Weapon){
-                        itemDescription += Colours.RED_BRIGHT+"Damage: "+((Weapon) item).getDamage()+"\n";
+                    if (item instanceof Weapon) {
+                        itemDescription += Colours.RED_BRIGHT + "Damage: " + ((Weapon) item).getDamage() + "\n";
                         itemDescription += Colours.BLUE + "Number of uses: ";
                         if (item.getNumberOfUses() >= 0) {
                             itemDescription += item.getNumberOfUses() + "\n";
@@ -371,16 +393,32 @@ public class UserInterface {
 
     private void passphraseToRoom14() {
         if (adventure.getRoomEast() != null) {
-            if (adventure.getRoomEast().getName().equals("Engine Room Vestibule")) {
+            if (adventure.getRoomEast().getName().equals("Engine Room Vestibule") && pass14DoOnce) {
                 System.out.println(Colours.GREEN_BOLD + "A " + Colours.BLUE + "beep" + Colours.GREEN_BOLD +
                         " sounds from the door. Then it says, in a robotic voice:\n" + Colours.BLUE +
-                        "\"Pass-phrase Correct!\"" + Colours.RESET);
+                        "\'Pass-phrase Correct!\'" + Colours.RESET);
                 adventure.getRoomEast().setLocked(false);
-            }
-        }
+                pass14DoOnce = false;
+            } else System.out.println(Colours.RED+"Your voice echoes through the room, but nothing happens..."+Colours.RESET);
+        } else System.out.println(Colours.RED+"Your voice echoes through the room, but nothing happens..."+Colours.RESET);
     }
 
-    //TODO implement keycard objects as keys for doors, disabling the unlock command unless you have the correct key
+    private void passphraseToRoom50() {
+        if (adventure.getPlayerLocation().getName().equalsIgnoreCase("Captain's Bedroom") && pass50DoOnce) {
+            System.out.println(Colours.GREEN_BOLD + "A " + Colours.BLUE + "beep" + Colours.GREEN_BOLD +
+                    " sounds from the locker. Then it says, in a robotic voice:\n" + Colours.BLUE +
+                    "\'Pass-phrase Correct!\'" + Colours.RESET);
+            adventure.getPlayerLocation().addItemToRoom(new MeleeWeapon("Delaine's Sword","Weapon",
+                    "A well-maintained bejewelled sabre. It has the initials BD, but you're not sure what the" +
+                            " B stands for.","A bejewelled sabre.",5,6));
+            adventure.getPlayerLocation().addItemToRoom(new RangedWeapon("Delaine's PewPew","AI Gun",
+                    "A well-maintained bejewelled laser pistol that you realise is outfitted with a primitive AI." +
+                            " Under\nInterstellar Law, such a thing is very illegal to own.",
+                    "A bejewelled laser pistol that kees saying 'Pew'.",3,12));
+            pass50DoOnce = false;
+        }else System.out.println(Colours.RED+"Your voice echoes through the room, but nothing happens..."+Colours.RESET);
+    }
+
     private void unlockRoom(String input) {
         ArrayList<Item> inventory = adventure.getPlayerInventory();
         boolean canOpen = false;
@@ -481,6 +519,8 @@ public class UserInterface {
                 case EAT_JUNK -> System.out.println(Colours.PURPLE_BOLD + "Nom nom nom." + Colours.RESET);
                 case EAT_MAP -> System.out.println(Colours.PURPLE_BOLD + "You eat the only map of the spacecraft.\n" +
                         Colours.RED + "That was pretty stupid." + Colours.RESET);
+                case EAT_CAFFEINE_BOTTLE -> System.out.println(Colours.RED + "You drink the scaldingly-hot Caffeine" +
+                        " and feel as it melts through your insides." + Colours.RESET);
                 case EAT_HEAL_FOOD -> {
                     System.out.println(Colours.GREEN + "You are healed " + eatDTO.getFoodHealValue() +
                             "!" + Colours.CYAN);
@@ -511,7 +551,7 @@ public class UserInterface {
                 //if the item used is food, the item is pushed to the "eatItem()" method
                 if (item instanceof Food) {
                     eatItem(stringArray);
-                } else if(!item.getFunction().toLowerCase().contains("weapon") || !item.getFunction().toLowerCase().contains("gun")){
+                } else if (!item.getFunction().toLowerCase().contains("weapon") || !item.getFunction().toLowerCase().contains("gun")) {
                     switch (item.getName().toLowerCase()) {
                         //unique scenarios
                         case "flashlight" -> {
@@ -534,18 +574,54 @@ public class UserInterface {
                                         "weapon!" + Colours.RESET);
                             }
                         }
+                        case "beer bottle (empty)" -> {
+                            if (adventure.getPlayerLocation().getName().equalsIgnoreCase("Engineer Break-Room")) {
+                                System.out.println(Colours.PURPLE_BOLD + "You put the empty beer bottle under the Brewer nozzle" +
+                                        " and avert your eyes as the hottest Caffeine in\nthe world shoots out and fills up the" +
+                                        " bottle. Someone must have messed with the Brewer..." + Colours.RESET);
+                                adventure.getPlayerInventory().remove(item);
+                                Item caffeineBottle = new Item("Caffeine Bottle", "Beverage",
+                                        "The Caffeine Brew inside the glass bottle is so unbelievably hot that" +
+                                                " you instinctively know that drinking\nit would be fatal. However, it may" +
+                                                "have some use as a throwable weapon.", "A beer bottle full" +
+                                        "of very hot Caffeine.");
+                                adventure.getPlayerInventory().add(caffeineBottle);
+                            } else System.out.println(Colours.RED + "Item cannot be used!" + Colours.RESET);
+                        }
+                        case "caffeine bottle" -> {
+                            String string = "You fling the Caffeine Bottle and hit ";
+                            if (!adventure.getPlayerLocation().getRoomEnemies().isEmpty()) {
+                                Enemy enemy = adventure.getPlayerLocation().getRoomEnemies().get(0);
+                                string += enemy.getName() + " right in its centre mass, where it shatters\n" +
+                                        "and rapidly melts through its body, instantly killing it!";
+                                enemy.takeDamage(999);
+                                adventure.enemyDies(enemy);
+                            } else {
+                                string += "the wall in front of you, melting a massive hole into the metal!";
+                            }
+                            System.out.println(Colours.PURPLE_BOLD + string + Colours.RESET);
+                        }
+                        case "red solo cup (empty)" -> {
+                            if (adventure.getPlayerLocation().getName().equalsIgnoreCase("Engineer Break-Room")) {
+                                adventure.getPlayerInventory().remove(item);
+                                System.out.println(Colours.RED + "The scaldingly-hot Caffeine melted through your Red Solo Cup" +
+                                        " and scalded your hand!\n" +
+                                        "You took 15 damage!" + Colours.RESET);
+                                adventure.getPlayer().takeDamage(15);
+                            } else System.out.println(Colours.RED + "Item cannot be used!" + Colours.RESET);
+                        }
                         case "map of hildebrand", "mission brief" -> System.out.println(item.getDescription());
                         case "nigel's lab-coat" -> {
-                            System.out.println(Colours.PURPLE_BOLD + "Using your bare hands, you tear apart "+item.getName()+
+                            System.out.println(Colours.PURPLE_BOLD + "Using your bare hands, you tear apart " + item.getName() +
                                     " and scraps of the lab-coat fall to the floor.\nYou're not quite sure why you did this..."
                                     + Colours.RESET);
                             adventure.getPlayerInventory().remove(item);
                             adventure.getPlayerLocation().addItemToRoom(new Food("Clothing Scraps",
-                                    "Bandage","Shredded scraps of Nigel's Lab-coat. These can probably" +
+                                    "Bandage", "Shredded scraps of Nigel's Lab-coat. These can probably" +
                                     " be used to dress a wound. Nigel would be livid if he knew you did this\nto his favourite" +
                                     " lab-coat, but Nigel is most likely dead, so you will not have to experience a British" +
                                     " man's wrath today.",
-                                    "The leftover scraps of Nigel's Lab-coat.",100));
+                                    "The leftover scraps of Nigel's Lab-coat.", 100));
                         }
                         default -> System.out.println(Colours.RED + "Item cannot be used!" + Colours.RESET);
                     }
@@ -569,6 +645,9 @@ public class UserInterface {
             }
         }
         if (attackItem != null) {
+            if(attackItem.getName().equalsIgnoreCase("Delaine's PewPew")){
+                System.out.println(Colours.CYAN_UNDERLINED+"Pew!"+Colours.RESET);
+            }
             ReturnAttackMessage message = attackItem.attack().getReturnAttackMessage();
             switch (message) {
                 case CANT_ATTACK -> System.out.println(Colours.RED + "Cannot attack with that weapon!" + Colours.RESET);
@@ -694,10 +773,12 @@ public class UserInterface {
             EquipDTO equipDTO = adventure.equip(itemName);
             switch (equipDTO.getReturnEquipMessage()) {
                 case CANT_EQUIP -> System.out.println(Colours.RED + "Item cannot be equipped!" + Colours.RESET);
-                case ALREADY_EQUIPPED -> System.out.println(Colours.RED + equipDTO.getItem().getName()+" already equipped!"
-                        + Colours.RESET);
-                case EQUIP_MELEE, EQUIP_RANGED -> System.out.println(Colours.PURPLE_BOLD + equipDTO.getItem().getName()+
-                        " equipped!" + Colours.RESET);
+                case ALREADY_EQUIPPED ->
+                        System.out.println(Colours.RED + equipDTO.getItem().getName() + " already equipped!"
+                                + Colours.RESET);
+                case EQUIP_MELEE, EQUIP_RANGED ->
+                        System.out.println(Colours.PURPLE_BOLD + equipDTO.getItem().getName() +
+                                " equipped!" + Colours.RESET);
             }
         } else {
             invalidCommand();
@@ -743,7 +824,7 @@ public class UserInterface {
         }
     }
 
-    private void enemiesPatrol(){
+    private void enemiesPatrol() {
         adventure.enemiesPatrol();
     }
 

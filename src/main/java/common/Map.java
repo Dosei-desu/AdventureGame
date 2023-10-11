@@ -37,7 +37,9 @@ public class Map {
         //enemies: Welcome Droid 'Kass'
         //look closer event
         room1 = new Room("East Vestibule", """
-                Spacesuits and oxygen tanks hang from the walls.
+                Spacesuits and oxygen tanks hang from the walls. The smell of ozone is strong here, but at least the air-
+                filtration systems aboard the vessel seem to function, as you feel a slight breeze of stagnant air brush
+                over your skin.
                 Connected to rooms via three doors to the North, West, and South.
                 Connected to an Airlock to the East.""");
         room2 = new Room("Memorial Room", """ 
@@ -125,19 +127,49 @@ public class Map {
                 password to open."""); //found in room9
 
         // Bottom section
-            //Patrolling Enemy: Mech-Hound (rooms 16-21)
+        //Patrolling Enemy: Mech-Hound (rooms 16-21)
         room16 = new Room("Server Room", """
                 Server banks line the walls and there are terminals here, although they are inaccessible
                 since the power to this entire area is switched off. It seems that calculations for FTL
                 jumps might have been handled here. There is a lab-coat draped across a chair with a name-
-                tag that says 'Nigel'.""", false, false);
-                //items: Nigel's Lab-coat (junk)
-        room17 = new Room("Engine Room Hallway", "", false, false);
-        room18 = new Room("Engineer Break-Room", "", false, false);
-        room19 = new Room("Engine Bay C", "", false, false);
-        room20 = new Room("Engine Bay B", "", false, false);
+                tag that says 'Nigel'.
+                Connected to rooms via doors to the South and West.""", false, false);
+        //items: Nigel's Lab-coat (junk)
+        room17 = new Room("Engine Room Hallway", """
+                The first thing you notice is that the power is off to this part of the ship. Near the doorway
+                to the Vestibule out the North lays a ruined Mech-Hound. It is difficult to determine what
+                destroyed the Mech, but it has been torn to pierces by something very sharp. You might be able
+                to scavenge something from its remains.
+                Connected to rooms via doors to the North, East, and West.""", false, false);
+        //weapon: Mech-Hound Leg (improvised weapon)
+        room18 = new Room("Engineer Break-Room", """
+                A cozy break-room with two tables, with a Monopoly game on the larger of the two and a Regicide
+                board on the smaller one. Like everywhere else, the fridges and cupboards have been thoroughly
+                raided. However, there is a Caffeine Brewer that somehow seems functional, despite the power to
+                the entire area being off.
+                Connected to rooms via doors to the South and East.""", false, false);
+        //look closer event : You could probably fill up a container with the caffeine brew from this
+        //unique use event : can fill up empty beer bottle making the strongest damage item in the game
+        room19 = new Room("Engine Bay C", """
+                Large cables and hoses connect from the southern wall to various plugs in the ceiling and floor.
+                During normal ship activity, these would supply electricity and fuel to the thrusters that propel
+                the Discovery Vessel through the darkness of space. There are large gouges in the floor, seeming to
+                indicate that something regularly walks through this corridor. A sign over the West doorway reads
+                'Hydroponics Lab'.
+                Connected to rooms via doors to the North, East, and West.""", false, false);
+        room20 = new Room("Engine Bay B", """
+                The cables and hoses that should have connected the thrusters through the southern wall have been
+                torn apart or disconnected, lying in a disarray on the floor. Large gouges in the floor suggests that
+                something regularly walks through here. There is a large rust-red dried stain on the floor and the
+                remains of someone's trousers, with a pocket from which the corner a Keycard is visible.
+                Connected to rooms via doors to the East, and West.""", false, false);
         //items: Keycard to room30
-        room21 = new Room("Engine Bay A", "", false, false);
+        room21 = new Room("Engine Bay A", """
+                The entire room is a mess of burn-scars on the metallic walls, torn cables and hoses, and large rust-
+                red dried stains. It seems as though this room had a fierce battle take place within it at some point
+                however, there are no bodies to prove who took part in it nor who won. A sign over the East doorway
+                reads 'Experimental R&D'.
+                Connected to rooms via doors to the North, East, and West.""", false, false);
 
         // Top section TODO remake
         //---
@@ -204,7 +236,7 @@ public class Map {
                 Entrance into 'Discovery Vessel Hildebrand'.
                 Someone has made a lewd piece of graffiti on the wall, which depicts the Captain and
                 a Xenomorph french-kissing passionately. Taped to the wall is a keycard that reads
-                'Navigator Quarters' on it.
+                'Navigator's Quarters' on it.
                 Connected to the Discovery Vessel via a door to the East.""" +
                 "\nYou could leave out the docking port to the West, but it would " +
                 Colours.RED + "kill" + Colours.GREEN_BOLD + " you.");
@@ -287,28 +319,55 @@ public class Map {
                 are full of decayed food, mostly vegetables and fruits, but there are some synth-gummies on
                 one of the tables next to some overturned chairs. There's a Caffeine Brewer next to the
                 fridges, but a note is plasted on it that says, 'Broken'.
-                Connected to rooms via doors to the East and West.""",false,false);
+                Connected to rooms via doors to the East and West.""", false, false);
         //items: Green Synth-Gummies (food) | Melted Blue Synth-Gummies (food)
         room48 = new Room("Hydroponics Lab Greenhouse A", """
                 Tall plastic boxes run along the walls of the room, but the contents of the boxes are all
                 wilted and decayed and mouldy. Murky water is covering the floor and the air is buzzing with
                 fat flies. Within a pile of gloopy mulch half a Keycard is visible.
-                Connected to rooms via doors to the North and South.""",false,false);
+                Connected to rooms via doors to the North and South.""", false, false);
         //items: Keycard to room52
         room49 = new Room("Hydroponics Lab Greenhouse B", """
                 You immediately come face-to-face with an enormous Pitcher Plant, from which pokes two skeletal legs. It
                 is the first body of the vanished crew you have come across, and unfortunately, as you stare at the plant,
                 it swallows the skeleton with a gulp and then seems to look towards you. On the floor, vines suddenly shift,
                 before lifting into the air and preparing to attack you.
-                Connected to a room via a door to the West.""",false,false);
+                Connected to a room via a door to the West.""", false, false);
         //enemies: Giant Pitcher Plant
-        room50 = new Room("Captain's Quarters", "");
-        room51 = new Room("Captain's Quarters", "");
-        room52 = new Room("Captain's Quarters", "", true);
-        room53 = new Room("Navigator Quarters", "", true);
-        room54 = new Room("Navigator Quarters", "");
-        room55 = new Room("Navigator Quarters", "");
-        //items: Keycard to room34(goal)
+        room50 = new Room("Captain's Bedroom", """
+                An enormous King-sized bed takes up most of the room and several plushies lie next to the fancy pillows,
+                however your attention is drawn to the large locker that stands up against the back-wall.
+                Connected to a room via a door to the West.""");
+        //item : Panda plushie
+        //look closer event : the locker requires a passphrase
+        room51 = new Room("Captain's Walk-In Closet", """
+                A very opulent room with rows-upon-rows of fancy outfits, coats, shoes, and what-have-you. You could take
+                some of it with you, but you feel like it would be too heavy with all the jewels and gold sown into the
+                fabric. No, you prefer the comfortable feel of your worn bodyglove and decade-old spacesuit.
+                Connected to rooms via doors to the North and South.""");
+        room52 = new Room("Captain's Quarters", """
+                If you took a photo from a magazine of what a wealthy person's common looked like and compared it to this
+                room, then you would not see any distinctions between the two. It is so utterly lacking in personality and
+                takes that your eyes gloss over in boredom.
+                Connected to rooms via doors to the East and West.""", true);
+        room53 = new Room("Navigator's Quarters", """
+                The room is impressively minimalist. Aside from a rusted metallic stool and round table, there is nothing
+                of interest inside this room, except for a cleaner bot.
+                Connected to rooms via doors to the East and West.""", true);
+                //enemies: cleaner bot
+        room54 = new Room("Navigator's Prayer Room", """
+                This room is full of blueprints and schematics of robots, as well as books about AI and fiction novels about
+                the 'Robot Uprising'. Obviously, everyone in the galaxy knows that the robot uprising that had been prophesied
+                never actually happened, but you still got some nutjobs worshipping their future 'overlords' like the
+                Navigator had clearly done.
+                Connected to rooms via doors to the North and South.""");
+                //item: robot uprising book
+        room55 = new Room("Navigator's Bedroom", """
+                There is a hammock attached to the walls with a nail at each end and a pile of sand and lint lies inside it.
+                You get the feeling that the Navigator was a very strange person.
+                Connected to a room via a door to the East.""", false, false);
+                //enemies : sentient pile of sand and lint
+                //items: Keycard to room34(goal)
 
         //--------------------------------------------------------------
 
@@ -321,7 +380,7 @@ public class Map {
 
         // Start Room
         startRoom = room0;
-        roomToTeleportTo = room19;
+        roomToTeleportTo = room50;
     }
 
     public Room starterRoom() {
@@ -346,19 +405,22 @@ public class Map {
         room9.addItemToRoom(new Item("Beer Bottle (empty)", "Container", "This bottle smells of beer, " +
                 "but it is now empty. It could probably be filled with something else.",
                 "An empty beer bottle."));
-        room16.addItemToRoom(new Item("Nigel's Lab-coat","Clothing",
+        room16.addItemToRoom(new Item("Nigel's Lab-coat", "Clothing",
                 "A lab-coat with a name-tag that says 'Nigel'. It smells faintly of synth-apples.",
                 "A lab-coat."));
+        room17.addItemToRoom(new MeleeWeapon("Mech-Hound Leg", "Improvised Club",
+                "The back-leg of a Mech-Hound that has been torn from its original body.\nIt might serve as a" +
+                        " simple club to bash enemies with.", "The back-leg of a Mech-Hound that might work" +
+                " as a club.", 3, 10));
         room20.addItemToRoom(new Keycard("Bridge Keycard", "Keycard", "Grants access to " +
                 "the Bridge of Discovery Vessel 'Hildebrand' to the North.",
                 "A keycard that reads 'Bridge' on it.", "Room 30"));
-        room35.addItemToRoom(new Keycard("Navigator Quarters Keycard", "Keycard", "Grants access to " +
-                "the Navigator Quarters to the North.",
-                "A keycard that reads 'Navigator Quarters' on it.", "Navigator Quarters"));
-        Item flashlight = new MeleeWeapon("Flashlight", "Tool", "A shiny flashlight that looks " +
+        room35.addItemToRoom(new Keycard("Navigator's Quarters Keycard", "Keycard", "Grants access to " +
+                "the Navigator's Quarters to the North.",
+                "A keycard that reads 'Navigator's Quarters' on it.", "Navigator's Quarters"));
+        room37.addItemToRoom(new MeleeWeapon("Flashlight", "Tool", "A shiny flashlight that looks " +
                 "very expensive. As you look closer, you realise it is made of polished silver.",
-                "A shiny flashlight.", 1, 5);
-        room37.addItemToRoom(flashlight);
+                "A shiny flashlight.", 1, 5));
         room38.addItemToRoom(new Item("Red Solo Cup (empty)", "Container", "This cup smells of beer, " +
                 "but it is now empty. It could probably be filled with something else.",
                 "An empty red solo cup."));
@@ -396,13 +458,19 @@ public class Map {
                         "when you prod it with your fingers.", "A mass of goop.", -25));
         room47.addItemToRoom(new Food("Green Synth-Gummies", "Consumable",
                 "Some rather tough synth-gummies, which tastes of Green Number 7.", "Stale-looking" +
-                " green synth-gummies.",5));
+                " green synth-gummies.", 5));
         room47.addItemToRoom(new Food("Melted Blue Synth-Gummies", "Consumable",
                 "A goopy conglomerated mess of synth-gummies, which tastes of Blue Number 92.",
-                "A melted-together mass of blue synth-gummies.",1));
+                "A melted-together mass of blue synth-gummies.", 1));
         room48.addItemToRoom(new Keycard("Captain's Quarters Keycard", "Keycard", "Grants access to " +
                 "the Captain's Quarters to the North.", "A keycard with " +
                 "the words 'Captain's Quarters' on it.", "Captain's Quarters"));
+        room50.addItemToRoom(new Item("Panda Plushie", "Plushie", "A well-worn plushie." +
+                " You get the feeling that its name is 'Pandamonium', but you're unsure why.",
+                "A well-worned plushie."));
+        room54.addItemToRoom(new Item("\'The Robot Uprising\'","Junk","The book is written" +
+                " entirely in machine-code. Have fun deciphering six-hundred pages of that!",
+                "A fiction novel."));
         room55.addItemToRoom(new Keycard("Command Deck Keycard", "Keycard", "Grants access to " +
                 "the Command Deck to the North.", "A keycard with the words 'Command Deck' on it.",
                 "Command Deck"));
@@ -425,7 +493,7 @@ public class Map {
         room35.addEnemyToRoom(new Enemy("Welcome Droid 'Hass'", "A silvery spherical robot that dangles " +
                 "from the ceiling on a yellow cable.\nIt keeps repeating, \"Please leave.\"", 1,
                 new MeleeWeapon("Stunner", "Weapon", "It's a stun-gun covered in yellow" +
-                        " danger tape and lightning-bolt symbols.","A yellow stun-gun.",
+                        " danger tape and lightning-bolt symbols.", "A yellow stun-gun.",
                         4, 3)));
 
         room41.addEnemyToRoom(new Enemy("Ceiling Turret",
@@ -439,9 +507,19 @@ public class Map {
 
         room49.addEnemyToRoom(new Enemy("Giant Pitcher Plant", "A sentient and very hungry-looking" +
                 "Pitcher Plant shaped like an upside-down bell\nand sloshing with some kind of acidic fluid inside its 'mouth'.",
-                22,new MeleeWeapon("Vine Whip","Organic Weapon","A torn-off vine" +
-                " of the Giant Pitcher Plant. It has quite some reach on it.","A long vine torn from the " +
-                "Giant Pitcher Plant.",2,8)));
+                22, new MeleeWeapon("Vine Whip", "Organic Weapon", "A torn-off vine" +
+                " of the Giant Pitcher Plant. It has quite some reach on it.", "A long vine torn from the " +
+                "Giant Pitcher Plant.", 2, 8)));
+
+        room53.addEnemyToRoom(new Enemy("Cleaner Bot", "A Cleaner Bot armed with a vacuum. It looks " +
+                "sturdy.", 12, new RangedWeapon("Vacuum", "Tool", "It's literally " +
+                "just a vacuum, so unless you're fighting a sentient\npile of sand or lint, you're unlikely to get much use " +
+                "out of it.", "", 10, 2)));
+
+        room55.addEnemyToRoom(new Enemy("A Sentient Pile of Sand & Lint", "<--", 2,
+                new RangedWeapon("Fistful of Sand", "Junk", "It's a handful of sand. " +
+                        "What could this be good for??", "Just enough sand to fit in your hand.",
+                        1, 1)));
     }
 
     public void mechHoundMoves(Room room) {
@@ -476,13 +554,13 @@ public class Map {
     }
 
     private void placeTraps() {
-        Enemy tripWire01 = new Trap("Heat-Sensor Trap", "A little square box that hangs from the ceiling and" +
+        Enemy heatSensorTrap1 = new Trap("Heat-Sensor Trap", "A little square box that hangs from the ceiling and" +
                 "might go off if you try to leave.", 1, new RangedWeapon("Explosion", "Bomb",
                 "Boom!", "It's a bomb!", 1, 100));
-        room1.addEnemyToRoom(tripWire01);
+        room1.addEnemyToRoom(heatSensorTrap1);
     }
 
-    private void makeConnections() {
+    private void makeConnections() { //basically, 'Tinder' for Room objects
         // Room Connections
 
         // Middle section

@@ -76,6 +76,10 @@ public class Player {
             inventory.remove(item);
             eatDTO = new EatDTO(ReturnEatMessage.EAT_MAP, 0);
             return eatDTO;
+        } else if(item.getName().equalsIgnoreCase("Caffeine Bottle")){
+            takeDamage(999);
+            eatDTO = new EatDTO(ReturnEatMessage.EAT_CAFFEINE_BOTTLE,-999);
+            return eatDTO;
         }
         inventory.remove(item);
         eatDTO = new EatDTO(ReturnEatMessage.EAT_JUNK, 0);
@@ -234,16 +238,5 @@ public class Player {
         inventory.add(trustyNeedler);
         inventory.add(missionBrief);
         inventory.add(hildebrandMap);
-
-
-        //test items
-        Food heal25Food = new Food("Test Heal Food 25", "Test Food", "This is a test consumable",
-                "A pixellated blob of goo. It doesn't look very appetising.", 25);
-        Food heal100Food = new Food("Test Heal Food 100", "Test Food", "This is a test consumable",
-                "A pixellated blob of goo. It doesn't look very appetising.", 100);
-        Food damage50Food = new Food("Test Damage Food 50", "Test Food", "This is a test consumable",
-                "A pixellated blob of goo. It doesn't look very appetising.", -50);
-        Food damage100Food = new Food("Test Damage Food 100", "Test Food", "This is a test consumable",
-                "A pixellated blob of goo. It doesn't look very appetising.", -100);
     }
 }
