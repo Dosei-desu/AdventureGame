@@ -17,8 +17,6 @@ import java.util.Scanner;
  * add more items and food to rooms
 
  * Finally:
- * Make UML Class Diagrams that dont look like crap
- * Make activity diagram of attack method
  * Unit Test it all!!
 
  * Lastly, contemplate the folly of adding 55 rooms and
