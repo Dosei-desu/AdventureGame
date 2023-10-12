@@ -210,19 +210,30 @@ public class Player {
         hildebrandMap = new Item("Map of Hildebrand", "Map", map,
                 "A Map of the Discovery Vessel 'Hildebrand'.");
 
-        String brief = """
-                Currently
-                The
-                Story
-                Hasn't
-                Been
-                Written
-                ...
+        String brief = Colours.CYAN+"""
+                The Discovery Vessel 'Hildebrand' came upon a
+                unique Artefact of unknown origins that I wish
+                to possess.
                 
-                - Dosei
-                """;
+                As my foremost Derelict Wanderer, I expect you
+                to bring this Artefact to me.
+                
+                But beware, the 'Hildebrand' has fallen into
+                chaos and all attempts to hail it has proven
+                unsuccessful. I do not know what you will find
+                aboard the vessel, but I recommend keeping your
+                weapon close at hand.
+                
+                To find the Artefact, it seems that seeking out
+                the Command Deck is the best course of action,
+                as I heard the Captain never let the Artefact
+                out of his sights.
+                
+                You know what happens if you do not deliver.
+                
+                - Winchester"""+Colours.RESET;
         missionBrief = new Item("Mission Brief","Instruction",brief,
-                "Instructions for your mission abord the Hildebrand");
+                "Instructions for your mission aboard the Hildebrand");
 
         fists = new MeleeWeapon("Fists","Your fists","These are your fists. They are quite dainty.",
                 "You'll never see this, because you can't drop your fists...",24,1);

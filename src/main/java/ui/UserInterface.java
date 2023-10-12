@@ -15,10 +15,10 @@ import java.util.Scanner;
  * add enemies to rooms
  * finish room descriptions
  * add more items and food to rooms
-
+ * <p>
  * Finally:
  * Unit Test it all!!
-
+ * <p>
  * Lastly, contemplate the folly of adding 55 rooms and
  * a backstory to this simple game...
  */
@@ -66,7 +66,7 @@ public class UserInterface {
                 if (!adventure.getPlayerLocation().isLitUp()) {
                     roomMessage += Colours.RED + "\nThe lights are off in here.";
                 }
-                if (adventure.getPlayerLocation().hasTrap()){
+                if (adventure.getPlayerLocation().hasTrap()) {
                     roomMessage += Colours.RED + "\nA trap in the room is primed to explode.";
                 }
                 System.out.println(Colours.BLUE_BOLD + roomMessage + Colours.RESET);
@@ -78,7 +78,7 @@ public class UserInterface {
                     System.out.println(Colours.RED + "A loud synthesised growl startles you! Two glowing eyes glare at you!"
                             + Colours.RESET);
                 }
-                if (adventure.spiderBotIsNear()){
+                if (adventure.spiderBotIsNear()) {
                     System.out.println(Colours.RED + "The heat of a powerful red laser assails you as the Spider Bot locks" +
                             " its single eye on you." + Colours.RESET);
                 }
@@ -105,7 +105,6 @@ public class UserInterface {
                 }
                 case "use" -> {
                     useItem(stringArray);
-                    roomEnemiesAttack();
                     roomTrapsGoOff();
                     choicePicked = true;
                 }
@@ -140,45 +139,57 @@ public class UserInterface {
             switch (choice.toLowerCase()) {
                 //movement
                 case "go north", "north", "go n", "n" -> {
-                    moveFlag = true;
-                    roomEnemiesAttack();
-                    roomTrapsGoOff();
-                    //nested switch case to handle several scenarios (can move | cant move | locked room)
-                    switch (adventure.moveNorth()) {
-                        case DOOR_LOCKED -> System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
-                        case CAN_MOVE -> newRoom = true;
-                        case CANT_MOVE -> System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
-                    }
+                    if (!adventure.getPlayerLocation().getName().equalsIgnoreCase("Command Deck")) {
+                        moveFlag = true;
+                        roomEnemiesAttack();
+                        roomTrapsGoOff();
+                        //nested switch case to handle several scenarios (can move | cant move | locked room)
+                        switch (adventure.moveNorth()) {
+                            case DOOR_LOCKED -> System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
+                            case CAN_MOVE -> newRoom = true;
+                            case CANT_MOVE ->
+                                    System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
+                        }
+                    } else System.out.println(Colours.RED + "You cannot leave!" + Colours.RESET);
                 }
                 case "go south", "south", "go s", "s" -> {
-                    moveFlag = true;
-                    roomEnemiesAttack();
-                    roomTrapsGoOff();
-                    switch (adventure.moveSouth()) {
-                        case DOOR_LOCKED -> System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
-                        case CAN_MOVE -> newRoom = true;
-                        case CANT_MOVE -> System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
-                    }
+                    if (!adventure.getPlayerLocation().getName().equalsIgnoreCase("Command Deck")) {
+                        moveFlag = true;
+                        roomEnemiesAttack();
+                        roomTrapsGoOff();
+                        switch (adventure.moveSouth()) {
+                            case DOOR_LOCKED -> System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
+                            case CAN_MOVE -> newRoom = true;
+                            case CANT_MOVE ->
+                                    System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
+                        }
+                    } else System.out.println(Colours.RED + "You cannot leave!" + Colours.RESET);
                 }
                 case "go east", "east", "go e", "e" -> {
-                    moveFlag = true;
-                    roomEnemiesAttack();
-                    roomTrapsGoOff();
-                    switch (adventure.moveEast()) {
-                        case DOOR_LOCKED -> System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
-                        case CAN_MOVE -> newRoom = true;
-                        case CANT_MOVE -> System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
-                    }
+                    if (!adventure.getPlayerLocation().getName().equalsIgnoreCase("Command Deck")) {
+                        moveFlag = true;
+                        roomEnemiesAttack();
+                        roomTrapsGoOff();
+                        switch (adventure.moveEast()) {
+                            case DOOR_LOCKED -> System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
+                            case CAN_MOVE -> newRoom = true;
+                            case CANT_MOVE ->
+                            System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
+                        }
+                    } else System.out.println(Colours.RED + "You cannot leave!" + Colours.RESET);
                 }
                 case "go west", "west", "go w", "w" -> {
-                    moveFlag = true;
-                    roomEnemiesAttack();
-                    roomTrapsGoOff();
-                    switch (adventure.moveWest()) {
-                        case DOOR_LOCKED -> System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
-                        case CAN_MOVE -> newRoom = true;
-                        case CANT_MOVE -> System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
-                    }
+                    if (!adventure.getPlayerLocation().getName().equalsIgnoreCase("Command Deck")) {
+                        moveFlag = true;
+                        roomEnemiesAttack();
+                        roomTrapsGoOff();
+                        switch (adventure.moveWest()) {
+                            case DOOR_LOCKED -> System.out.println(Colours.RED + "The door is locked!" + Colours.RESET);
+                            case CAN_MOVE -> newRoom = true;
+                            case CANT_MOVE ->
+                            System.out.println(Colours.RED + "You cannot move that way!" + Colours.RESET);
+                        }
+                    } else System.out.println(Colours.RED + "You cannot leave!" + Colours.RESET);
                 }
                 //actions
                 case "look", "l" -> look();
@@ -328,16 +339,33 @@ public class UserInterface {
                             Colours.RED_UNDERLINED + "\'Open Sesame!\'" + Colours.RESET + Colours.GREEN_BOLD +
                             " Under it is written " + Colours.RED_UNDERLINED + "\'Captain's Locker\'" + Colours.RESET +
                             Colours.GREEN_BOLD + "." + Colours.RESET);
-            case "captain's quarters" ->
-                    System.out.print(Colours.GREEN_BOLD + """
+            case "captain's quarters" -> System.out.print(Colours.GREEN_BOLD + """
                     You let out a yawn.
                     """ + Colours.RESET);
-            case "captain's dedroom" ->
-                    System.out.print(Colours.GREEN_BOLD + """
+            case "captain's bedroom" -> System.out.print(Colours.GREEN_BOLD + """
                     The tall locker has two items within, but it hard to tell exactly what they are, but you are
                     fairly sure they must be the Captain's weapons. Unfortunately, the locker requires a passphrase
                     to open.
                     """ + Colours.RESET);
+            case "robotics workshop" -> System.out.print(Colours.GREEN_BOLD + """
+                    The head moves its eye up to stare at you, and then whispers, conspiratorially, "Don't go for the head,
+                    always go for the arms! The head is too strong, but it will die if the arms are destroyed." Then it shuts
+                    its eyes and says no more.
+                    """ + Colours.RESET);
+            case "observation lounge" -> {
+                System.out.print(Colours.PURPLE_BOLD + """
+                You stare out into the black void of space and the void stares back.
+                Voices begin to fill your ears.
+                You put your hands to your head.
+                And then...
+                """ + Colours.RESET);
+                try {
+                    Thread.sleep(2500); //waits 2.5 seconds before shutting down, so there's time to read message
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                System.exit(666);
+            }
             default -> System.out.println(Colours.GREEN_BOLD + "There is nothing more to see here." + Colours.RESET);
         }
     }
@@ -412,8 +440,10 @@ public class UserInterface {
                         "\'Pass-phrase Correct!\'" + Colours.RESET);
                 adventure.getRoomEast().setLocked(false);
                 pass14DoOnce = false;
-            } else System.out.println(Colours.RED+"Your voice echoes through the room, but nothing happens..."+Colours.RESET);
-        } else System.out.println(Colours.RED+"Your voice echoes through the room, but nothing happens..."+Colours.RESET);
+            } else
+                System.out.println(Colours.RED + "Your voice echoes through the room, but nothing happens..." + Colours.RESET);
+        } else
+            System.out.println(Colours.RED + "Your voice echoes through the room, but nothing happens..." + Colours.RESET);
     }
 
     private void passphraseToRoom50() {
@@ -421,15 +451,16 @@ public class UserInterface {
             System.out.println(Colours.GREEN_BOLD + "A " + Colours.BLUE + "beep" + Colours.GREEN_BOLD +
                     " sounds from the locker. Then it says, in a robotic voice:\n" + Colours.BLUE +
                     "\'Pass-phrase Correct!\'" + Colours.RESET);
-            adventure.getPlayerLocation().addItemToRoom(new MeleeWeapon("Delaine's Sword","Weapon",
+            adventure.getPlayerLocation().addItemToRoom(new MeleeWeapon("Delaine's Sword", "Weapon",
                     "A well-maintained bejewelled sabre. It has the initials BD, but you're not sure what the" +
-                            " B stands for.","A bejewelled sabre.",5,6));
-            adventure.getPlayerLocation().addItemToRoom(new RangedWeapon("Delaine's PewPew","AI Gun",
+                            " B stands for.", "A bejewelled sabre.", 5, 6));
+            adventure.getPlayerLocation().addItemToRoom(new RangedWeapon("Delaine's PewPew", "AI Gun",
                     "A well-maintained bejewelled laser pistol that you realise is outfitted with a primitive AI." +
                             " Under\nInterstellar Law, such a thing is very illegal to own.",
-                    "A bejewelled laser pistol that kees saying 'Pew'.",3,12));
+                    "A bejewelled laser pistol that kees saying 'Pew'.", 3, 12));
             pass50DoOnce = false;
-        }else System.out.println(Colours.RED+"Your voice echoes through the room, but nothing happens..."+Colours.RESET);
+        } else
+            System.out.println(Colours.RED + "Your voice echoes through the room, but nothing happens..." + Colours.RESET);
     }
 
     private void unlockRoom(String input) {
@@ -658,8 +689,8 @@ public class UserInterface {
             }
         }
         if (attackItem != null) {
-            if(attackItem.getName().equalsIgnoreCase("Delaine's PewPew")){
-                System.out.println(Colours.CYAN_UNDERLINED+"Pew!"+Colours.RESET);
+            if (attackItem.getName().equalsIgnoreCase("Delaine's PewPew")) {
+                System.out.println(Colours.CYAN_UNDERLINED + "Pew!" + Colours.RESET);
             }
             ReturnAttackMessage message = attackItem.attack().getReturnAttackMessage();
             switch (message) {
@@ -727,11 +758,12 @@ public class UserInterface {
                                 System.out.println(Colours.PURPLE_BOLD + "Your attack killed " + enemyInRoom.getName() +
                                         "!" + Colours.RESET);
                                 adventure.enemyDies(enemyInRoom);
+                                fightingDelaine(enemyInRoom);
                             }
                         }
                         case CANT_MELEE_ATTACK ->
                                 System.out.println(Colours.RED + attackItem.getName() + " is broken!" + Colours.RESET);
-                        case RANGED_ATTACK -> { 
+                        case RANGED_ATTACK -> {
                             enemyInRoom.takeDamage(attackItem.attack().getDamage());
                             System.out.println(Colours.PURPLE_BOLD + "You fire your " + attackItem.getName() + " and deal "
                                     + attackItem.attack().getDamage() + " damage to " + Colours.RED + enemyInRoom.getName() +
@@ -741,6 +773,7 @@ public class UserInterface {
                                 System.out.println(Colours.PURPLE_BOLD + "Your attack killed " + enemyInRoom.getName() +
                                         "!" + Colours.RESET);
                                 adventure.enemyDies(enemyInRoom);
+                                fightingDelaine(enemyInRoom);
                             }
                         }
                         case CANT_RANGED_ATTACK ->
@@ -828,7 +861,7 @@ public class UserInterface {
                 }
             }
             if (!string.equals("")) {
-                System.out.println(Colours.RED + "----------------------\n"+string+"----------------------" + Colours.RESET);
+                System.out.println(Colours.RED + "----------------------\n" + string + "----------------------" + Colours.RESET);
             }
             enemyHasAttacked = true;
         }
@@ -861,27 +894,34 @@ public class UserInterface {
     }
 
     private void playerDeath() {
+        boolean keepRunning = true;
+        String answer;
         scanner = new Scanner(System.in);
         System.out.println(Colours.RED_BOLD + "You have died!\nGame Over!\n" +
                 Colours.BLUE_BOLD + "Would you like to continue?" + Colours.RESET);
-        String answer = scanner.nextLine();
-        switch (answer.toLowerCase()) {
-            //if you want to continue (added a lot of ways to say yes)
-            case "ye", "yarp", "yass", "yes", "dah", "oui", "jahwol", "yep", "ja", "jaja" -> {
-                //resets game, prints welcome message, and sets newRoom to "true"
-                adventure = new Adventure();
-                welcome();
-                newRoom = true;
-            }
-            //if you say no (exits game after waiting half a second)
-            case "no", "nope", "im out of here", "narp", "cya" -> {
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+        while(keepRunning) {
+            System.out.print(">");
+            answer = scanner.nextLine();
+            switch (answer.toLowerCase()) {
+                //if you want to continue (added a lot of ways to say yes)
+                case "y", "ye", "yarp", "yass", "yes", "dah", "oui", "jahwol", "yep", "ja", "jaja" -> {
+                    //resets game, prints welcome message, and sets newRoom to "true"
+                    adventure = new Adventure();
+                    welcome();
+                    newRoom = true;
+                    keepRunning = false;
                 }
-                System.exit(2);
+                //if you say no (exits game after waiting half a second)
+                case "n", "no", "nope", "im out of here", "narp", "cya" -> {
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    System.exit(2);
+                }
             }
+            if(keepRunning) System.out.println(Colours.RED+"Incorrect input! Try again!"+Colours.RESET);
         }
     }
 
@@ -911,6 +951,50 @@ public class UserInterface {
         adventure.getPlayerLocation().setLitUp(true);
     }
 
+    private void fightingDelaine(Enemy enemy){
+        switch(enemy.getName().toLowerCase()){
+            case "captain's left arm", "captain's right arm"  -> {
+                if (adventure.getPlayerLocation().getName().equalsIgnoreCase("Command Deck")) {
+                    for (Enemy delaine : adventure.getPlayerLocation().getRoomEnemies()){
+                        if (delaine.getName().equalsIgnoreCase("Captain Delaine")){
+                            delaine.takeDamage(90);
+                        }
+                    }
+                }
+            }
+            case "captain delaine" -> victory();
+        }
+    }
+
+    private void victory(){
+        System.out.println(Colours.GREEN_BRIGHT+"""
+                As the smouldering and ruined body of the monstrosity that
+                Captain Delaine has turned into lies still, you climb up
+                onto his large body. You dig around for a moment, until you
+                find what you are looking for.
+                
+                After prying loose the Artefact, you put it in your inventory
+                and then pull out the tiny transponder that has been hidden
+                in the inner pocket of your suit this entire time.
+                
+                You turn on the transponder and wait for a moment.
+                
+                "How copy?" comes a static and gruff voice from the device.
+                "I have the Artefact."
+                "Good work, Wanderer. We're bringing the vessel to the same
+                docking port we dropped you off in."
+                "I'll head there now," you reply.
+                """+Colours.RESET);
+        System.out.println(Colours.CYAN_BRIGHT+"Thank you for playing!\nI hope you had fun.\n-----Dosei-----"+Colours.RESET);
+        try {
+            Thread.sleep(9000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        System.exit(42);
+    }
+
+    //start message (used for when you reset)
     private void welcome() {
         help();
         System.out.print(Colours.BLUE_BOLD + """

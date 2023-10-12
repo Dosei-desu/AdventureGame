@@ -15,7 +15,7 @@ public class RangedWeapon extends Weapon {
     public AttackDTO attack() {
         AttackDTO attackDTO;
         if (isEquipped()) {
-            if (getNumberOfUses() > 0) {
+            if (getNumberOfUses() != 0) {
                 attackDTO = new AttackDTO(ReturnAttackMessage.RANGED_ATTACK, getDamage());
                 return attackDTO;
             }

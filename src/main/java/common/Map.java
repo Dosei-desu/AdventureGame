@@ -210,7 +210,8 @@ public class Map {
                 once a disaster when the gravity was switched off and afterwards they took the precaution of keeping every-
                 thing grounded. After all, it would be difficult to turn the gravity back on if all the chairs and tables
                 were floating about.
-                Connected to rooms via doors to the South and East.""");
+                Connected to rooms via doors to the South and East.
+                The door to the East is locked with a Keycard.""");
         room26 = new Room("Astrometrics", """
                 The mapping and courses the Discovery Vessel might take seem to have been handled here, as several star-
                 charts and diagrams are plastered onto the walls. Parts of the FTL jumps might have been handled here,
@@ -222,28 +223,65 @@ public class Map {
                 them, although who knows how long they will last. Without the oxygen you would have to wear your spacesuit,
                 which would limit your mobility and hamper exploration. Plus, a tiny leak in your spacesuit in an anaerobic
                 environment result in immediate death. That is all to say: do not turn off the oxygen.
-                Connected to rooms via doors to the North, East, and West.""");
+                Connected to rooms via doors to the North, East, and West.
+                There is a Keycard lock on the door to the North and the door to the West.""");
+        //----- Patrolling enemy ^
 
         room28 = new Room("Communications", """
-                                
+                If not for the fact that someone seems to have gone through the room severing all cables and connections,
+                this room would have allowed for communications with vessels and starports up to 5 light-years away. The
+                radar and high-detail scanners adorning the outside of the vessel also seem to have been operated from
+                here, making this the most important room aboard the Discovery Vessel apart from the Command Deck.
                 Connected to rooms via doors to the North and West.""");
+        //items: Scissors
         room29 = new Room("Officer's Lounge", """
-                """);
+                A fancy lounge just like those enjoyed by the affluent in the big cities and spaceports. You have seen your
+                fair share of such fancy lounges and have come to the conclusion that while money can buy a lot of things,
+                taste is not one of them. Gaudy golden sculptures and avant-garde paintings litter the room, and there is
+                enough jewels and gold filigree within the lounge to make a Helium-refinery Prince green with envy.
+                Connected to rooms via doors to the East and West.""");
+        //items: Gaudy Paperweight (junk) | Avant-Garde Painting (junk) | Synth-Whiskey (consumable)
+        //enemies: golden robot statue twins
         room30 = new Room("Robotics Workshop", """
-                                
+                Oil coats the entire room with a thin glossy sheen and you have to step around dozens of scattered parts
+                with careful steps, lest you slip and fall. It seems that this room was not only where robots aboard the
+                spaceship were repaired and maintained, but also where experiments were carried out. An example of this
+                lies atop a workbench in the form of a blinking and articulating skeletal robot head, which has a clear
+                intelligence within.
                 Connected to rooms via doors to the North and West.""", true);
+        //look closer event: the robot head says something
         room31 = new Room("Escape Pods", """
-                                
+                Under normal circumstances, there would be at least twelve escape pods accessible from this room, but eight
+                have been destroyed or blocked off, with the last four having activated to no doubt see the most important
+                crew-members to safety, while the rest were left to the predations of the mad robots. It also seems that
+                those responsible for the vandalism have left two 'presents' behind.
                 Connected to rooms via doors to the North and West.""");
+        //traps: motion-sensor and heat-sensor traps
         room32 = new Room("Command Deck Vestibule", """
-                                
-                Connected to rooms via doors to the North and West.""");
+                Enormous cables snake across the room, as though drawing power from the spaceships other rooms. It may explain
+                why the power is off to the Engine Rooms. You wonder what could be needing so much power, but you are unsure
+                if you want to find out. Going North and into the Command Deck feels like a point of no return. Either you
+                get the thing you came here to in search of or you will never escape alive.
+                Connected to rooms via doors to the North and West.
+                There is a Keycard lock on the door to the North.""");
         room33 = new Room("Observation Lounge", """
-                                
+                Large reinforced windows reveal the darkness of space. A galaxy's worth of stars twinkle in many colours,
+                and space dust run across the cosmos as though drawn by an impossibly-large brush by a painter. The sight
+                fills you with both a sense of ease, but also a bit of discomfort. You make your living traversing the
+                stars, but you also know that those who stare too deep often disappear into the vastness of it and go mad.
                 Connected to rooms via doors to the North and West.""");
+        //look closer event: this will kill you (tl;dr: dont stare out into the dark of space)
         room34 = new Room("Command Deck", """
-                                
-                Connected to rooms via doors to the North and West.""", true);
+                As soon as you pass through the door it locks behind you and there are no access panels or Keycard readers
+                to open it back up. You realise you are trapped. As you turn around to take in the room, your eyes immediately
+                fall on a hulking Monstrosity of cables, welded-together scrap and electronics, and an honest-to-God human brain
+                floating inside a metal-reinforced tank of oily fluids.
+                The Monstrosity lifts two massive arms out from under the cables, each bearing large weapons, and says,
+                "So you are the one who has been scurrying about my ship..."
+                "I know you have the artefact," you say to the Robot Monstrosity.
+                "And so what if I do? Will you take it from me?"
+                In reply, you ready your weapons.""", true);
+        //enemies: Captain Delaine Left & Right Arms, & Head
 
         // Outer Rooms
         room35 = new Room("West Airlock", """
@@ -395,7 +433,7 @@ public class Map {
 
         // Start Room
         startRoom = room0;
-        roomToTeleportTo = room24;
+        roomToTeleportTo = room32;
     }
 
     public Room starterRoom() {
@@ -436,6 +474,17 @@ public class Map {
         room23.addItemToRoom(new Food("Potato Salad Leftovers", "Consumable", "Some sad" +
                 " remains of what might once have been an 'okay' potato salad.", "Leftovers from the buffet.",
                 12));
+        room28.addItemToRoom(new MeleeWeapon("Scissors","Tool","Sharp scissors that might" +
+                " be able to chop through wires.","Sharp scissors.",3,6));
+        room29.addItemToRoom(new Item("Gaudy Paperweight","Junk","The fact that this unwieldy" +
+                " block of gold sculpted in the form of a woodlouse has been left behind,\nspeaks volumes of the looters' sense" +
+                "of taste.","A heavy golden woodlouse paperweight."));
+        room29.addItemToRoom(new Item("Avant-Garde Painting","Junk","The fact that this tasteless" +
+                " mish-mash of colours on canvas has been left behind, speaks volumes of\nthe looters' sense of taste.",
+                "An ugly Avant-Garde painting."));
+        room29.addItemToRoom(new Food("Synth-Whiskey","Consumable","Like all synthetic alcohols," +
+                " this has less than 2% of alcohol in it and comes in a juice-box with a straw.",
+                "A juice-box of Synth-Whiskey.",20));
         room35.addItemToRoom(new Keycard("Navigator's Quarters Keycard", "Keycard", "Grants access to " +
                 "the Navigator's Quarters to the North.",
                 "A keycard that reads 'Navigator's Quarters' on it.", "Navigator's Quarters"));
@@ -517,6 +566,27 @@ public class Map {
 
         room25.addEnemyToRoom(spiderBot);
 
+        room29.addEnemyToRoom(new Enemy("Katalynne the Golden","A female Combat Servitor built from gold." +
+                " It must be quite weak to attacks, since gold is very soft and malleable.",8,
+                new MeleeWeapon("Katalynne's Katana","Weapon","A golden katana with" +
+                        " a large blue jewel on its hilt.","A golden katana.",2,8)));
+        room29.addEnemyToRoom(new Enemy("Avelynne the Shining","A female Combat Servitor built from silver." +
+                " It is more durable than its twin.",16,
+                new MeleeWeapon("Avelynne's Needler","Needler Gun","A silvery Needler with" +
+                        " a small red jewels on its handle.","A silvery Needler Gun.",4,9)));
+
+        room34.addEnemyToRoom(new Enemy("Captain Delaine","Nothing like cuddling with an Artefact" +
+                " of unknown origin and power\nto turn you into a Monstrosity of flesh bonded with metal.",200,
+                new RangedWeapon("Eye Beam","Laser","Pew!","Pew!",
+                        -1,4)));
+        room34.addEnemyToRoom(new Enemy("Captain's Left Arm","A giant claw adorns this arms.",40,
+                new MeleeWeapon("Captain's Claw","Claw","Claw!","A big scary" +
+                        " claw.",-1,6)));
+        room34.addEnemyToRoom(new Enemy("Captain's Right Arm","An array of lasers adorns this arms.",40,
+                new MeleeWeapon("Captain's Laser Array","Laser Array","Laser[].",
+                        "If you wish to fry a human alive with radioactive beams of energy, this is a pretty" +
+                                " good way to do it..",-1,8)));
+
         room35.addEnemyToRoom(new Enemy("Welcome Droid 'Hass'", "A silvery spherical robot that dangles " +
                 "from the ceiling on a yellow cable.\nIt keeps repeating, \"Please leave.\"", 1,
                 new MeleeWeapon("Stunner", "Weapon", "It's a stun-gun covered in yellow" +
@@ -564,6 +634,8 @@ public class Map {
 
         room1.addEnemyToRoom(heatSensorTrap);
         room22.addEnemyToRoom(motionSensorTrap);
+        room31.addEnemyToRoom(heatSensorTrap);
+        room31.addEnemyToRoom(motionSensorTrap);
         room51.addEnemyToRoom(heatSensorTrap);
         room51.addEnemyToRoom(claymore);
     }
@@ -593,7 +665,7 @@ public class Map {
         }
     }
 
-    //i think this works, but im not 100% sure... but whatever it takes too long to manually test
+    //i think this works, but im not 100% sure... but, whatever, it takes too long to manually test
     public void spiderBotMoves(Room room) {
         if (!room.getRoomEnemies().contains(spiderBot)) {
             if (room25.getRoomEnemies().contains(spiderBot)) {
