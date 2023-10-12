@@ -12,15 +12,8 @@ import java.util.Scanner;
 
 /**
  * TODO
- * add enemies to rooms
- * finish room descriptions
- * add more items and food to rooms
- * <p>
  * Finally:
  * Unit Test it all!!
- * <p>
- * Lastly, contemplate the folly of adding 55 rooms and
- * a backstory to this simple game...
  */
 
 
@@ -324,6 +317,10 @@ public class UserInterface {
                 adventure.moveEast(); //forces player to leave room as a result of looking closer
                 newRoom = true;
             }
+            case "hallway of mirrors" ->
+                    System.out.print(Colours.GREEN_BOLD + """
+                            You admire your own reflection for a moment, before moving on. You have better things to do.
+                            """ + Colours.RESET);
             case "engineer break-room" -> //a way to fill up empty containers with scalding-hot Caffeine Brew
                     System.out.print(Colours.GREEN_BOLD + """
                             If you had a container, you might be able to fill it up with the scalding-hot Caffeine
@@ -393,7 +390,7 @@ public class UserInterface {
     }
 
     private void inspectItem(String[] stringArray) {
-        String itemDescription = "";
+        String itemDescription = "----------------------\n";
         if (stringArray.length > 1) {
             String itemName = "";
             for (int i = 1; i < stringArray.length; i++) {
@@ -420,9 +417,10 @@ public class UserInterface {
                             itemDescription += Colours.RED + item.breakStatus() + "\n";
                         }
                     }
+                    itemDescription += "----------------------\n";
                 }
             }
-            if (itemDescription.equals("")) {
+            if (itemDescription.equals("----------------------\n")) {
                 System.out.println(Colours.RED + "Item not found!" + Colours.RESET);
             } else {
                 System.out.print(Colours.BLUE + itemDescription + Colours.RESET);
@@ -627,7 +625,7 @@ public class UserInterface {
                                 Item caffeineBottle = new Item("Caffeine Bottle", "Beverage",
                                         "The Caffeine Brew inside the glass bottle is so unbelievably hot that" +
                                                 " you instinctively know that drinking\nit would be fatal. However, it may" +
-                                                "have some use as a throwable weapon.", "A beer bottle full" +
+                                                " have some use as a throwable weapon.", "A beer bottle full" +
                                         "of very hot Caffeine.");
                                 adventure.getPlayerInventory().add(caffeineBottle);
                             } else System.out.println(Colours.RED + "Item cannot be used!" + Colours.RESET);
@@ -739,6 +737,9 @@ public class UserInterface {
                     }
                 }
                 if (attackItem != null) {
+                    if (attackItem.getName().equalsIgnoreCase("Delaine's PewPew")) {
+                        System.out.println(Colours.CYAN_UNDERLINED + "Pew!" + Colours.RESET);
+                    }
                     ReturnAttackMessage message = attackItem.attack().getReturnAttackMessage();
                     switch (message) {
                         case CANT_ATTACK ->

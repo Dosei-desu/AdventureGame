@@ -68,7 +68,7 @@ public class Player {
                 return eatDTO;
             } else { //damages player
                 foodValue = ((Food) item).getFoodHealthPoints();
-                takeDamage(foodValue);
+                takeDamage((-1*foodValue));
                 eatDTO = new EatDTO(ReturnEatMessage.EAT_DAMAGE_FOOD, (foodValue * -1));
                 return eatDTO;
             }
@@ -150,23 +150,25 @@ public class Player {
     public EquipDTO equip(String name) {
         EquipDTO equipDTO;
         Item itemToEquip = findItem(name);
-        if (itemToEquip.isEquippable()) { //can it be equipped?
-            for (Item item : inventory) {
-                if (item.isEquipped()) {
-                    if (item == itemToEquip) { //if item is already equipped and matches name, it sends an error message
-                        equipDTO = new EquipDTO(ReturnEquipMessage.ALREADY_EQUIPPED,item);
-                        return equipDTO;
+        if(itemToEquip != null) {
+            if (itemToEquip.isEquippable()) { //can it be equipped?
+                for (Item item : inventory) {
+                    if (item.isEquipped()) {
+                        if (item == itemToEquip) { //if item is already equipped and matches name, it sends an error message
+                            equipDTO = new EquipDTO(ReturnEquipMessage.ALREADY_EQUIPPED, item);
+                            return equipDTO;
+                        }
                     }
-                }
-                item.setEquipped(false); //sets all items to not equipped
+                    item.setEquipped(false); //sets all items to not equipped
                 }
             }
-        for (Item item : inventory) {
-            if(itemToEquip.isEquippable()) {
-                if (item == itemToEquip) { //set matched item to equipped
-                    item.setEquipped(true);
-                    equipDTO = new EquipDTO(item.equip(),item);
-                    return equipDTO;
+            for (Item item : inventory) {
+                if (itemToEquip.isEquippable()) {
+                    if (item == itemToEquip) { //set matched item to equipped
+                        item.setEquipped(true);
+                        equipDTO = new EquipDTO(item.equip(), item);
+                        return equipDTO;
+                    }
                 }
             }
         }
@@ -249,5 +251,10 @@ public class Player {
         inventory.add(trustyNeedler);
         inventory.add(missionBrief);
         inventory.add(hildebrandMap);
+
+
+        inventory.add(new Food("Suspicious Goop", "Consumable",
+                "It looks like cursed mashed potatoes and gives off an earthy smell. It seems to move on its own\n" +
+                        "when you prod it with your fingers.", "A mass of goop.", -25));
     }
 }

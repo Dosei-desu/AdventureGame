@@ -85,20 +85,23 @@ public class Map {
                 The lights in this dirty hallway are flickering ominously. Meal-trays lay discarded
                 all over the place and the smell of rotten Synthmeat fill the air.
                 Connected to rooms via doors to the West, South, and East.
-                The door to the East lead to darkness, but a sign above the doorway reads 'Crew
+                The door to the West lead to darkness, but a sign above the East doorway reads 'Crew
                 Quarters B'.""", true);
         room8 = new Room("Vandalised Hallway", """
                 Some hooligan has smashed the lights and drawn a lewd image of the Emperor of Man
-                cuddling with two very muscular green-skinned orcs.
+                cuddling with two very muscular green-skinned orcs. The vandal seems to also have
+                left a 'present' behind.
                 Connected to rooms via doors to the East and West.""", false, false);
+        //trap: claymore
         room9 = new Room("Vandalised Common Room", """
                 All the lights in the room have been smashed and graffiti covers the walls and even
                 the ceiling. Most of the graffiti are lewd acts performed by either the Captain of the
                 Discover Vessel, the Emperor of Man, or other important figures. Couches and bookshelves
                 are scattered across the room, and there is even a mini-fridge full of beer, although
-                all the bottles are empty.
+                all the bottles are empty. A 'present' has also been left behind here.
                 Connected to rooms via doors to the North, East, and West.""", false, false);
         //items: Beer Bottle (empty)
+        //trap: claymore
         //look closer event: contains the password to special door from room15 to room14
         room10 = new Room("Hallway of Mirrors", """
                 Highly-reflective mirrors cover every inch of the hallway, making it very disorienting
@@ -111,6 +114,7 @@ public class Map {
                 it is full of ancient Pokémon cards in protective cases. Even in the far future of 2548,
                 everybody knows what Pokémon is.
                 Connected to rooms via doors to the North and West.""");
+        //items: pokemon card
         room12 = new Room("Screen Room", """
                 Screens cover the walls and ceiling, showing dozens of different shows, such as your
                 favourite show 'Flim-Flam the Fabulous', as well as Anime horribly dubbed into Polish.
@@ -164,8 +168,8 @@ public class Map {
                 Large cables and hoses connect from the southern wall to various plugs in the ceiling and floor.
                 During normal ship activity, these would supply electricity and fuel to the thrusters that propel
                 the Discovery Vessel through the darkness of space. There are large gouges in the floor, seeming to
-                indicate that something regularly walks through this corridor. A sign over the West doorway reads
-                'Hydroponics Lab'.
+                indicate that something regularly walks through this corridor. A sign over the East doorway reads
+                'Experimental R&D'.
                 Connected to rooms via doors to the North, East, and West.""", false, false);
         room20 = new Room("Engine Bay B", """
                 The cables and hoses that should have connected the thrusters through the southern wall have been
@@ -177,8 +181,8 @@ public class Map {
         room21 = new Room("Engine Bay A", """
                 The entire room is a mess of burn-scars on the metallic walls, torn cables and hoses, and large rust-
                 red dried stains. It seems as though this room had a fierce battle take place within it at some point
-                however, there are no bodies to prove who took part in it nor who won. A sign over the East doorway
-                reads 'Experimental R&D'.
+                however, there are no bodies to prove who took part in it nor who won. A sign over the West doorway
+                reads 'Hydroponics Lab'.
                 Connected to rooms via doors to the North, East, and West.""", false, false);
 
         // Top section
@@ -255,21 +259,21 @@ public class Map {
                 have been destroyed or blocked off, with the last four having activated to no doubt see the most important
                 crew-members to safety, while the rest were left to the predations of the mad robots. It also seems that
                 those responsible for the vandalism have left two 'presents' behind.
-                Connected to rooms via doors to the North and West.""");
+                Connected to rooms via doors to the South and West.""");
         //traps: motion-sensor and heat-sensor traps
         room32 = new Room("Command Deck Vestibule", """
                 Enormous cables snake across the room, as though drawing power from the spaceships other rooms. It may explain
                 why the power is off to the Engine Rooms. You wonder what could be needing so much power, but you are unsure
                 if you want to find out. Going North and into the Command Deck feels like a point of no return. Either you
                 get the thing you came here to in search of or you will never escape alive.
-                Connected to rooms via doors to the North and West.
+                Connected to rooms via doors to the North and East.
                 There is a Keycard lock on the door to the North.""");
         room33 = new Room("Observation Lounge", """
                 Large reinforced windows reveal the darkness of space. A galaxy's worth of stars twinkle in many colours,
                 and space dust run across the cosmos as though drawn by an impossibly-large brush by a painter. The sight
                 fills you with both a sense of ease, but also a bit of discomfort. You make your living traversing the
                 stars, but you also know that those who stare too deep often disappear into the vastness of it and go mad.
-                Connected to rooms via doors to the North and West.""");
+                Connected to rooms via a door to the South.""");
         //look closer event: this will kill you (tl;dr: dont stare out into the dark of space)
         room34 = new Room("Command Deck", """
                 As soon as you pass through the door it locks behind you and there are no access panels or Keycard readers
@@ -312,25 +316,27 @@ public class Map {
                 that smell of beer are scattered across the room, but there is no alcohol left for
                 you. It seems that a party might have been underway before the party-goers suddenly
                 left the Crew Quarters.
-                Connected to rooms via doors to the West and South.""");
+                Connected to rooms via doors to the East and South.""");
         //items: Red Solo Cup (empty)
         room39 = new Room("Vandalised Crew Quarters A", """
                 The vandal from previous rooms has seemingly been in here as well, as the lights have
                 been torn out of their sockets. There is also a battle-droid lying in several pieces
                 all over the bunkbeds and floor. A clown-face has been graffitied onto its face-plate.
+                Yet another 'present' awaits you,
                 Connected to a room via the door to the North.""", false, false);
+        //trap: heat-sensor
         room40 = new Room("Crew Quarters B", """
                 A small stovetop that seems to never have been used and microwave with a sparking
                 power supply stand on a table in the corner. Next to it is an open fridge. Beer
                 bottles lie discarded on the ground, as well as several meal-trays.
-                Connected to rooms via doors to the West and South.""", false, false);
+                Connected to rooms via doors to the West and South.""");
         //items: Beer Bottle (empty) | Meal-Tray Leftovers
         room41 = new Room("Crew Quarters B", """
                 Six bunkbeds line the room, three along each of the two walls. Between the bunks is
                 a mess of dirty clothes, empty bottles, and half-eaten meal-trays. Mould covers the
                 backwall and there are a few mushrooms sprouting from a pair of socks. Next to the
                 socks lies a keycard that reads 'Engine Crew Quarters A'.
-                Connected to a room via a door to the North.""", false, false);
+                Connected to a room via a door to the North.""");
         //items: Keycard to room37 | Nasty Sock-Mushrooms (poisoned)
         //enemy: Ceiling Turret
         room42 = new Room("Engine Crew Quarters B", """
@@ -451,13 +457,16 @@ public class Map {
                 "the words 'Engine Room' on it.", "Engine Room Vestibule"));
         room4.addItemToRoom(new Item("Motivational Poster", "Junk", "A motivational poster with " +
                 "picture of a cute kitten hanging from a cliff, which states, encouragingly, 'Hang in there!'",
-                "A poster with a kitten on it that reads 'Hang in there!'.'"));
+                "A poster with a kitten on it that reads, 'Hang in there!'"));
         room5.addItemToRoom(new Item("Origami Unicorn", "Junk", "A well-crafted origami sculpture " +
                 "depicting a unicorn. You are unsure how it is possible to fold something so meticulously.",
                 "A well-crafted origami unicorn."));
         room9.addItemToRoom(new Item("Beer Bottle (empty)", "Container", "This bottle smells of beer, " +
                 "but it is now empty. It could probably be filled with something else.",
                 "An empty beer bottle."));
+        room11.addItemToRoom(new Item("Holographic Charizard","Collectible Junk","You are" +
+                " unfamiliar with Pokémon, but even you know that this card is worth a fortune.","A Holographic" +
+                " Charizard in a protective case."));
         room16.addItemToRoom(new Item("Nigel's Lab-coat", "Clothing",
                 "A lab-coat with a name-tag that says 'Nigel'. It smells faintly of synth-apples.",
                 "A lab-coat."));
@@ -465,9 +474,9 @@ public class Map {
                 "The back-leg of a Mech-Hound that has been torn from its original body.\nIt might serve as a" +
                         " simple club to bash enemies with.", "The back-leg of a Mech-Hound that might work" +
                 " as a club.", 3, 10));
-        room20.addItemToRoom(new Keycard("Bridge Keycard", "Keycard", "Grants access to " +
+        room20.addItemToRoom(new Keycard("Robotics Workshop Keycard", "Keycard", "Grants access to " +
                 "the Bridge of Discovery Vessel 'Hildebrand' to the North.",
-                "A keycard that reads 'Bridge' on it.", "Room 30"));
+                "A keycard that reads 'Robotics Workshop' on it.", "Robotics Workshop"));
         room22.addItemToRoom(new Food("Medipen", "Consumable", "The Medipen is an invention" +
                 " that revolutionised the medical profession, by making most doctors obsolete.", "A Medipen.",
                 25));
@@ -553,6 +562,15 @@ public class Map {
                 new MeleeWeapon("Kass' Feather-Duster", "Tool", "It's a feather-duster.",
                         "A dusty feather-duster covered in cobwebs.", 1, 1)));
 
+        room12.addEnemyToRoom(new Enemy("Portable Turret",
+                "A portable turret standing on the floor. A glowing targeting" +
+                        "beam sweeps\nback and forth across the room, before settling on you.", 8,
+                new RangedWeapon("Needle Rifle", "Needle Rifle",
+                        "A fairly-new Needle Rifle that feels comfortable in your hands. You are unsure why it" +
+                                " is in the hands of a turret.",
+                        "A Needle Rifle.", 5,
+                        7)));
+
         room17.addEnemyToRoom(mechHound);
 
         room24.addEnemyToRoom(new Enemy("Dart Turret #1", "A matte dark round turret with two barrels" +
@@ -572,7 +590,7 @@ public class Map {
                         " a large blue jewel on its hilt.","A golden katana.",2,8)));
         room29.addEnemyToRoom(new Enemy("Avelynne the Shining","A female Combat Servitor built from silver." +
                 " It is more durable than its twin.",16,
-                new MeleeWeapon("Avelynne's Needler","Needler Gun","A silvery Needler with" +
+                new RangedWeapon("Avelynne's Needler","Needler Gun","A silvery Needler with" +
                         " a small red jewels on its handle.","A silvery Needler Gun.",4,9)));
 
         room34.addEnemyToRoom(new Enemy("Captain Delaine","Nothing like cuddling with an Artefact" +
@@ -611,7 +629,7 @@ public class Map {
         room53.addEnemyToRoom(new Enemy("Cleaner Bot", "A Cleaner Bot armed with a vacuum. It looks " +
                 "sturdy.", 12, new RangedWeapon("Vacuum", "Tool", "It's literally " +
                 "just a vacuum, so unless you're fighting a sentient\npile of sand or lint, you're unlikely to get much use " +
-                "out of it.", "", 10, 2)));
+                "out of it.", "<--", 10, 2)));
 
         room55.addEnemyToRoom(new Enemy("A Sentient Pile of Sand & Lint", "<--", 2,
                 new RangedWeapon("Fistful of Sand", "Junk", "It's a handful of sand. " +
@@ -622,22 +640,33 @@ public class Map {
     //for placing traps
         //extends from enemy
     private void placeTraps() {
-        Enemy heatSensorTrap = new Trap("Heat-Sensor Trap", "A little black box that hangs from the ceiling and" +
+        room1.addEnemyToRoom(new Trap("Heat-Sensor Trap", "A little black box that hangs from the ceiling and" +
                 " might go off if you try to leave.", 1, new RangedWeapon("Explosion", "Bomb",
-                "Boom!", "It's a bomb!", 1, 80));
-        Enemy motionSensorTrap = new Trap("Motion-Sensor Trap", "A black box that lets out a pulsing" +
-                " red light. One wrong move might set it off.", 1, new RangedWeapon("Explosion", "Bomb",
-                "Boom!", "Booom!", 1, 75));
-        Enemy claymore = new Trap("Claymore Trap", "A rectangular box on four legs that emits a small red" +
+                "Boom!", "It's a bomb!", 1, 80)));
+        room8.addEnemyToRoom(new Trap("Claymore Trap", "A rectangular box on four legs that emits a small red" +
                 " beam.", 1, new RangedWeapon("Explosion", "Bomb",
-                "Bang!", "Pow!!", 1, 50));
-
-        room1.addEnemyToRoom(heatSensorTrap);
-        room22.addEnemyToRoom(motionSensorTrap);
-        room31.addEnemyToRoom(heatSensorTrap);
-        room31.addEnemyToRoom(motionSensorTrap);
-        room51.addEnemyToRoom(heatSensorTrap);
-        room51.addEnemyToRoom(claymore);
+                "Bang!", "Pow!!", 1, 50)));
+        room9.addEnemyToRoom(new Trap("Claymore Trap", "A rectangular box on four legs that emits a small red" +
+                " beam.", 1, new RangedWeapon("Explosion", "Bomb",
+                "Bang!", "Pow!!", 1, 50)));
+        room22.addEnemyToRoom(new Trap("Motion-Sensor Trap", "A black box that lets out a pulsing" +
+                " red light. One wrong move might set it off.", 1, new RangedWeapon("Explosion", "Bomb",
+                "Boom!", "Booom!", 1, 75)));
+        room31.addEnemyToRoom(new Trap("Heat-Sensor Trap", "A little black box that hangs from the ceiling and" +
+                " might go off if you try to leave.", 1, new RangedWeapon("Explosion", "Bomb",
+                "Boom!", "It's a bomb!", 1, 80)));
+        room31.addEnemyToRoom(new Trap("Motion-Sensor Trap", "A black box that lets out a pulsing" +
+                " red light. One wrong move might set it off.", 1, new RangedWeapon("Explosion", "Bomb",
+                "Boom!", "Booom!", 1, 75)));
+        room39.addEnemyToRoom(new Trap("Heat-Sensor Trap", "A little black box that hangs from the ceiling and" +
+                " might go off if you try to leave.", 1, new RangedWeapon("Explosion", "Bomb",
+                "Boom!", "It's a bomb!", 1, 80)));
+        room51.addEnemyToRoom(new Trap("Heat-Sensor Trap", "A little black box that hangs from the ceiling and" +
+                " might go off if you try to leave.", 1, new RangedWeapon("Explosion", "Bomb",
+                "Boom!", "It's a bomb!", 1, 80)));
+        room51.addEnemyToRoom(new Trap("Claymore Trap", "A rectangular box on four legs that emits a small red" +
+                " beam.", 1, new RangedWeapon("Explosion", "Bomb",
+                "Bang!", "Pow!!", 1, 50)));
     }
 
     //this definitely works
@@ -753,7 +782,7 @@ public class Map {
         // Outer Rooms
         room35.setNeighbours(null, null, outerSpace, room3);
         room36.setNeighbours(null, room37, null, null);
-        room37.setNeighbours(null, null, null, room15);
+        room37.setNeighbours(room36, null, null, room15);
         room38.setNeighbours(null, room39, null, room9);
         room39.setNeighbours(room38, null, null, null);
         room40.setNeighbours(null, room41, room7, null);
