@@ -251,10 +251,5 @@ public class Player {
         inventory.add(trustyNeedler);
         inventory.add(missionBrief);
         inventory.add(hildebrandMap);
-
-
-        inventory.add(new Food("Suspicious Goop", "Consumable",
-                "It looks like cursed mashed potatoes and gives off an earthy smell. It seems to move on its own\n" +
-                        "when you prod it with your fingers.", "A mass of goop.", -25));
     }
 }
