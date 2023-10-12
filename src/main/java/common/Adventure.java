@@ -2,7 +2,6 @@ package common;
 
 import items.EquipDTO;
 import items.Item;
-import items.ReturnEquipMessage;
 
 import java.util.ArrayList;
 
@@ -140,16 +139,13 @@ public class Adventure {
     public void enemyDies(Enemy enemy){
         //drops weapon it is holding to the room it is in
         if(enemy != null) {
-            if(!(enemy instanceof Trap)) { //a very ugly way to do "enemy isn't instanceof Trap class" <.<
+            if(!(enemy instanceof Trap)) { //when traps die, they doesnt leave a weapon behind
                 player.getPlayerLocation().addItemToRoom(enemy.getWeapon());
             }
             player.getPlayerLocation().removeEnemyFromRoom(enemy);
         }
     }
 
-    public int heal(int healValue){
-        return player.heal(healValue);
-    }
     public int takeDamage(int damageValue){
         return player.takeDamage(damageValue);
     }

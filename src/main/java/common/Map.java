@@ -181,8 +181,7 @@ public class Map {
                 reads 'Experimental R&D'.
                 Connected to rooms via doors to the North, East, and West.""", false, false);
 
-        // Top section TODO remake
-        //---
+        // Top section
         //----- Patrolling enemy (rooms 22-27, excluding 24): Experimental Spider Bot
         room22 = new Room("Medical Bay", """
                 A room full of the stench of antiseptics and with eight beds lining the wall in a row. There is a Surgery-
@@ -224,7 +223,6 @@ public class Map {
                 which would limit your mobility and hamper exploration. Plus, a tiny leak in your spacesuit in an anaerobic
                 environment result in immediate death. That is all to say: do not turn off the oxygen.
                 Connected to rooms via doors to the North, East, and West.""");
-        //-----
 
         room28 = new Room("Communications", """
                                 
@@ -552,6 +550,7 @@ public class Map {
     }
 
     //for placing traps
+        //extends from enemy
     private void placeTraps() {
         Enemy heatSensorTrap = new Trap("Heat-Sensor Trap", "A little black box that hangs from the ceiling and" +
                 " might go off if you try to leave.", 1, new RangedWeapon("Explosion", "Bomb",

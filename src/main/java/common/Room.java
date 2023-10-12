@@ -66,7 +66,7 @@ public class Room {
         return roomEnemies;
     }
 
-    public boolean hasTrap(){
+    public boolean hasTrap(){ //checks if there a trap included in the list of enemies in a room
         for (Enemy enemy: roomEnemies) {
             if(enemy instanceof Trap){
                 return true;

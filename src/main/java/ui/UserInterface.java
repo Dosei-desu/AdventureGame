@@ -717,7 +717,8 @@ public class UserInterface {
                                     + attackItem.attack().getDamage() + " damage to " + Colours.RED + enemyInRoom.getName() +
                                     Colours.PURPLE_BOLD + "!" + Colours.RESET);
                             attackItem.useOnce();
-                            //if it is a trap it goes off (unless it is the long-ranged "Vine Whip" from Hydroponics Greenhouse B
+                            //if it is a trap it goes off (unless it is the long-ranged "Vine Whip" from Hydroponics Greenhouse B)
+                            //unique scenario with a melee weapon that has a long range and is therefore a pseudo-ranged-weapon
                             if (enemyInRoom instanceof Trap && !attackItem.getName().equals("Vine Whip")) {
                                 roomTrapsGoOff();
                             }
@@ -730,7 +731,7 @@ public class UserInterface {
                         }
                         case CANT_MELEE_ATTACK ->
                                 System.out.println(Colours.RED + attackItem.getName() + " is broken!" + Colours.RESET);
-                        case RANGED_ATTACK -> {
+                        case RANGED_ATTACK -> { 
                             enemyInRoom.takeDamage(attackItem.attack().getDamage());
                             System.out.println(Colours.PURPLE_BOLD + "You fire your " + attackItem.getName() + " and deal "
                                     + attackItem.attack().getDamage() + " damage to " + Colours.RED + enemyInRoom.getName() +
